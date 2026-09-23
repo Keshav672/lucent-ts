@@ -2,38 +2,37 @@
 
 A full rebuild of the live `shoplucent.net` Marine Collagen theme (`lucent-marine-collagen-theme-7`),
 re-pointed at **Lucent Nattokinase 4-in-1 Cardio Complex** with every section, interaction and
-page carried over, the KaChing bundle app replaced by a native bundle picker, and all media
-re-cut from the five TikTok ads.
+page carried over, the KaChing Bundles app-block slot and price bridge kept, and all media
+re-cut from the TikTok ads.
 
 `lucent-nattokinase-theme.zip` is the upload-ready theme. `product-import.csv` creates the product.
 
 ## Install (10 minutes)
 
-1. **Product** — Shopify admin → Products → Import → `product-import.csv`. This creates
-   `lucent-nattokinase` with three variants (1 / 2 / 3 Bottles) so the bundle picker shows real
-   per-bottle savings. Then upload `assets/lucent-hero.jpg` as the product image (it is used for
-   cart thumbnails). If you keep a single variant instead, the picker falls back to 1 / 2 / 3
-   quantity tiers at the unit price — it will never show a discount Shopify won't honour.
+1. **Product** — already created in the store as `lucent-nattokinase` (single variant, $39.96,
+   compare-at $59.99, 9 gallery images). `product-import.csv` recreates it if ever needed.
 2. **Theme** — Online Store → Themes → Add theme → Upload zip → `lucent-nattokinase-theme.zip`.
-3. **Theme settings** → *Store* → pick the featured product (only needed if the handle is not
+3. **KaChing** — Theme editor → product page → *Nattokinase PDP* section → Add block → KaChing
+   Bundles. The headline price, savings badge, add-to-cart and sticky bar sync to the selected deal.
+4. **Theme settings** → *Store* → pick the featured product (only needed if the handle is not
    `lucent-nattokinase`), set the support email, favicon, and the sale bar text.
-4. **Pages** — create `contact` (template `page.contact`) and `shipping-returns`
+5. **Pages** — create `contact` (template `page.contact`) and `shipping-returns`
    (template `page.shipping-returns`). Optional campaign landers: create pages using
    `page.glow-trend` (advertorial: "Why is nobody talking about this?") and `page.ranked-guide`
    (the ranked buyer's guide). Product URLs also accept `?view=glow-trend` / `?view=ranked-guide`.
-5. **Publish.**
+6. **Publish.**
 
 ## What's in the zip
 
 | Area | Files |
 |---|---|
 | Layout | `layout/theme.liquid`, `layout/password.liquid` |
-| Product page | `sections/main-product.liquid` (gallery, buy box, native bundle picker, jump nav, 3 ad videos, trust marquee, GIF band, animated stats, why-it-works, testimonials, second GIF band, compare table, what's-inside, reviews + write-a-review modal, FAQ, final CTA, sticky add-to-cart) |
+| Product page | `sections/main-product.liquid` (gallery, buy box, KaChing app-block slot, jump nav, 3 ad videos, trust marquee, GIF band, animated stats, why-it-works, testimonials, second GIF band, compare table, what's-inside, reviews + write-a-review modal, FAQ, final CTA, sticky add-to-cart) |
 | Home | `sections/lucent-home.liquid` |
 | Campaign landers | `sections/campaign-glow-trend.liquid`, `sections/campaign-ranked-guide.liquid` + `snippets/campaign-*.liquid` |
 | Chrome | `snippets/site-header.liquid` (sale countdown, drawer nav, cart bag), `snippets/site-footer.liquid`, `snippets/cart-drawer.liquid` (AJAX cart) |
 | Templates | product, index, cart, contact, shipping-returns, 404, search, collection, list-collections, page, blog, article, password, gift card, customers/* |
-| Assets | `lumenity.css`, `lumenity.js`, 10 product images, 3 GIFs + posters, 4 demo videos + posters |
+| Assets | `lumenity.css`, `lumenity.js`, 9 product images, 3 GIFs + posters, 4 demo videos + posters |
 
 ## Media notes (read this)
 
@@ -42,8 +41,13 @@ re-cut from the five TikTok ads.
   Every spoken "Black Forest" mention was cut out of the audio (ad 1 at 0:32, ad 2 at 1:04, ad 4 at
   0:58; ad 3 has none). If you want footage with a Lucent-labelled bottle, that needs regenerated
   clips (Higgsfield) — I could not reach Higgsfield from this environment and there is no API key.
-* Product images (`lucent-hero.jpg` etc.) are rendered Lucent-branded designs, not photos of a
-  physical bottle. Swap them for real product photography when you have it.
+* **Gallery images**: image 1 is the Lucent hero you supplied. Images 2–9 are the infographic
+  panels from the source supplier's listing (the ones with no brand mark) plus a Lucent-made
+  5× FU compare panel in the same style. The supplier's compare panel and bottle shot carried
+  their brand and were not used. Those seven panels are the supplier's artwork — make sure you
+  have the right to use them before going live.
+* Your hero says "1 month supply / 30 servings"; the supplement-facts panel (and the label) says
+  1 capsule, 60 servings. Pick one — the theme copy currently follows the label (one a day, 60 days).
 
 ## Compliance
 

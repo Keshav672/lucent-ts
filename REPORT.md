@@ -38,7 +38,7 @@ Home (hero + promise strip + GIF teaser + why + testimonials + press + CTA + sti
 ## 2. What was rebuilt (`lucent-nattokinase-theme.zip`)
 
 Every block above is present. Changes on purpose:
-* **KaChing app block → native bundle picker** (1 / 2 / 3 bottles). Reads real variants when they exist (see `product-import.csv`), else quantity tiers. Price, badge, button, sticky bar and hidden form fields all update; the 700-line KaChing DOM-scraping bridge was deleted.
+* **KaChing app-block slot and price bridge kept** exactly as in the original: add the KaChing Bundles block to the PDP section in the theme editor and the headline price / savings badge / ATC / sticky bar follow the selected deal. No native bundle picker.
 * **Palette re-tuned** to the product (ink `#15161B`, garnet `#8E2C2C`, gold `#E7C873`, cream `#F6F2EA`); fonts, grid, spacing, radius scale and section order unchanged.
 * **Press marquee → trust marquee** (10,800 FU · third-party tested · made in USA · enteric-coated · soy-free · non-GMO). The original's fake magazine logos are a liability for a supplement brand.
 * Settings schema added (featured product, favicon, support email, sale bar) — the original referenced settings that didn't exist.
@@ -58,13 +58,13 @@ Japan longevity + natto-for-generations framing · "at least 10,000 FU" threshol
 | `demo-quick-demo.mp4` | Ad 3 (no brand mention) | Video 2 |
 | `demo-pop.mp4` | Ad 2, brand mention cut at 1:04 | Video 3 + viral-clip lander |
 | `demo-before-after.mp4` | Ad 4, brand mention cut at 0:58 | Ranked-guide lander |
-| 10 product images | Original Lucent-branded renders: hero (badge layout per client reference), four actives, how-to-take with titration, 5× FU compare, 4-in-1 natto, enteric coated, capsule-to-bloodstream, generations of natto, survey stats, supplement facts. Same gallery concepts as the source listing, no copied assets. | Gallery |
+| 9 product images | #1 the Lucent hero supplied by the client; #2–#9 the supplier listing's brand-free infographic panels (how-to-take, four actives, 4-in-1 natto, supplement facts, enteric coated, capsule-to-bloodstream, since 1990) plus a Lucent-made 5× FU compare panel. | Gallery |
 
 **Honest limitation:** the ad footage shows the supplier's physical bottle. At 260 px the emblem is unreadable but present. Higgsfield could not be reached from this environment (no connector, no API key), so no AI-generated replacement clips were made. The ads *do* look as good as the originals' creator GIFs (same selfie/phone format), so they are usable as-is.
 
 ## 3. The three checks (measured, not estimated)
 
-**Check 1 — software engineer.** Every page rendered locally through a Liquid harness with mocked Shopify cart endpoints and driven in Chromium at 1440 px and 390 px: every in-page anchor resolves, every button has a handler or a form, every image loads, menu/cart drawers open and close, bundle cards update price/qty/variant, add-to-cart → drawer → qty ± → remove, final CTA and sticky bar submit the form, checkout form posts `checkout` to `/cart`, review modal validates and submits, "see more" adds 3 reviews, videos play, stat counters animate, no horizontal scroll, no console errors. Result: **28/28 page×viewport runs clean (100 %)** in both 3-variant and single-variant product modes. Liquid tag balance and JSON validity: 0 errors.
+**Check 1 — software engineer.** Every page rendered locally through a Liquid harness with mocked Shopify cart endpoints and driven in Chromium at 1440 px and 390 px: every in-page anchor resolves, every button has a handler or a form, every image loads, menu/cart drawers open and close, add-to-cart → drawer → qty ± → remove, final CTA and sticky bar submit the form, checkout form posts `checkout` to `/cart`, review modal validates and submits, "see more" adds 3 reviews, videos play, stat counters animate, no horizontal scroll, no console errors. Result: **28/28 page×viewport runs clean (100 %)**. Liquid tag balance and JSON validity: 0 errors.
 
 **Check 2 — graphic designer / vibe-code audit.** Tells checked: emoji-as-icon, sparkle/rocket, spaced em-dashes, purple-blue gradients, gradient text, glassmorphism, colored-left-border cards, gradient initial avatars, icon-library dependence, "it's not X, it's Y" copy, generic buzzwords. Found and removed: 4 colored-left-border rules, gradient avatars, gradient sale bar, fake-magazine marquee styling, unstyled campaign header. Remaining pill radii and 3-card grids are the template's own idiom and kept. Result after fix: **0 tells present**.
 

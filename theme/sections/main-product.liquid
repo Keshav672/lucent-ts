@@ -13,6 +13,7 @@
 {%- assign review_count = s.review_count | default: '1,184' -%}
 {%- assign guarantee = s.guarantee_days | default: 60 -%}
 
+<style>.pdp__app-block{margin:0 0 18px}.pdp__app-block:empty{display:none}</style>
 <section class="pdp" id="product-buy">
   <div class="wrap pdp__grid">
     <div class="pdp__media" data-pdp-gallery>
@@ -31,11 +32,10 @@
         <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-how-to.jpg' | asset_url }}" data-alt="How to take: one capsule daily with your largest meal, titration in week one" aria-current="false"><img src="{{ 'lucent-how-to.jpg' | asset_url }}" alt="How to take" width="84" height="84" loading="lazy"></button>
         <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-compare.jpg' | asset_url }}" data-alt="5x more FU compared to other brands" aria-current="false"><img src="{{ 'lucent-compare.jpg' | asset_url }}" alt="5x more FU" width="84" height="84" loading="lazy"></button>
         <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-natto.jpg' | asset_url }}" data-alt="The only 4-in-1 natto supplement" aria-current="false"><img src="{{ 'lucent-natto.jpg' | asset_url }}" alt="4-in-1 natto" width="84" height="84" loading="lazy"></button>
+        <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-facts.jpg' | asset_url }}" data-alt="Supplement facts label" aria-current="false"><img src="{{ 'lucent-facts.jpg' | asset_url }}" alt="Supplement facts" width="84" height="84" loading="lazy"></button>
         <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-enteric.jpg' | asset_url }}" data-alt="Enteric coated for optimal delivery" aria-current="false"><img src="{{ 'lucent-enteric.jpg' | asset_url }}" alt="Enteric coated" width="84" height="84" loading="lazy"></button>
         <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-bloodstream.jpg' | asset_url }}" data-alt="From capsule to bloodstream: how the enteric coating works" aria-current="false"><img src="{{ 'lucent-bloodstream.jpg' | asset_url }}" alt="Capsule to bloodstream" width="84" height="84" loading="lazy"></button>
-        <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-since.jpg' | asset_url }}" data-alt="Generations of natto, now in one capsule" aria-current="false"><img src="{{ 'lucent-since.jpg' | asset_url }}" alt="Now in one capsule" width="84" height="84" loading="lazy"></button>
-        <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-stats.jpg' | asset_url }}" data-alt="Lucent customer survey results graphic" aria-current="false"><img src="{{ 'lucent-stats.jpg' | asset_url }}" alt="Customer results" width="84" height="84" loading="lazy"></button>
-        <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-facts.jpg' | asset_url }}" data-alt="Supplement facts label" aria-current="false"><img src="{{ 'lucent-facts.jpg' | asset_url }}" alt="Supplement facts" width="84" height="84" loading="lazy"></button>
+        <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-since.jpg' | asset_url }}" data-alt="Since 1990. Now in one capsule." aria-current="false"><img src="{{ 'lucent-since.jpg' | asset_url }}" alt="Now in one capsule" width="84" height="84" loading="lazy"></button>
       </div>
       <div class="pdp-media-proof"><span>10,800 FU nattokinase</span><span>1 capsule a day</span><span>Enteric-coated · soy-free</span></div>
     </div>
@@ -62,44 +62,15 @@
       </ul>
 
       <div class="pdp__price" aria-live="polite">
-        <span class="pdp__now" data-pdp-now>{{ v.price | money }}</span><span class="pdp__unit" data-pdp-unit>/ bottle</span>
+        <span class="pdp__now" data-pdp-now>{{ v.price | money }}</span><span class="pdp__unit" data-pdp-unit>/ each</span>
         <span class="pdp__was" data-pdp-was {% unless v.compare_at_price > v.price %}style="display:none"{% endunless %}>{{ v.compare_at_price | money }}</span>
         {%- assign off = 0 -%}
         {%- if v.compare_at_price > v.price -%}{%- assign off = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round -%}{%- endif -%}
         <span class="pdp__save" data-pdp-save {% if off == 0 %}style="display:none"{% endif %}>{% if off > 0 %}{{ s.sale_label | default: 'Launch sale' }} · save {{ off }}%{% endif %}</span>
       </div>
 
-      {%- comment -%}
-        Native bundle picker. If the product has more than one variant (e.g. "1 Bottle",
-        "2 Bottles", "3 Bottles") each card is a variant with its own price. With a single
-        variant the cards fall back to quantity tiers at the plain unit price.
-      {%- endcomment -%}
-      <fieldset class="pdp__opts" data-pdp-opts>
-        <legend class="pdp__opts-label">Bundle &amp; save</legend>
-        {%- if product.variants.size > 1 -%}
-          {%- for var in product.variants -%}
-            {%- assign qty = 1 -%}
-            {%- assign first_word = var.title | split: ' ' | first | plus: 0 -%}
-            {%- if first_word > 0 -%}{%- assign qty = first_word -%}{%- endif -%}
-            {%- assign unit = var.price | divided_by: qty -%}
-            {%- assign vsave = 0 -%}
-            {%- if var.compare_at_price > var.price -%}{%- assign vsave = var.compare_at_price | minus: var.price | times: 100.0 | divided_by: var.compare_at_price | round -%}{%- endif -%}
-            <button type="button" class="pdp__opt" data-pdp-opt data-vid="{{ var.id }}" data-qty="1" data-price="{{ var.price | divided_by: 100.0 }}" data-compare="{{ var.compare_at_price | default: 0 | divided_by: 100.0 }}" data-units="{{ qty }}" data-active="{% if var.id == v.id %}true{% else %}false{% endif %}" aria-pressed="{% if var.id == v.id %}true{% else %}false{% endif %}" {% unless var.available %}disabled{% endunless %}>
-              <span class="pdp__opt__dot" aria-hidden="true"></span>
-              <span class="pdp__opt__body"><span class="pdp__opt__name">{{ var.title }}{% if forloop.index == 2 %} <em class="pdp__opt__tag">Most popular</em>{% elsif forloop.last and forloop.index > 2 %} <em class="pdp__opt__tag">Best value</em>{% endif %}</span><span class="pdp__opt__sub">{{ qty | times: 60 }}-day supply{% if forloop.last and forloop.index > 2 %} · free express shipping{% endif %}{% unless var.available %} · sold out{% endunless %}</span></span>
-              <span class="pdp__opt__price">{{ unit | money }} <small>/ bottle</small>{% if vsave > 0 %}<s>{{ var.compare_at_price | divided_by: qty | money }}</s>{% endif %}</span>
-            </button>
-          {%- endfor -%}
-        {%- else -%}
-          {%- for qty in (1..3) -%}
-            <button type="button" class="pdp__opt" data-pdp-opt data-vid="{{ v.id }}" data-qty="{{ qty }}" data-price="{{ v.price | divided_by: 100.0 }}" data-compare="{{ v.compare_at_price | default: 0 | divided_by: 100.0 }}" data-units="{{ qty }}" data-active="{% if qty == 1 %}true{% else %}false{% endif %}" aria-pressed="{% if qty == 1 %}true{% else %}false{% endif %}">
-              <span class="pdp__opt__dot" aria-hidden="true"></span>
-              <span class="pdp__opt__body"><span class="pdp__opt__name">{{ qty }} Bottle{% if qty > 1 %}s{% endif %}{% if qty == 2 %} <em class="pdp__opt__tag">Most popular</em>{% elsif qty == 3 %} <em class="pdp__opt__tag">Best value</em>{% endif %}</span><span class="pdp__opt__sub">{{ qty | times: 60 }}-day supply{% if qty == 3 %} · free express shipping{% endif %}</span></span>
-              <span class="pdp__opt__price">{{ v.price | money }} <small>/ bottle</small>{% if off > 0 %}<s>{{ v.compare_at_price | money }}</s>{% endif %}</span>
-            </button>
-          {%- endfor -%}
-        {%- endif -%}
-      </fieldset>
+      {%- comment -%} KaChing Bundles renders here via its app block (add it to this section in the theme editor). The theme has no bundle picker of its own. {%- endcomment -%}
+      {%- for block in section.blocks -%}{%- if block.type == '@app' -%}<div class="pdp__app-block" {{ block.shopify_attributes }}>{% render block %}</div>{%- endif -%}{%- endfor -%}
 
       <div class="pdp__shipbar"><span class="pdp__shipbar-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="17" height="17"><path d="M3 6.5h11v9H3zM14 9.5h3.6l3.4 3.3v2.7h-7z"/><circle cx="7" cy="18" r="1.7"/><circle cx="17.4" cy="18" r="1.7"/></svg></span> <strong>Ships from the U.S.</strong> · fast tracked delivery, typically 3–7 days</div>
 
@@ -108,10 +79,28 @@
         <input type="hidden" name="quantity" value="1" data-pdp-quantity>
         <button type="submit" name="add" class="btn btn--block btn--lg pdp__atc" data-pdp-atc {% unless product.available %}disabled{% endunless %}>
           <span data-pdp-atc-label>{% if product.available %}{{ s.cta_text | default: 'Add to cart' }}{% else %}Sold out{% endif %}</span>
-          {% if product.available %}<span aria-hidden="true">·</span><span data-pdp-button-price>{{ v.price | money }}</span>{% endif %}
+          {% if product.available %}<span aria-hidden="true">·</span><span data-pdp-button-price>{{ v.price | money }} / each</span>{% endif %}
         </button>
         {% if s.show_dynamic_checkout and product.available %}<div class="pdp__express-btn">{{ form | payment_button }}</div>{% endif %}
       {%- endform -%}
+
+      <script type="application/json" data-pdp-selling-plan-prices>
+      {
+        {%- for var in product.variants -%}
+          "{{ var.id }}": {
+            "base": {{ var.price | json }},
+            "plans": {
+              {%- for allocation in var.selling_plan_allocations -%}
+                "{{ allocation.selling_plan.id }}": {
+                  "price": {{ allocation.price | json }},
+                  "compare": {{ allocation.compare_at_price | json }}
+                }{% unless forloop.last %},{% endunless %}
+              {%- endfor -%}
+            }
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      }
+      </script>
 
       <ul class="pdp__badges" aria-label="Guarantees">
         <li><span class="pdp__badge-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 21c5-3 8-6 8-11V5l-8-3-8 3v5c0 5 3 8 8 11Z"/><path d="m9 12 2 2 4-4"/></svg></span>Third-party tested · made in the USA</li>
@@ -318,7 +307,7 @@
   <div class="wrap pdp-faq__grid">
     <header class="pdp-faq__head"><h2>{{ s.faq_heading | default: "Frequently Asked Questions" }}</h2></header>
     <div class="pdp-faq__list">
-      <details><summary>How many capsules do I take?</summary><p>One capsule a day with water and a meal. One bottle is 60 capsules, a full 60 days at that dose. Some people take two a day for a 30-day bottle; check with your doctor before going higher. The 2- and 3-bottle bundles cover the 3 to 6 months most people give it.</p></details>
+      <details><summary>How many capsules do I take?</summary><p>One capsule a day with water and a meal. One bottle is 60 capsules, a full 60 days at that dose. Some people take two a day for a 30-day bottle; check with your doctor before going higher. The multi-bottle bundles cover the 3 to 6 months most people give it.</p></details>
       <details><summary>Why does 10,000 FU matter?</summary><p>FU (fibrinolytic units) measure enzyme activity. The clips everyone's sharing talk about at least 10,000 FU a day, which would take five or six servings of natto. Lucent delivers 10,800 FU in one capsule.</p></details>
       <details><summary>What is the enteric coating for?</summary><p>Enzymes are proteins, and stomach acid breaks proteins down. The delayed-release capsule is designed to pass the stomach and release in the intestines so the enzymes reach where they can be absorbed. Swallow whole.</p></details>
       <details><summary>Does it contain soy?</summary><p>No. Nattokinase is produced by fermenting with Bacillus subtilis natto, then purified. The finished capsule is soy-free, non-GMO and third-party tested.</p></details>
@@ -422,6 +411,7 @@
     {"type":"textarea","id":"final_body","label":"Final CTA body","default":"10,800 FU nattokinase, serrapeptase, lumbrokinase and vitamin K2 in one enteric-coated capsule a day."},
     {"type":"text","id":"final_cta_text","label":"Final CTA button text","default":"Add to cart, 100% risk-free"}
   ],
+  "blocks":[{"type":"@app"}],
   "presets":[{"name":"Nattokinase PDP"}]
 }
 {% endschema %}

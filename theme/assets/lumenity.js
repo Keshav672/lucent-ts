@@ -101,67 +101,14 @@
     }
   }
 
-  /* Bundle cards: keep the headline price, savings badge, hidden form fields,
-     the add-to-cart button and the sticky bar in sync with the selected bundle. */
-  var priceNow = document.querySelector('[data-pdp-now]');
-  var priceWas = document.querySelector('[data-pdp-was]');
-  var priceSave = document.querySelector('[data-pdp-save]');
-  var priceUnit = document.querySelector('[data-pdp-unit]');
-  var variantInput = document.querySelector('[data-pdp-variant]');
-  var quantityInput = document.querySelector('[data-pdp-quantity]');
-  var buttonPrice = document.querySelector('[data-pdp-button-price]');
+  /* Price display: the headline, ATC and sticky prices are driven by the
+     KaChing bundle bridge below; without it they keep the server-rendered price. */
   var stickyPrice = document.querySelector('[data-pdp-sticky-price]');
-  var saveLabel = priceSave && priceSave.textContent.indexOf('·') !== -1 ? priceSave.textContent.split('·')[0].trim() : 'Sale';
-
-  function money(n) {
-    return '$' + (Math.round(n * 100) / 100).toFixed(2);
+  var buttonPriceEl = document.querySelector('[data-pdp-button-price]');
+  if (stickyPrice && buttonPriceEl) {
+    new MutationObserver(function () { stickyPrice.textContent = buttonPriceEl.textContent.replace(/\s*\/\s*each$/, ''); })
+      .observe(buttonPriceEl, { childList: true, characterData: true, subtree: true });
   }
-
-  function applyOption(opt) {
-    var price = parseFloat(opt.getAttribute('data-price')) || 0;
-    var compare = parseFloat(opt.getAttribute('data-compare')) || 0;
-    var qty = parseInt(opt.getAttribute('data-qty'), 10) || 1;
-    var units = parseInt(opt.getAttribute('data-units'), 10) || qty;
-    var total = price * qty;
-    var compareTotal = compare * qty;
-    var perBottle = total / units;
-
-    if (priceNow) priceNow.textContent = money(perBottle);
-    if (priceUnit) priceUnit.textContent = units > 1 ? '/ bottle · ' + money(total) + ' total' : '/ bottle';
-    if (buttonPrice) buttonPrice.textContent = money(total);
-    if (stickyPrice) stickyPrice.textContent = money(total);
-    if (variantInput) variantInput.value = opt.getAttribute('data-vid') || variantInput.value;
-    if (quantityInput) quantityInput.value = String(qty);
-
-    if (priceWas) {
-      priceWas.style.display = compareTotal > total ? '' : 'none';
-      if (compareTotal > total) priceWas.textContent = money(compareTotal / units);
-    }
-    if (priceSave) {
-      if (compareTotal > total) {
-        priceSave.style.display = '';
-        priceSave.textContent = saveLabel + ' · save ' + Math.round((compareTotal - total) / compareTotal * 100) + '%';
-      } else {
-        priceSave.style.display = 'none';
-      }
-    }
-  }
-
-  var opts = Array.prototype.slice.call(document.querySelectorAll('[data-pdp-opt]'));
-  opts.forEach(function (opt) {
-    opt.addEventListener('click', function () {
-      if (opt.disabled) return;
-      opts.forEach(function (o) {
-        o.setAttribute('data-active', 'false');
-        o.setAttribute('aria-pressed', 'false');
-      });
-      opt.setAttribute('data-active', 'true');
-      opt.setAttribute('aria-pressed', 'true');
-      applyOption(opt);
-    });
-  });
-  var activeOpt = opts.filter(function (o) { return o.getAttribute('data-active') === 'true'; })[0];
-  if (activeOpt) applyOption(activeOpt);
 
   /* Sticky ATC appears after the main buy box leaves the viewport. */
   var buybox = document.querySelector('[data-pdp-buybox]');
@@ -182,6 +129,695 @@
   });
 })();
 
+
+/* Kaching Bundles price bridge.
+   Kaching exposes deal/variant events on <kaching-bundles-block>. Keep the
+   theme's headline price, crossed-out price, savings badge, main ATC price,
+   and sticky price aligned with the bundle the shopper actually selected. */
+(function () {
+  'use strict';
+
+  var priceNow = document.querySelector('[data-pdp-now]');
+  var priceWas = document.querySelector('[data-pdp-was]');
+  var priceSave = document.querySelector('[data-pdp-save]');
+  var buttonPrice = document.querySelector('[data-pdp-button-price]');
+  if (!priceNow) return;
+
+  function parseMoney(text) {
+    if (typeof text !== 'string') return null;
+    var match = text.match(/([$£€¥])\s*([0-9]+(?:,[0-9]{3})*(?:\.[0-9]{1,2})?)/);
+    if (!match) return null;
+    return {
+      symbol: match[1],
+      value: parseFloat(match[2].replace(/,/g, '')),
+      raw: match[0]
+    };
+  }
+
+  function formatMoney(value, symbol) {
+    if (!isFinite(value)) return '';
+    var rounded = Math.round(value * 100) / 100;
+    return (symbol || '$') + rounded.toFixed(2);
+  }
+
+  function setBundlePrice(current, compare, savePercent, quantity) {
+    if (!current || !parseMoney(current)) return;
+    quantity = parseInt(quantity, 10) || 1;
+
+    var sourceCurrent = parseMoney(current);
+    var sourceCompare = compare ? parseMoney(compare) : null;
+    var unitCurrent = sourceCurrent ? formatMoney(sourceCurrent.value / quantity, sourceCurrent.symbol) : current;
+    var unitCompare = sourceCompare ? formatMoney(sourceCompare.value / quantity, sourceCompare.symbol) : null;
+
+    priceNow.textContent = unitCurrent;
+    if (buttonPrice) buttonPrice.textContent = unitCurrent + ' / each';
+
+    var currentMoney = parseMoney(unitCurrent);
+    var compareMoney = unitCompare ? parseMoney(unitCompare) : null;
+    if (priceWas) {
+      if (compareMoney && currentMoney && compareMoney.value > currentMoney.value) {
+        priceWas.style.display = '';
+        priceWas.textContent = unitCompare;
+      } else {
+        priceWas.style.display = 'none';
+      }
+    }
+
+    /* Derive savings from the exact per-unit prices shown on screen. */
+    if (compareMoney && currentMoney && compareMoney.value > currentMoney.value) {
+      savePercent = Math.round((compareMoney.value - currentMoney.value) / compareMoney.value * 100);
+    }
+    if (priceSave) {
+      if (savePercent && savePercent > 0) {
+        priceSave.style.display = '';
+        priceSave.textContent = 'Launch sale · save ' + Math.round(savePercent) + '%';
+      } else {
+        priceSave.style.display = 'none';
+      }
+    }
+
+    var priceWrap = priceNow.closest('.pdp__price');
+    if (priceWrap) {
+      priceWrap.setAttribute('data-kaching-synced', 'true');
+      priceWrap.setAttribute('data-bundle-quantity', String(quantity));
+    }
+  }
+
+  function readQuantityFromText(text) {
+    if (!text) return null;
+    var bogo = text.match(/buy\s+(\d+)\s*(?:[^\d]{0,20})get\s+(\d+)/i);
+    if (bogo) return parseInt(bogo[1], 10) + parseInt(bogo[2], 10);
+    var bottle = text.match(/\b(\d+)\s*(?:bottles?|items?|pieces?|pcs|pack)\b/i);
+    if (bottle) return parseInt(bottle[1], 10);
+    return null;
+  }
+
+  function quantityFromDetail(detail) {
+    if (!detail || typeof detail !== 'object') return null;
+    if (Array.isArray(detail.variantIdQuantities)) {
+      var sum = detail.variantIdQuantities.reduce(function (total, item) {
+        return total + (parseInt(item && item.quantity, 10) || 0);
+      }, 0);
+      if (sum) return sum;
+    }
+    var directKeys = ['quantity', 'dealQuantity', 'selectedQuantity', 'selectedDealQuantity'];
+    for (var i = 0; i < directKeys.length; i++) {
+      var q = parseInt(detail[directKeys[i]], 10);
+      if (q > 0) return q;
+    }
+    return null;
+  }
+
+  function moneyCandidateFromDetail(detail, wantCompare) {
+    if (!detail || typeof detail !== 'object') return null;
+    var candidates = [];
+
+    function walk(value, path, depth) {
+      if (depth > 6 || value == null) return;
+      if (typeof value === 'string') {
+        var parsed = parseMoney(value);
+        if (!parsed) return;
+        var lower = path.toLowerCase();
+        var isCompare = /compare|original|regular|before/.test(lower);
+        if (wantCompare !== isCompare) return;
+        if (!/price|total|amount/.test(lower)) return;
+        var score = 0;
+        if (/formatted/.test(lower)) score += 5;
+        if (/total/.test(lower)) score += 7;
+        if (/bundle/.test(lower)) score += 5;
+        if (/discounted|final|sale/.test(lower)) score += 3;
+        if (/price/.test(lower)) score += 2;
+        if (/unit|each|peritem|per_item/.test(lower)) score -= 7;
+        candidates.push({ text: parsed.raw, score: score, perUnit: /unit|each|peritem|per_item/.test(lower) });
+        return;
+      }
+      if (Array.isArray(value)) {
+        value.forEach(function (item, index) { walk(item, path + '[' + index + ']', depth + 1); });
+        return;
+      }
+      if (typeof value === 'object') {
+        Object.keys(value).forEach(function (key) {
+          walk(value[key], path ? path + '.' + key : key, depth + 1);
+        });
+      }
+    }
+
+    walk(detail, '', 0);
+    candidates.sort(function (a, b) { return b.score - a.score; });
+    return candidates[0] || null;
+  }
+
+  function saveFromDetail(detail) {
+    if (!detail || typeof detail !== 'object') return null;
+    var found = null;
+    function walk(value, path, depth) {
+      if (found != null || depth > 6 || value == null) return;
+      var lower = path.toLowerCase();
+      if ((typeof value === 'number' || typeof value === 'string') && /percent|percentage/.test(lower)) {
+        var n = parseFloat(String(value).replace('%', ''));
+        if (n > 0 && n < 100) found = n;
+        return;
+      }
+      if (typeof value === 'string' && /save|discount/.test(lower)) {
+        var match = value.match(/(\d+(?:\.\d+)?)\s*%/);
+        if (match) found = parseFloat(match[1]);
+        return;
+      }
+      if (Array.isArray(value)) {
+        value.forEach(function (item, index) { walk(item, path + '[' + index + ']', depth + 1); });
+      } else if (typeof value === 'object') {
+        Object.keys(value).forEach(function (key) { walk(value[key], path ? path + '.' + key : key, depth + 1); });
+      }
+    }
+    walk(detail, '', 0);
+    return found;
+  }
+
+  function allOpenRoots(root) {
+    var roots = [root];
+    if (!root || !root.querySelectorAll) return roots;
+    root.querySelectorAll('*').forEach(function (el) {
+      if (el.shadowRoot) roots = roots.concat(allOpenRoots(el.shadowRoot));
+    });
+    return roots;
+  }
+
+  function isStruck(el) {
+    if (!el || el.nodeType !== 1) return false;
+    if (el.matches('s,del') || el.closest('s,del')) return true;
+    try {
+      return String(window.getComputedStyle(el).textDecorationLine || '').indexOf('line-through') !== -1;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function selectedDealNode(block) {
+    var roots = [];
+    if (block.shadowRoot) roots = allOpenRoots(block.shadowRoot);
+    roots.push(block);
+    var selectors = [
+      'input[type="radio"]:checked',
+      '[role="radio"][aria-checked="true"]',
+      '[aria-selected="true"]',
+      '[data-selected="true"]',
+      '[data-active="true"]'
+    ];
+    for (var r = 0; r < roots.length; r++) {
+      for (var s = 0; s < selectors.length; s++) {
+        var marker = roots[r].querySelector && roots[r].querySelector(selectors[s]);
+        if (!marker) continue;
+        var node = marker;
+        var best = null;
+        for (var up = 0; node && up < 9; up++, node = node.parentElement) {
+          var text = (node.innerText || node.textContent || '').trim();
+          if (text && parseMoney(text) && text.length < 1400) {
+            best = node;
+            if (/save|bottle|buy\s+\d+|supply|each/i.test(text)) break;
+          }
+        }
+        if (best) return best;
+      }
+    }
+    return null;
+  }
+
+  function dealFromDom(block, fallbackQuantity) {
+    var deal = selectedDealNode(block);
+    if (!deal) return null;
+    var text = (deal.innerText || deal.textContent || '').replace(/\s+/g, ' ').trim();
+    var quantity = readQuantityFromText(text) || fallbackQuantity || 1;
+    var saveMatch = text.match(/(?:save|saving|off)\s*(\d+(?:\.\d+)?)\s*%/i);
+    var save = saveMatch ? parseFloat(saveMatch[1]) : null;
+    var current = null;
+    var compare = null;
+    var currentText = '';
+
+    var nodes = [deal].concat(Array.prototype.slice.call(deal.querySelectorAll ? deal.querySelectorAll('*') : []));
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i];
+      if (!el || el.nodeType !== 1) continue;
+      var own = (el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!own || own.length > 120) continue;
+      var parsed = parseMoney(own);
+      if (!parsed) continue;
+      var childHasMoney = false;
+      Array.prototype.forEach.call(el.children || [], function (child) {
+        if (parseMoney((child.innerText || child.textContent || '').trim())) childHasMoney = true;
+      });
+      if (childHasMoney) continue;
+      if (isStruck(el)) {
+        if (!compare) compare = { money: parsed, text: own };
+      } else if (!current) {
+        current = { money: parsed, text: own };
+        currentText = own;
+      }
+    }
+
+    if (!current) {
+      var matches = text.match(/[$£€¥]\s*[0-9]+(?:,[0-9]{3})*(?:\.[0-9]{1,2})?/g) || [];
+      if (matches[0]) current = { money: parseMoney(matches[0]), text: matches[0] };
+      if (matches[1]) compare = { money: parseMoney(matches[1]), text: matches[1] };
+    }
+    if (!current || !current.money) return null;
+
+    var perEach = /(?:\/\s*each|\beach\b|per\s+(?:item|bottle|unit))/i.test(currentText || current.text || '');
+    if (!perEach) {
+      var rawAt = text.indexOf(current.money.raw);
+      if (rawAt !== -1) {
+        perEach = /(?:\/\s*each|\beach\b|per\s+(?:item|bottle|unit))/i.test(text.slice(rawAt, rawAt + current.money.raw.length + 30));
+      }
+    }
+    var currentValue = current.money.value * (perEach ? quantity : 1);
+    var compareValue = null;
+    if (compare && compare.money) {
+      /* Kaching commonly omits the second “/ each” label on the struck price,
+         so when the active price is explicitly per-item, treat the compare
+         price as per-item too. */
+      compareValue = compare.money.value * (perEach ? quantity : 1);
+    }
+
+    return {
+      current: formatMoney(currentValue, current.money.symbol),
+      compare: compareValue ? formatMoney(compareValue, compare.money.symbol) : null,
+      save: save,
+      quantity: quantity
+    };
+  }
+
+  function syncFromKaching(block, detail) {
+    var quantity = quantityFromDetail(detail);
+    var dom = dealFromDom(block, quantity);
+    if (!quantity && dom) quantity = dom.quantity;
+
+    var detailCurrent = moneyCandidateFromDetail(detail, false);
+    var detailCompare = moneyCandidateFromDetail(detail, true);
+    var current = null;
+    var compare = null;
+
+    if (detailCurrent) {
+      var cur = parseMoney(detailCurrent.text);
+      if (cur) current = formatMoney(cur.value * (detailCurrent.perUnit && quantity ? quantity : 1), cur.symbol);
+    }
+    if (detailCompare) {
+      var cmp = parseMoney(detailCompare.text);
+      if (cmp) compare = formatMoney(cmp.value * (detailCompare.perUnit && quantity ? quantity : 1), cmp.symbol);
+    }
+
+    current = current || (dom && dom.current);
+    compare = compare || (dom && dom.compare);
+    var save = saveFromDetail(detail) || (dom && dom.save);
+    if (current) setBundlePrice(current, compare, save, quantity || 1);
+  }
+
+  function bindBlock(block) {
+    if (!block || block.getAttribute('data-lumenity-price-bound') === 'true') return;
+    block.setAttribute('data-lumenity-price-bound', 'true');
+
+    var lastDetail = null;
+    var timer = null;
+    function schedule(detail) {
+      if (detail) lastDetail = detail;
+      window.clearTimeout(timer);
+      timer = window.setTimeout(function () { syncFromKaching(block, lastDetail); }, 35);
+      window.setTimeout(function () { syncFromKaching(block, lastDetail); }, 120);
+    }
+
+    ['deal-bar-selected', 'variant-selected', 'variants-changed', 'subscription-selected', 'subscription-changed', 'selling-plan-selected', 'selling-plan-changed', 'purchase-option-changed'].forEach(function (eventName) {
+      block.addEventListener(eventName, function (event) { schedule(event.detail); });
+    });
+    block.addEventListener('click', function () { schedule(null); });
+    block.addEventListener('change', function () { schedule(null); });
+
+    function observeRenderedWidget() {
+      var target = block.shadowRoot || block;
+      if (!target || target.__lumenityObserved) return;
+      target.__lumenityObserved = true;
+      new MutationObserver(function () { schedule(null); }).observe(target, {
+        subtree: true,
+        childList: true,
+        attributes: true,
+        characterData: true,
+        attributeFilter: ['checked', 'aria-checked', 'aria-selected', 'data-selected', 'data-active', 'class']
+      });
+    }
+
+    observeRenderedWidget();
+    window.setTimeout(observeRenderedWidget, 250);
+    window.setTimeout(observeRenderedWidget, 900);
+    schedule(null);
+  }
+
+  function bindAll() {
+    document.querySelectorAll('kaching-bundles-block').forEach(bindBlock);
+  }
+
+  bindAll();
+  new MutationObserver(bindAll).observe(document.documentElement, { childList: true, subtree: true });
+})();
+
+/* Kaching Subscriptions price + selling-plan bridge.
+   Kaching normally updates its own bundle price when a subscription is selected.
+   This bridge mirrors that final price into the theme headline/ATC, recalculates
+   the overall savings percentage, and provides a 20%-off fallback only when the
+   app has not changed the displayed bundle price itself. */
+(function () {
+  'use strict';
+
+  var priceNow = document.querySelector('[data-pdp-now]');
+  var priceWas = document.querySelector('[data-pdp-was]');
+  var priceSave = document.querySelector('[data-pdp-save]');
+  var buttonPrice = document.querySelector('[data-pdp-button-price]');
+  var variantInput = document.querySelector('[data-pdp-variant]');
+  var productForm = document.getElementById('pdp-form');
+  var planDataNode = document.querySelector('[data-pdp-selling-plan-prices]');
+  if (!priceNow || !productForm) return;
+
+  var planData = {};
+  try { planData = planDataNode ? JSON.parse(planDataNode.textContent || '{}') : {}; } catch (e) { planData = {}; }
+
+  var preSubscriptionSnapshot = null;
+  var lastManualCurrent = null;
+  var manualHiddenPlan = null;
+  var syncTimer = null;
+
+  function parseMoney(text) {
+    if (typeof text !== 'string') return null;
+    var match = text.match(/([$£€¥])\s*([0-9]+(?:,[0-9]{3})*(?:\.[0-9]{1,2})?)/);
+    if (!match) return null;
+    return { symbol: match[1], value: parseFloat(match[2].replace(/,/g, '')) };
+  }
+
+  function formatMoney(value, symbol) {
+    if (!isFinite(value)) return '';
+    return (symbol || '$') + (Math.round(value * 100) / 100).toFixed(2);
+  }
+
+  function rootsFrom(root) {
+    var roots = [root];
+    if (!root || !root.querySelectorAll) return roots;
+    root.querySelectorAll('*').forEach(function (el) {
+      if (el.shadowRoot) roots = roots.concat(rootsFrom(el.shadowRoot));
+    });
+    return roots;
+  }
+
+  function allRoots() {
+    return rootsFrom(document);
+  }
+
+  function controlText(control) {
+    if (!control) return '';
+    var node = control;
+    var best = '';
+    for (var i = 0; node && i < 6; i++, node = node.parentElement) {
+      var tag = String(node.tagName || '').toLowerCase();
+      /* Do not let text from the entire Kaching widget make an ordinary
+         bundle radio look like a subscription control merely because the
+         widget also contains a subscription offer elsewhere. */
+      if (tag === 'kaching-bundles-block' || tag === 'kaching-subscriptions') break;
+      var text = (node.innerText || node.textContent || '').replace(/\s+/g, ' ').trim();
+      if (text.length > best.length && text.length < 420) best = text;
+      if (text.length < 420 && /subscription|subscribe|refill|recurring|automatic\s+refill|every\s+(?:week|month|day)/i.test(text)) return text;
+    }
+    return best;
+  }
+
+  function findSellingPlanValue() {
+    var roots = allRoots();
+    var fallback = null;
+    var planAttrs = ['data-selling-plan-id','selling-plan-id','data-plan-id','data-selling-plan'];
+    for (var r = 0; r < roots.length; r++) {
+      var root = roots[r];
+      if (!root.querySelectorAll) continue;
+      var controls = root.querySelectorAll('input[name="selling_plan"],select[name="selling_plan"],[data-selling-plan-id],[selling-plan-id],[data-plan-id],[data-selling-plan]');
+      for (var i = 0; i < controls.length; i++) {
+        var el = controls[i];
+        var active = true;
+        if (el.tagName === 'INPUT' && (el.type === 'radio' || el.type === 'checkbox')) active = !!el.checked;
+        if (el.getAttribute && el.getAttribute('aria-checked') === 'false') active = false;
+        if (el.getAttribute && el.getAttribute('data-selected') === 'false') active = false;
+        if (!active) continue;
+
+        if (el.tagName === 'SELECT') {
+          if (el.value) return String(el.value);
+        } else if (el.getAttribute && el.getAttribute('name') === 'selling_plan' && el.value) {
+          return String(el.value);
+        }
+
+        for (var a = 0; a < planAttrs.length; a++) {
+          var attr = el.getAttribute && el.getAttribute(planAttrs[a]);
+          if (attr && /^\d+$/.test(String(attr))) return String(attr);
+        }
+
+        /* Some Kaching layouts put the selling plan id directly in the value
+           of the selected subscription radio/checkbox without naming it
+           selling_plan. Only trust that numeric value when the surrounding
+           label clearly identifies a subscription option. */
+        if (el.value && /^\d+$/.test(String(el.value)) && /subscription|subscribe|refill|recurring|automatic\s+refill|every\s+(?:week|month|day)/i.test(controlText(el))) {
+          fallback = String(el.value);
+        }
+      }
+    }
+    return fallback;
+  }
+
+  function findSubscriptionControl() {
+    var roots = allRoots();
+    var selectors = [
+      'input[type="checkbox"]:checked',
+      'input[type="radio"]:checked',
+      '[role="checkbox"][aria-checked="true"]',
+      '[role="radio"][aria-checked="true"]',
+      '[data-selected="true"]',
+      '[data-active="true"]'
+    ];
+    for (var r = 0; r < roots.length; r++) {
+      for (var s = 0; s < selectors.length; s++) {
+        var nodes = roots[r].querySelectorAll ? roots[r].querySelectorAll(selectors[s]) : [];
+        for (var i = 0; i < nodes.length; i++) {
+          var text = controlText(nodes[i]);
+          if (/subscription|subscribe|refill|recurring|automatic\s+refill|every\s+(?:week|month|day)/i.test(text)) {
+            return { control: nodes[i], text: text };
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  function planInfo(planId) {
+    if (!planId) return null;
+    var variantId = variantInput && variantInput.value ? String(variantInput.value) : '';
+    var variant = planData[variantId];
+    if (!variant || !variant.plans || !variant.plans[String(planId)]) return null;
+    var plan = variant.plans[String(planId)];
+    var base = parseFloat(variant.base) || 0;
+    var planPrice = parseFloat(plan.price) || 0;
+    if (!base || !planPrice) return null;
+    return {
+      factor: planPrice / base,
+      percent: Math.round((1 - planPrice / base) * 100),
+      planId: String(planId)
+    };
+  }
+
+  function subscriptionState() {
+    var planId = findSellingPlanValue();
+    var info = planInfo(planId);
+    var selected = findSubscriptionControl();
+    var active = !!planId || !!selected;
+    var percent = info && info.percent > 0 ? info.percent : null;
+    if (!percent && selected) {
+      var match = selected.text.match(/(?:save\s*)?(\d+(?:\.\d+)?)\s*%\s*(?:off)?/i);
+      if (match) percent = parseFloat(match[1]);
+    }
+    /* User's Kaching subscription offer is 20% off. Use that only as a
+       fallback when Kaching/Shopify does not expose the selling-plan amount. */
+    if (active && !percent) percent = 20;
+    return {
+      active: active,
+      planId: planId,
+      factor: info ? info.factor : (percent ? (1 - percent / 100) : 1),
+      percent: percent || 0,
+      selected: selected
+    };
+  }
+
+  function syncSellingPlanToForm(state) {
+    var existing = productForm.querySelector('input[name="selling_plan"]:not([data-lumenity-selling-plan])');
+    if (existing && existing.value) {
+      if (manualHiddenPlan) { manualHiddenPlan.remove(); manualHiddenPlan = null; }
+      return;
+    }
+    if (state.active && state.planId) {
+      if (!manualHiddenPlan) {
+        manualHiddenPlan = document.createElement('input');
+        manualHiddenPlan.type = 'hidden';
+        manualHiddenPlan.name = 'selling_plan';
+        manualHiddenPlan.setAttribute('data-lumenity-selling-plan', 'true');
+        productForm.appendChild(manualHiddenPlan);
+      }
+      manualHiddenPlan.value = state.planId;
+    } else if (manualHiddenPlan) {
+      manualHiddenPlan.remove();
+      manualHiddenPlan = null;
+    }
+  }
+
+  function recalcBadge(currentText, compareText, fallbackPercent) {
+    var current = parseMoney(currentText);
+    var compare = parseMoney(compareText || '');
+    var percent = 0;
+    if (current && compare && compare.value > current.value) {
+      percent = Math.round((compare.value - current.value) / compare.value * 100);
+    } else if (fallbackPercent > 0) {
+      percent = Math.round(fallbackPercent);
+    }
+    if (priceSave) {
+      if (percent > 0) {
+        priceSave.style.display = '';
+        priceSave.textContent = 'Launch sale · save ' + percent + '%';
+      } else {
+        priceSave.style.display = 'none';
+      }
+    }
+  }
+
+  function setThemePrice(currentText, compareText, fallbackPercent) {
+    if (!currentText) return;
+    priceNow.textContent = currentText;
+    if (buttonPrice) buttonPrice.textContent = currentText + ' / each';
+    if (priceWas) {
+      var current = parseMoney(currentText);
+      var compare = parseMoney(compareText || '');
+      if (current && compare && compare.value > current.value) {
+        priceWas.style.display = '';
+        priceWas.textContent = compareText;
+      } else {
+        priceWas.style.display = 'none';
+      }
+    }
+    recalcBadge(currentText, compareText, fallbackPercent);
+  }
+
+  function captureBeforeSubscription() {
+    var current = parseMoney(priceNow.textContent || '');
+    if (!current) return;
+    preSubscriptionSnapshot = {
+      currentText: priceNow.textContent.trim(),
+      current: current,
+      compareText: priceWas && priceWas.style.display !== 'none' ? priceWas.textContent.trim() : '',
+      at: Date.now()
+    };
+  }
+
+  function ensureSubscriptionPrice() {
+    var state = subscriptionState();
+    syncSellingPlanToForm(state);
+
+    if (!state.active) {
+      lastManualCurrent = null;
+      preSubscriptionSnapshot = null;
+      /* Kaching owns the one-time/subscription toggle and restores its own
+         one-time bundle price on uncheck. Do not synthesize change events here
+         because that can create feedback loops with app mutation observers. */
+      return;
+    }
+
+    var displayed = parseMoney(priceNow.textContent || '');
+    if (!displayed) return;
+
+    /* If Kaching changed the headline after the subscription click, it already
+       supplied the correct subscription-aware bundle total. Keep it and only
+       recompute the percentage from the actual displayed values. */
+    if (preSubscriptionSnapshot && Date.now() - preSubscriptionSnapshot.at < 1800) {
+      var changedByApp = Math.abs(displayed.value - preSubscriptionSnapshot.current.value) > 0.005;
+      if (changedByApp) {
+        lastManualCurrent = priceNow.textContent.trim();
+        recalcBadge(priceNow.textContent, priceWas && priceWas.style.display !== 'none' ? priceWas.textContent : '', state.percent);
+        preSubscriptionSnapshot = null;
+        return;
+      }
+    }
+
+    /* If our fallback is already what is on screen, do not compound it. */
+    if (lastManualCurrent && priceNow.textContent.trim() === lastManualCurrent) {
+      recalcBadge(priceNow.textContent, priceWas && priceWas.style.display !== 'none' ? priceWas.textContent : '', state.percent);
+      return;
+    }
+
+    /* Only synthesize the 20%/selling-plan price when we captured the exact
+       one-time bundle total immediately before the shopper toggled the
+       subscription. For later bundle changes while subscribed, Kaching remains
+       the source of truth; we simply mirror its final price and recalc savings. */
+    if (!preSubscriptionSnapshot || !preSubscriptionSnapshot.current) {
+      recalcBadge(priceNow.textContent, priceWas && priceWas.style.display !== 'none' ? priceWas.textContent : '', state.percent);
+      return;
+    }
+
+    var base = preSubscriptionSnapshot.current;
+    var baseText = preSubscriptionSnapshot.currentText;
+    var compareText = preSubscriptionSnapshot.compareText || baseText;
+    var discounted = formatMoney(base.value * state.factor, base.symbol);
+    setThemePrice(discounted, compareText, state.percent);
+    lastManualCurrent = discounted;
+    preSubscriptionSnapshot = null;
+  }
+
+  function isSubscriptionLikeTarget(target) {
+    if (!target || target.nodeType !== 1) return false;
+    var text = controlText(target);
+    return /subscription|subscribe|refill|recurring|automatic\s+refill|every\s+(?:week|month|day)|save\s*20\s*%/i.test(text);
+  }
+
+  document.addEventListener('pointerdown', function (event) {
+    if (isSubscriptionLikeTarget(event.target)) captureBeforeSubscription();
+  }, true);
+  document.addEventListener('click', function (event) {
+    if (isSubscriptionLikeTarget(event.target)) {
+      window.clearTimeout(syncTimer);
+      syncTimer = window.setTimeout(ensureSubscriptionPrice, 260);
+      window.setTimeout(ensureSubscriptionPrice, 700);
+    }
+  }, true);
+  document.addEventListener('change', function (event) {
+    if (isSubscriptionLikeTarget(event.target) || (event.target && event.target.name === 'selling_plan')) {
+      window.clearTimeout(syncTimer);
+      syncTimer = window.setTimeout(ensureSubscriptionPrice, 120);
+      window.setTimeout(ensureSubscriptionPrice, 500);
+    }
+  }, true);
+
+  /* Observe Kaching widgets because their controls can live inside open shadow
+     roots and can update after the original change event has finished. */
+  function observeKaching() {
+    var roots = allRoots();
+    roots.forEach(function (root) {
+      if (!root || root.__lumenitySubscriptionObserved || !root.querySelectorAll) return;
+      var host = root.host;
+      var relevant = host ? /kaching/i.test(host.tagName || '') : root === document;
+      if (!relevant) return;
+      root.__lumenitySubscriptionObserved = true;
+      new MutationObserver(function () {
+        window.clearTimeout(syncTimer);
+        syncTimer = window.setTimeout(ensureSubscriptionPrice, 180);
+      }).observe(root, { subtree: true, childList: true, attributes: true, characterData: true,
+        attributeFilter: ['checked','aria-checked','aria-selected','data-selected','data-active','value','class'] });
+    });
+  }
+
+  observeKaching();
+  new MutationObserver(function () { observeKaching(); }).observe(document.documentElement, { childList: true, subtree: true });
+  ['selling-plan-selected','selling-plan-changed','subscription-selected','subscription-changed','purchase-option-changed'].forEach(function (name) {
+    document.addEventListener(name, function () {
+      window.setTimeout(ensureSubscriptionPrice, 100);
+      window.setTimeout(ensureSubscriptionPrice, 450);
+    });
+  });
+  window.setTimeout(ensureSubscriptionPrice, 400);
+  window.setTimeout(ensureSubscriptionPrice, 1200);
+})();
 
 /* Cart quantity steppers: update Shopify by line number, then reload from
    Shopify's canonical cart response so prices and discounts stay correct. */
