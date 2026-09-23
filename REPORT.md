@@ -58,7 +58,7 @@ Japan longevity + natto-for-generations framing · "at least 10,000 FU" threshol
 | `demo-quick-demo.mp4` | Ad 3 (no brand mention) | Video 2 |
 | `demo-pop.mp4` | Ad 2, brand mention cut at 1:04 | Video 3 + viral-clip lander |
 | `demo-before-after.mp4` | Ad 4, brand mention cut at 0:58 | Ranked-guide lander |
-| 6 product images | Rendered Lucent designs (bottle, benefits, how-to, stats, ingredients, supplement facts) | Gallery |
+| 10 product images | Original Lucent-branded renders: hero (badge layout per client reference), four actives, how-to-take with titration, 5× FU compare, 4-in-1 natto, enteric coated, capsule-to-bloodstream, generations of natto, survey stats, supplement facts. Same gallery concepts as the source listing, no copied assets. | Gallery |
 
 **Honest limitation:** the ad footage shows the supplier's physical bottle. At 260 px the emblem is unreadable but present. Higgsfield could not be reached from this environment (no connector, no API key), so no AI-generated replacement clips were made. The ads *do* look as good as the originals' creator GIFs (same selfie/phone format), so they are usable as-is.
 

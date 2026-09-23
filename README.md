@@ -33,7 +33,7 @@ re-cut from the five TikTok ads.
 | Campaign landers | `sections/campaign-glow-trend.liquid`, `sections/campaign-ranked-guide.liquid` + `snippets/campaign-*.liquid` |
 | Chrome | `snippets/site-header.liquid` (sale countdown, drawer nav, cart bag), `snippets/site-footer.liquid`, `snippets/cart-drawer.liquid` (AJAX cart) |
 | Templates | product, index, cart, contact, shipping-returns, 404, search, collection, list-collections, page, blog, article, password, gift card, customers/* |
-| Assets | `lumenity.css`, `lumenity.js`, 6 product images, 3 GIFs + posters, 4 demo videos + posters |
+| Assets | `lumenity.css`, `lumenity.js`, 10 product images, 3 GIFs + posters, 4 demo videos + posters |
 
 ## Media notes (read this)
 
