@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "home": {
+      "type": "lucent-home",
+      "settings": {}
+    }
+  },
+  "order": ["home"]
+}

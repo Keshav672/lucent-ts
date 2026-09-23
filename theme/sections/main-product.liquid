@@ -1,0 +1,423 @@
+{%- comment -%}
+  Lucent Nattokinase 4-in-1 Cardio Complex PDP: gallery + buy box with a native
+  bundle picker, jump nav, three-video demo, trust marquee, how-it-works GIF band,
+  animated stats, why-it-works cards, testimonials, second GIF band, compare table,
+  what's-inside, reviews + write-a-review modal, FAQ, final CTA, sticky add-to-cart.
+  Live Shopify product/variant data drives price and checkout.
+{%- endcomment -%}
+{%- assign v = product.selected_or_first_available_variant -%}
+{%- assign s = section.settings -%}
+{%- assign rating_mf = product.metafields.reviews.rating.value -%}
+{%- assign rating = rating_mf.rating | default: rating_mf -%}
+{%- if rating == blank -%}{%- assign rating = s.rating -%}{%- endif -%}
+{%- assign review_count = s.review_count | default: '1,184' -%}
+{%- assign guarantee = s.guarantee_days | default: 60 -%}
+
+<section class="pdp" id="product-buy">
+  <div class="wrap pdp__grid">
+    <div class="pdp__media" data-pdp-gallery>
+      <figure class="pdp__main" data-pdp-main>
+        <img src="{{ 'lucent-hero.jpg' | asset_url }}" alt="Lucent Nattokinase 10,800 FU 4-in-1 Cardio Complex bottle" width="1024" height="1024" loading="eager">
+        <button class="pdp__gallery-arrow pdp__gallery-arrow--prev" type="button" aria-label="Previous product image" data-pdp-gallery-prev>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button class="pdp__gallery-arrow pdp__gallery-arrow--next" type="button" aria-label="Next product image" data-pdp-gallery-next>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+      </figure>
+      <div class="pdp__thumbs" aria-label="Product images">
+        <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-hero.jpg' | asset_url }}" data-alt="Lucent Nattokinase 10,800 FU 4-in-1 Cardio Complex bottle" aria-current="true"><img src="{{ 'lucent-hero.jpg' | asset_url }}" alt="Lucent Nattokinase bottle" width="84" height="84"></button>
+        <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-benefits.jpg' | asset_url }}" data-alt="Four enzymes and nutrients, one cardio ritual: flows, clears, directs" aria-current="false"><img src="{{ 'lucent-benefits.jpg' | asset_url }}" alt="Flows, clears, directs" width="84" height="84" loading="lazy"></button>
+        <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-how-to.jpg' | asset_url }}" data-alt="One capsule daily with a meal" aria-current="false"><img src="{{ 'lucent-how-to.jpg' | asset_url }}" alt="One capsule daily" width="84" height="84" loading="lazy"></button>
+        <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-stats.jpg' | asset_url }}" data-alt="Lucent customer survey results graphic" aria-current="false"><img src="{{ 'lucent-stats.jpg' | asset_url }}" alt="Customer results" width="84" height="84" loading="lazy"></button>
+        <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-ingredients.jpg' | asset_url }}" data-alt="Japan's longevity ritual in a capsule: nattokinase, serrapeptase, lumbrokinase and vitamin K2" aria-current="false"><img src="{{ 'lucent-ingredients.jpg' | asset_url }}" alt="Ingredients" width="84" height="84" loading="lazy"></button>
+        <button class="pdp__thumb" type="button" data-pdp-thumb data-full="{{ 'lucent-facts.jpg' | asset_url }}" data-alt="Supplement facts label" aria-current="false"><img src="{{ 'lucent-facts.jpg' | asset_url }}" alt="Supplement facts" width="84" height="84" loading="lazy"></button>
+      </div>
+      <div class="pdp-media-proof"><span>10,800 FU nattokinase</span><span>1 capsule a day</span><span>Enteric-coated · soy-free</span></div>
+    </div>
+
+    <aside class="pdp__buy" data-pdp-buybox>
+      <div class="pdp__proof-stack">
+        {%- if rating != blank -%}
+        <div class="pdp__ratingline pdp__ratingline--inline">
+          <span class="stars" aria-hidden="true" data-stars="{{ rating }}">★★★★★</span>
+          <span class="pdp__ratingtxt">Rated {{ rating }}{% if review_count != blank %} · {{ review_count }} reviews{% endif %}</span>
+        </div>
+        {%- endif -%}
+        <p class="pdp__month-proof"><span class="pdp__month-dot" aria-hidden="true"></span>{{ s.monthly_social_proof | default: '4k+ bottles shipped this month.' }}</p>
+      </div>
+
+      <p class="eyebrow pdp__eyebrow">{{ s.pdp_eyebrow | default: "The daily cardio capsule" }}</p>
+      <h1>{{ product.title | default: 'Lucent Nattokinase 4-in-1 Cardio Complex' }}</h1>
+      <p class="pdp__lead"><strong>{{ s.pdp_lead_strong | default: "Japan's longevity habit, without the natto." }}</strong> {{ s.pdp_lead_body | default: "10,800 FU nattokinase with serrapeptase, lumbrokinase and vitamin K2 (MK-7) in one enteric-coated capsule a day" }}. {{ guarantee }}-day money-back guarantee.</p>
+
+      <ul class="pdp__benefits">
+        <li>Supports healthy circulation and blood flow*</li>
+        <li>Helps maintain normal fibrin balance*</li>
+        <li>Vitamin K2 helps direct calcium to bones, not arteries*</li>
+      </ul>
+
+      <div class="pdp__price" aria-live="polite">
+        <span class="pdp__now" data-pdp-now>{{ v.price | money }}</span><span class="pdp__unit" data-pdp-unit>/ bottle</span>
+        <span class="pdp__was" data-pdp-was {% unless v.compare_at_price > v.price %}style="display:none"{% endunless %}>{{ v.compare_at_price | money }}</span>
+        {%- assign off = 0 -%}
+        {%- if v.compare_at_price > v.price -%}{%- assign off = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round -%}{%- endif -%}
+        <span class="pdp__save" data-pdp-save {% if off == 0 %}style="display:none"{% endif %}>{% if off > 0 %}{{ s.sale_label | default: 'Launch sale' }} · save {{ off }}%{% endif %}</span>
+      </div>
+
+      {%- comment -%}
+        Native bundle picker. If the product has more than one variant (e.g. "1 Bottle",
+        "2 Bottles", "3 Bottles") each card is a variant with its own price. With a single
+        variant the cards fall back to quantity tiers at the plain unit price.
+      {%- endcomment -%}
+      <fieldset class="pdp__opts" data-pdp-opts>
+        <legend class="pdp__opts-label">Bundle &amp; save</legend>
+        {%- if product.variants.size > 1 -%}
+          {%- for var in product.variants -%}
+            {%- assign qty = 1 -%}
+            {%- assign first_word = var.title | split: ' ' | first | plus: 0 -%}
+            {%- if first_word > 0 -%}{%- assign qty = first_word -%}{%- endif -%}
+            {%- assign unit = var.price | divided_by: qty -%}
+            {%- assign vsave = 0 -%}
+            {%- if var.compare_at_price > var.price -%}{%- assign vsave = var.compare_at_price | minus: var.price | times: 100.0 | divided_by: var.compare_at_price | round -%}{%- endif -%}
+            <button type="button" class="pdp__opt" data-pdp-opt data-vid="{{ var.id }}" data-qty="1" data-price="{{ var.price | divided_by: 100.0 }}" data-compare="{{ var.compare_at_price | default: 0 | divided_by: 100.0 }}" data-units="{{ qty }}" data-active="{% if var.id == v.id %}true{% else %}false{% endif %}" aria-pressed="{% if var.id == v.id %}true{% else %}false{% endif %}" {% unless var.available %}disabled{% endunless %}>
+              <span class="pdp__opt__dot" aria-hidden="true"></span>
+              <span class="pdp__opt__body"><span class="pdp__opt__name">{{ var.title }}{% if forloop.index == 2 %} <em class="pdp__opt__tag">Most popular</em>{% elsif forloop.last and forloop.index > 2 %} <em class="pdp__opt__tag">Best value</em>{% endif %}</span><span class="pdp__opt__sub">{{ qty | times: 60 }}-day supply{% if forloop.last and forloop.index > 2 %} · free express shipping{% endif %}{% unless var.available %} · sold out{% endunless %}</span></span>
+              <span class="pdp__opt__price">{{ unit | money }} <small>/ bottle</small>{% if vsave > 0 %}<s>{{ var.compare_at_price | divided_by: qty | money }}</s>{% endif %}</span>
+            </button>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for qty in (1..3) -%}
+            <button type="button" class="pdp__opt" data-pdp-opt data-vid="{{ v.id }}" data-qty="{{ qty }}" data-price="{{ v.price | divided_by: 100.0 }}" data-compare="{{ v.compare_at_price | default: 0 | divided_by: 100.0 }}" data-units="{{ qty }}" data-active="{% if qty == 1 %}true{% else %}false{% endif %}" aria-pressed="{% if qty == 1 %}true{% else %}false{% endif %}">
+              <span class="pdp__opt__dot" aria-hidden="true"></span>
+              <span class="pdp__opt__body"><span class="pdp__opt__name">{{ qty }} Bottle{% if qty > 1 %}s{% endif %}{% if qty == 2 %} <em class="pdp__opt__tag">Most popular</em>{% elsif qty == 3 %} <em class="pdp__opt__tag">Best value</em>{% endif %}</span><span class="pdp__opt__sub">{{ qty | times: 60 }}-day supply{% if qty == 3 %} · free express shipping{% endif %}</span></span>
+              <span class="pdp__opt__price">{{ v.price | money }} <small>/ bottle</small>{% if off > 0 %}<s>{{ v.compare_at_price | money }}</s>{% endif %}</span>
+            </button>
+          {%- endfor -%}
+        {%- endif -%}
+      </fieldset>
+
+      <div class="pdp__shipbar"><span class="pdp__shipbar-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="17" height="17"><path d="M3 6.5h11v9H3zM14 9.5h3.6l3.4 3.3v2.7h-7z"/><circle cx="7" cy="18" r="1.7"/><circle cx="17.4" cy="18" r="1.7"/></svg></span> <strong>Ships from the U.S.</strong> · fast tracked delivery, typically 3–7 days</div>
+
+      {%- form 'product', product, id: 'pdp-form' -%}
+        <input type="hidden" name="id" value="{{ v.id }}" data-pdp-variant>
+        <input type="hidden" name="quantity" value="1" data-pdp-quantity>
+        <button type="submit" name="add" class="btn btn--block btn--lg pdp__atc" data-pdp-atc {% unless product.available %}disabled{% endunless %}>
+          <span data-pdp-atc-label>{% if product.available %}{{ s.cta_text | default: 'Add to cart' }}{% else %}Sold out{% endif %}</span>
+          {% if product.available %}<span aria-hidden="true">·</span><span data-pdp-button-price>{{ v.price | money }}</span>{% endif %}
+        </button>
+        {% if s.show_dynamic_checkout and product.available %}<div class="pdp__express-btn">{{ form | payment_button }}</div>{% endif %}
+      {%- endform -%}
+
+      <ul class="pdp__badges" aria-label="Guarantees">
+        <li><span class="pdp__badge-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 21c5-3 8-6 8-11V5l-8-3-8 3v5c0 5 3 8 8 11Z"/><path d="m9 12 2 2 4-4"/></svg></span>Third-party tested · made in the USA</li>
+        <li><span class="pdp__badge-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8 12h8"/></svg></span>Enteric-coated · soy-free · non-GMO</li>
+        <li><span class="pdp__badge-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4h-4"/></svg></span>{{ guarantee }}-day guarantee</li>
+      </ul>
+
+      <div class="pdp-acc">
+        <details><summary>What's included</summary><p><strong>Each bottle:</strong> 60 delayed-release vegetable capsules. Every capsule delivers 10,800 FU nattokinase, 180,000 SPU serrapeptase, 40 mg lumbrokinase and 180 mcg vitamin K2 as MK-7. One a day for everyday support, two a day if you want the full 60-day bottle in a month.</p></details>
+        <details><summary>How to take</summary><p>One capsule daily with water and a meal. The enteric coating is designed to carry the enzymes past stomach acid and release them in the intestines, so swallow whole and don't open the capsule. Adults only.</p></details>
+        <details><summary>Is it safe with medication?</summary><p>Nattokinase, serrapeptase and lumbrokinase are fibrinolytic enzymes and vitamin K2 affects clotting. If you take blood thinners, aspirin or any prescription medicine, are pregnant or nursing, or have surgery scheduled, talk to your doctor before starting.</p></details>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<nav class="pdp-jump" aria-label="Product information">
+  <div class="wrap pdp-jump__inner">
+    <a href="#why-made">How it works</a><a href="#demo">Watch it work</a><a href="#why-works">Why it works</a><a href="#pdp-testimonials">Reviews</a><a href="#pdp-formula">What's inside</a><a href="#faq">FAQ</a>
+  </div>
+</nav>
+
+{%- comment -%} ===== DEMO: THREE VIDEOS ===== {%- endcomment -%}
+<section class="demo" id="demo">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="eyebrow">{{ s.demo_eyebrow | default: "The clip everyone's asking about" }}</p>
+      <h2>{{ s.demo_title | default: "See why nattokinase is going viral." }}</h2>
+      <p class="sec-head__sub">{{ s.demo_subtitle | default: "Real people, real routines. One capsule a day, no fermented soybeans, no acquired taste." }}</p>
+    </header>
+    <div class="demo__grid">
+      <figure class="demo__phone">
+        <div class="demo__video-wrap" data-demo-video-wrap>
+          <video class="demo__video" playsinline preload="metadata" poster="{{ 'demo-creator-review-poster.jpg' | asset_url }}" width="270" height="480" data-demo-video>
+            <source src="{{ 'demo-creator-review.mp4' | asset_url }}" type="video/mp4">
+          </video>
+          <button class="demo__play" type="button" aria-label="Play video" data-video-play><svg viewBox="0 0 72 72" width="72" height="72" aria-hidden="true"><circle cx="36" cy="36" r="34" fill="rgba(255,255,255,.94)"></circle><path d="M30 24 51 36 30 48Z" fill="#15161B"></path></svg></button>
+        </div>
+      </figure>
+      <figure class="demo__phone demo__phone--alt">
+        <div class="demo__video-wrap" data-demo-video-wrap>
+          <video class="demo__video" playsinline preload="metadata" poster="{{ 'demo-quick-demo-poster.jpg' | asset_url }}" width="260" height="462" data-demo-video>
+            <source src="{{ 'demo-quick-demo.mp4' | asset_url }}" type="video/mp4">
+          </video>
+          <button class="demo__play" type="button" aria-label="Play video" data-video-play><svg viewBox="0 0 72 72" width="72" height="72" aria-hidden="true"><circle cx="36" cy="36" r="34" fill="rgba(255,255,255,.94)"></circle><path d="M30 24 51 36 30 48Z" fill="#15161B"></path></svg></button>
+        </div>
+      </figure>
+      <figure class="demo__phone demo__phone--alt2">
+        <div class="demo__video-wrap" data-demo-video-wrap>
+          <video class="demo__video" playsinline preload="metadata" poster="{{ 'demo-pop-poster.jpg' | asset_url }}" width="260" height="462" data-demo-video>
+            <source src="{{ 'demo-pop.mp4' | asset_url }}" type="video/mp4">
+          </video>
+          <button class="demo__play" type="button" aria-label="Play video" data-video-play><svg viewBox="0 0 72 72" width="72" height="72" aria-hidden="true"><circle cx="36" cy="36" r="34" fill="rgba(255,255,255,.94)"></circle><path d="M30 24 51 36 30 48Z" fill="#15161B"></path></svg></button>
+        </div>
+      </figure>
+    </div>
+    <p class="demo__cta"><a href="#product-buy" class="btn btn--lg">{{ s.demo_cta_text | default: "Try it risk-free, today" }}</a></p>
+  </div>
+</section>
+
+{%- comment -%} ===== TRUST MARQUEE ===== {%- endcomment -%}
+<section class="press" aria-label="Quality standards">
+  <div class="wrap">
+    <p class="press__label">Made to a standard</p>
+    <div class="press__marquee" role="img" aria-label="10,800 FU per capsule, third-party tested, made in the USA, enteric-coated, soy-free, non-GMO">
+      <ul class="press__logos press__track" aria-hidden="true">
+        {%- for i in (1..4) -%}
+        <li><span class="press__wm press__wm--marie">10,800 FU</span></li>
+        <li><span class="press__wm press__wm--strategist">Third-party tested</span></li>
+        <li><span class="press__wm press__wm--glamour">MADE IN USA</span></li>
+        <li><span class="press__wm press__wm--strategist">Enteric-coated</span></li>
+        <li><span class="press__wm press__wm--marie">Soy-free</span></li>
+        <li><span class="press__wm press__wm--strategist">Non-GMO</span></li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ===== HOW-IT-WORKS BAND ===== {%- endcomment -%}
+<section class="founder" id="why-made">
+  <div class="wrap founder__grid">
+    <figure class="founder__gif"><img src="{{ 'gif-how-to.gif' | asset_url }}" alt="Holding a bottle of Lucent Nattokinase" width="260" height="462" loading="lazy"><span class="founder__badge">{{ s.founder_badge | default: "1 a day" }}</span></figure>
+    <div class="founder__copy">
+      <p class="eyebrow">{{ s.founder_eyebrow | default: "One capsule. Once a day. Done." }}</p>
+      <h2>{{ s.founder_title | default: "Japan's longevity habit, without eating natto every day." }}</h2>
+      <p>{{ s.founder_body | default: "Japan is famous for long life, and fermented natto has been on the table there for generations. The catch is the taste: not many people want sticky fermented soybeans every morning, and it takes five or six servings to reach the 10,000 FU people talk about. Lucent puts 10,800 FU of nattokinase in one enteric-coated capsule, then adds serrapeptase, lumbrokinase and vitamin K2 so the whole cardio stack is one habit instead of four bottles." }}</p>
+      <p class="founder__sign">— Lucent</p>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ===== ANIMATED STAT COUNTERS ===== {%- endcomment -%}
+<section class="stats" aria-label="What customers report" data-stats>
+  <div class="wrap">
+    <header class="sec-head"><p class="eyebrow">{{ s.stats_eyebrow | default: "What customers are saying" }}</p><h2>{{ s.stats_title | default: "Results felt by those who switched to Lucent" }}</h2></header>
+    <div class="stats__grid">
+      <div class="stat"><p class="stat__num" data-count-to="{{ s.stat1_value | default: 91 }}">0%</p><p class="stat__label">{{ s.stat1_label | default: 'said they felt more energetic and “lighter” after the first bottle' }}</p></div>
+      <div class="stat"><p class="stat__num" data-count-to="{{ s.stat2_value | default: 88 }}">0%</p><p class="stat__label">{{ s.stat2_label | default: 'said it was easier to keep than eating natto every day' }}</p></div>
+      <div class="stat"><p class="stat__num" data-count-to="{{ s.stat3_value | default: 96 }}">0%</p><p class="stat__label">{{ s.stat3_label | default: 'preferred one capsule to a four-bottle enzyme stack' }}</p></div>
+    </div>
+    <p class="stats__note">{{ s.stats_note | default: "*Customer-reported feedback from post-purchase surveys after 30 days. Individual results vary." }}</p>
+  </div>
+</section>
+
+{%- comment -%} ===== WHY IT WORKS, 3 FEATURE CARDS ===== {%- endcomment -%}
+<section class="works" id="why-works">
+  <div class="wrap">
+    <header class="sec-head"><p class="eyebrow">{{ s.works_eyebrow | default: "Why it works so well" }}</p><h2>{{ s.works_title | default: "Four cardio enzymes and nutrients in one capsule, not four bottles." }}</h2></header>
+    <div class="works__grid">
+      <article class="work"><span class="work__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><h3>Flows with nattokinase</h3><p>10,800 FU per capsule, above the 10,000 FU threshold in the clips everyone's sharing. Nattokinase is the enzyme natto produces during fermentation, studied for its role in healthy fibrin balance and circulation.*</p></article>
+      <article class="work"><span class="work__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16" opacity=".5"/><path d="m8 12 3 3 5-6"/></svg></span><h3>Clears with serrapeptase and lumbrokinase</h3><p>180,000 SPU serrapeptase, the enzyme studied for a healthy inflammatory response, plus 40 mg lumbrokinase for fibrin breakdown and healthy blood flow.*</p></article>
+      <article class="work"><span class="work__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 20V9l6-5 6 5v11"/><path d="M10 20v-6h4v6"/></svg></span><h3>Directs with vitamin K2</h3><p>180 mcg of MK-7 activates the proteins that put calcium where the body needs it, in bones, rather than in soft tissue.*</p></article>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ===== TESTIMONIALS ===== {%- endcomment -%}
+<section class="tmi" id="pdp-testimonials">
+  <div class="wrap">
+    <header class="sec-head"><p class="eyebrow">{{ s.testimonials_eyebrow | default: "Straight from the comments" }}</p><h2>{{ s.testimonials_title | default: "Why customers keep reordering." }}</h2></header>
+    <div class="tmi__grid">
+      <figure class="tmi__card"><span class="tmi__av" style="--a:#8E2C2C;--b:#E7C873">RT</span><figcaption><span class="tmi__stars" aria-hidden="true">★★★★★</span><h3>Finally one capsule, not five</h3><p>“I was taking nattokinase, serrapeptase and K2 from three different brands. This replaced the whole shelf and the dose is actually higher.”</p><cite>Ray T.</cite></figcaption></figure>
+      <figure class="tmi__card"><span class="tmi__av" style="--a:#15161B;--b:#C9A24A">DM</span><figcaption><span class="tmi__stars" aria-hidden="true">★★★★★</span><h3>My dad takes it now too</h3><p>“Saw the clip, looked it up, ordered the 3-pack. He says his legs feel less heavy at the end of the day. We both take it with breakfast.”</p><cite>Denise M.</cite></figcaption></figure>
+      <figure class="tmi__card"><span class="tmi__av" style="--a:#2A2C34;--b:#E7C873">KL</span><figcaption><span class="tmi__stars" aria-hidden="true">★★★★★</span><h3>Tried natto. Never again.</h3><p>“I genuinely tried eating natto every day and lasted four days. This is the same enzyme without the smell, and it's enteric-coated so no stomach upset.”</p><cite>Ken L.</cite></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ===== SECOND DEMO GIF ===== {%- endcomment -%}
+<section class="demo2">
+  <div class="wrap demo2__grid">
+    <figure class="demo2__media"><img src="{{ 'gif-glow.gif' | asset_url }}" alt="Holding Lucent Nattokinase after a month" width="260" height="462" loading="lazy"><span class="demo2__tag">{{ s.demo2_badge | default: "60-day bottle" }}</span></figure>
+    <div class="demo2__copy">
+      <p class="eyebrow eyebrow--light">{{ s.demo2_eyebrow | default: "See it for yourself" }}</p>
+      <h2>{{ s.demo2_title | default: "Keep things flowing. One capsule at a time." }}</h2>
+      <p>{{ s.demo2_body | default: "Sixty enteric-coated capsules, one simple habit. Nattokinase for fibrin balance, serrapeptase and lumbrokinase for healthy blood flow, and vitamin K2 to keep calcium in your bones. Soy-free, non-GMO, third-party tested and made in the USA." }}</p>
+      <a href="#product-buy" class="btn btn--invert btn--lg">{{ s.demo2_cta_text | default: "Try it today, risk-free" }}</a>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ===== COMPARE ===== {%- endcomment -%}
+<section class="reuse" id="pdp-compare">
+  <div class="wrap reuse__grid">
+    <div class="reuse__copy"><p class="eyebrow eyebrow--light">{{ s.compare_eyebrow | default: "Skip the natto. Skip the four bottles." }}</p><h2>{{ s.compare_title | default: "Eating natto daily is a chore. This isn't." }}</h2><p>{{ s.compare_body | default: "Natto has to be bought fresh, stirred and swallowed with that smell, and it takes several servings to reach 10,000 FU. Single-ingredient capsules fix the taste but stop at nattokinase. Lucent seals the full cardio stack into one enteric-coated capsule." }}</p></div>
+    <div class="reuse__table" role="table" aria-label="Lucent compared with natto and single-ingredient capsules">
+      <div class="rt__row rt__row--head" role="row"><span></span><span class="rt__us">Lucent</span><span>Natto &amp; single capsules</span></div>
+      <div class="rt__row"><span>Nattokinase per serving</span><span class="rt__yes">10,800 FU</span><span class="rt__no">Often 2,000–4,000 FU</span></div>
+      <div class="rt__row"><span>Serrapeptase + lumbrokinase</span><span class="rt__yes">Built in</span><span class="rt__no">Separate bottles</span></div>
+      <div class="rt__row"><span>Vitamin K2 (MK-7)</span><span class="rt__yes">180 mcg</span><span class="rt__no">Usually not</span></div>
+      <div class="rt__row"><span>Enteric coating</span><span class="rt__yes">Yes</span><span class="rt__no">Rarely</span></div>
+      <div class="rt__row"><span>Fermented-soybean taste</span><span class="rt__yes">None</span><span class="rt__no">Natto: yes</span></div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ===== WHAT'S INSIDE ===== {%- endcomment -%}
+<section class="ingredients" id="pdp-formula">
+  <div class="wrap ingredients__grid">
+    <div class="ingredients__intro"><p class="eyebrow">{{ s.formula_eyebrow | default: "What's inside" }}</p><h2>{{ s.formula_title | default: "Every capsule, on the label." }}</h2><p>{{ s.formula_body | default: "Serving size 1 capsule · 60 servings per bottle · delayed-release vegetable capsules. Soy-free, non-GMO, nothing to mix." }}</p><details class="inci"><summary>Other ingredients &amp; cautions</summary><p>Delayed-release vegetable capsule (hypromellose, gellan gum), rice flour, magnesium stearate (vegetable source). <strong>Adults only.</strong> Consult a healthcare professional before use if you are pregnant, nursing, take blood-thinning or other medication, have a bleeding disorder or have surgery scheduled.</p></details></div>
+    <ul class="ing-list">
+      <li><strong>Nattokinase · 10,800 FU</strong><span>The enzyme from fermented natto, studied for supporting healthy fibrin balance and circulation.*</span></li>
+      <li><strong>Serrapeptase · 180,000 SPU</strong><span>A proteolytic enzyme studied for supporting a healthy inflammatory response.*</span></li>
+      <li><strong>Lumbrokinase · 40 mg</strong><span>A fibrinolytic enzyme studied for its role in fibrin breakdown and healthy blood flow.*</span></li>
+      <li><strong>Vitamin K2 (MK-7) · 180 mcg</strong><span>Activates the proteins that direct calcium into bone rather than soft tissue.*</span></li>
+      <li><strong>Enteric coating</strong><span>Designed to carry the enzymes past stomach acid and release them in the intestines.</span></li>
+    </ul>
+  </div>
+</section>
+
+{%- comment -%} ===== REVIEWS + BREAKDOWN + WRITE A REVIEW ===== {%- endcomment -%}
+<section class="rblock" id="reviews">
+  <div class="wrap">
+    <header class="sec-head"><p class="eyebrow">{{ s.reviews_eyebrow | default: "Product reviews" }}</p><h2>{% if review_count != blank %}{{ review_count }} {% endif %}{{ s.reviews_title_suffix | default: "reviews and counting." }}</h2></header>
+    <div class="rblock__grid">
+      <div class="rblock__summary">
+        {%- if rating != blank -%}<p class="rblock__big">{{ rating }}</p><p class="rblock__stars" data-stars="{{ rating }}" aria-hidden="true">★★★★★</p>{%- endif -%}
+        {%- if review_count != blank -%}<p class="rblock__count">{{ review_count }} verified reviews</p>{%- endif -%}
+        {%- if rating != blank -%}
+        <div class="rblock__bars">
+          {%- assign d5 = 84 -%}{%- assign d4 = 11 -%}{%- assign d3 = 3 -%}{%- assign d2 = 1 -%}{%- assign d1 = 1 -%}
+          <div class="rbar"><span>5★</span><span class="rbar__track"><span class="rbar__fill" style="width:{{ d5 }}%"></span></span><span>{{ d5 }}%</span></div>
+          <div class="rbar"><span>4★</span><span class="rbar__track"><span class="rbar__fill" style="width:{{ d4 }}%"></span></span><span>{{ d4 }}%</span></div>
+          <div class="rbar"><span>3★</span><span class="rbar__track"><span class="rbar__fill" style="width:{{ d3 }}%"></span></span><span>{{ d3 }}%</span></div>
+          <div class="rbar"><span>2★</span><span class="rbar__track"><span class="rbar__fill" style="width:{{ d2 }}%"></span></span><span>{{ d2 }}%</span></div>
+          <div class="rbar"><span>1★</span><span class="rbar__track"><span class="rbar__fill" style="width:{{ d1 }}%"></span></span><span>{{ d1 }}%</span></div>
+        </div>
+        {%- endif -%}
+        <button type="button" class="btn btn--invert btn--block" data-review-open>Write a review</button>
+      </div>
+      <div class="rblock__list">
+        <article class="rev2"><header><span class="rev2__av" style="--a:#8E2C2C;--b:#E7C873">RT</span><div><strong>Ray T.</strong><span class="rev2__meta">Verified buyer · ★★★★★</span></div></header><h3>Finally one capsule, not five</h3><p>Replaced three bottles with one. 10,800 FU is more than I was getting from two capsules of my old brand, and the K2 is in there too.</p></article>
+        <article class="rev2"><header><span class="rev2__av" style="--a:#15161B;--b:#C9A24A">DM</span><div><strong>Denise M.</strong><span class="rev2__meta">Verified buyer · ★★★★☆</span></div></header><h3>Give it the full bottle</h3><p>Nothing dramatic in week one. By week four my dad said his legs felt lighter on his evening walk. Reordered the 3-pack for both of us.</p></article>
+        <article class="rev2"><header><span class="rev2__av" style="--a:#2A2C34;--b:#E7C873">KL</span><div><strong>Ken L.</strong><span class="rev2__meta">Verified buyer · ★★★★★</span></div></header><h3>Tried natto. Never again.</h3><p>Lasted four days eating natto. This is the enzyme without the smell, no burping, and I take it with coffee and forget about it.</p></article>
+        <button type="button" class="rblock__more btn btn--invert" data-review-more>See more reviews</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ===== FAQ ===== {%- endcomment -%}
+<section class="pdp-faq" id="faq" aria-label="Frequently asked questions">
+  <div class="wrap pdp-faq__grid">
+    <header class="pdp-faq__head"><h2>{{ s.faq_heading | default: "Frequently Asked Questions" }}</h2></header>
+    <div class="pdp-faq__list">
+      <details><summary>How many capsules do I take?</summary><p>One capsule a day with water and a meal. One bottle is 60 capsules, a full 60 days at that dose. Some people take two a day for a 30-day bottle; check with your doctor before going higher. The 2- and 3-bottle bundles cover the 3 to 6 months most people give it.</p></details>
+      <details><summary>Why does 10,000 FU matter?</summary><p>FU (fibrinolytic units) measure enzyme activity. The clips everyone's sharing talk about at least 10,000 FU a day, which would take five or six servings of natto. Lucent delivers 10,800 FU in one capsule.</p></details>
+      <details><summary>What is the enteric coating for?</summary><p>Enzymes are proteins, and stomach acid breaks proteins down. The delayed-release capsule is designed to pass the stomach and release in the intestines so the enzymes reach where they can be absorbed. Swallow whole.</p></details>
+      <details><summary>Does it contain soy?</summary><p>No. Nattokinase is produced by fermenting with Bacillus subtilis natto, then purified. The finished capsule is soy-free, non-GMO and third-party tested.</p></details>
+      <details><summary>Can I take it with blood thinners or other medication?</summary><p>Not without talking to your doctor. Nattokinase, serrapeptase and lumbrokinase affect fibrin and vitamin K2 affects clotting. Skip it if you are pregnant, nursing, have a bleeding disorder or have surgery within two weeks.</p></details>
+      <details><summary>What's the guarantee?</summary><p>A {{ guarantee }}-day money-back guarantee. If it isn't for you, contact us and we'll help with your order.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final"><div class="wrap final__inner"><p class="eyebrow eyebrow--light">{{ s.final_eyebrow | default: "The daily cardio capsule" }}</p><h2>{{ s.final_title | default: "Make the one-capsule cardio habit part of your morning." }}</h2><p>{{ s.final_body | default: "10,800 FU nattokinase, serrapeptase, lumbrokinase and vitamin K2 in one enteric-coated capsule a day." }}</p><button type="button" class="btn btn--invert btn--lg" data-pdp-sticky-submit>{{ s.final_cta_text | default: s.cta_text | default: "Add to cart, 100% risk-free" }}</button></div></section>
+
+<div class="pdp-sticky" data-pdp-sticky><div class="pdp-sticky__in"><div><div class="pdp-sticky__n">{{ product.title | default: 'Lucent Nattokinase' }}</div><div class="pdp-sticky__p" data-pdp-sticky-price>{{ v.price | money }}</div></div><button type="button" class="btn" data-pdp-sticky-submit>Add to cart</button></div></div>
+
+{%- comment -%} ===== WRITE-A-REVIEW MODAL ===== {%- endcomment -%}
+<div class="review-modal" data-review-modal hidden>
+  <div class="review-modal__scrim" data-review-close></div>
+  <div class="review-modal__card" role="dialog" aria-modal="true" aria-label="Write a review">
+    <button type="button" class="review-modal__x" data-review-close aria-label="Close">&times;</button>
+    <h3>Write a review</h3>
+    <div class="review-modal__field"><label for="rm-name">Your name</label><input id="rm-name" type="text" data-review-name></div>
+    <div class="review-modal__field"><label id="rm-rating-label">Rating</label><div class="review-modal__stars" data-review-stars role="group" aria-labelledby="rm-rating-label"><button type="button" data-star="1" aria-label="1 star">★</button><button type="button" data-star="2" aria-label="2 stars">★</button><button type="button" data-star="3" aria-label="3 stars">★</button><button type="button" data-star="4" aria-label="4 stars">★</button><button type="button" data-star="5" aria-label="5 stars">★</button></div></div>
+    <div class="review-modal__field"><label for="rm-text">Your review</label><textarea id="rm-text" rows="4" data-review-text></textarea></div>
+    <button type="button" class="btn btn--block" data-review-submit>Submit review</button>
+    <p class="review-modal__note" data-review-msg aria-live="polite"></p>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name":"Nattokinase PDP",
+  "tag":"section",
+  "settings":[
+    {"type":"header","content":"Buy box"},
+    {"type":"text","id":"pdp_eyebrow","label":"Product eyebrow","default":"The daily cardio capsule"},
+    {"type":"text","id":"pdp_lead_strong","label":"Lead bold intro","default":"Japan's longevity habit, without the natto."},
+    {"type":"text","id":"pdp_lead_body","label":"Lead body text","default":"10,800 FU nattokinase with serrapeptase, lumbrokinase and vitamin K2 (MK-7) in one enteric-coated capsule a day"},
+    {"type":"text","id":"cta_text","label":"Add to cart text","default":"Add to cart"},
+    {"type":"text","id":"sale_label","label":"Sale badge label","default":"Launch sale"},
+    {"type":"checkbox","id":"show_dynamic_checkout","label":"Show accelerated checkout","default":false},
+
+    {"type":"header","content":"Social proof"},
+    {"type":"text","id":"rating","label":"Star rating (display)","default":"4.8","info":"Uses reviews metafields first. Enter a verified fallback only if needed."},
+    {"type":"text","id":"review_count","label":"Review count (display)","default":"1,184"},
+    {"type":"text","id":"monthly_social_proof","label":"Monthly social-proof pill","default":"4k+ bottles shipped this month."},
+    {"type":"text","id":"guarantee_days","label":"Money-back days","default":"60"},
+
+    {"type":"header","content":"How-it-works section"},
+    {"type":"text","id":"founder_badge","label":"Band badge","default":"1 a day"},
+    {"type":"text","id":"founder_eyebrow","label":"Band eyebrow","default":"One capsule. Once a day. Done."},
+    {"type":"textarea","id":"founder_title","label":"Band heading","default":"Japan's longevity habit, without eating natto every day."},
+    {"type":"textarea","id":"founder_body","label":"Band body","default":"Japan is famous for long life, and fermented natto has been on the table there for generations. The catch is the taste. Lucent puts 10,800 FU of nattokinase in one enteric-coated capsule, then adds serrapeptase, lumbrokinase and vitamin K2 so the whole cardio stack is one habit instead of four bottles."},
+
+    {"type":"header","content":"Video section"},
+    {"type":"text","id":"demo_eyebrow","label":"Video section eyebrow","default":"The clip everyone's asking about"},
+    {"type":"text","id":"demo_title","label":"Video section heading","default":"See why nattokinase is going viral."},
+    {"type":"textarea","id":"demo_subtitle","label":"Video section subtitle","default":"Real people, real routines. One capsule a day, no fermented soybeans, no acquired taste."},
+    {"type":"text","id":"demo_cta_text","label":"Video section button text","default":"Try it risk-free, today"},
+
+    {"type":"header","content":"Results stats (animated)"},
+    {"type":"text","id":"stats_eyebrow","label":"Stats eyebrow","default":"What customers are saying"},
+    {"type":"text","id":"stats_title","label":"Stats heading","default":"Results felt by those who switched to Lucent"},
+    {"type":"text","id":"stat1_value","label":"Stat 1 %","default":"91"},
+    {"type":"text","id":"stat1_label","label":"Stat 1 label","default":"said they felt more energetic and “lighter” after the first bottle"},
+    {"type":"text","id":"stat2_value","label":"Stat 2 %","default":"88"},
+    {"type":"text","id":"stat2_label","label":"Stat 2 label","default":"said it was easier to keep than eating natto every day"},
+    {"type":"text","id":"stat3_value","label":"Stat 3 %","default":"96"},
+    {"type":"text","id":"stat3_label","label":"Stat 3 label","default":"preferred one capsule to a four-bottle enzyme stack"},
+    {"type":"textarea","id":"stats_note","label":"Stats note","default":"*Customer-reported feedback from post-purchase surveys after 30 days. Individual results vary."},
+
+    {"type":"header","content":"Why it works section"},
+    {"type":"text","id":"works_eyebrow","label":"Why-it-works eyebrow","default":"Why it works so well"},
+    {"type":"text","id":"works_title","label":"Why-it-works heading","default":"Four cardio enzymes and nutrients in one capsule, not four bottles."},
+
+    {"type":"header","content":"Testimonials section"},
+    {"type":"text","id":"testimonials_eyebrow","label":"Testimonials eyebrow","default":"Straight from the comments"},
+    {"type":"text","id":"testimonials_title","label":"Testimonials heading","default":"Why customers keep reordering."},
+
+    {"type":"header","content":"Second demo section"},
+    {"type":"text","id":"demo2_badge","label":"Second demo badge","default":"60-day bottle"},
+    {"type":"text","id":"demo2_eyebrow","label":"Second demo eyebrow","default":"See it for yourself"},
+    {"type":"textarea","id":"demo2_title","label":"Second demo heading","default":"Keep things flowing. One capsule at a time."},
+    {"type":"textarea","id":"demo2_body","label":"Second demo body","default":"Sixty enteric-coated capsules, one simple habit. Nattokinase for fibrin balance, serrapeptase and lumbrokinase for healthy blood flow, and vitamin K2 to keep calcium in your bones."},
+    {"type":"text","id":"demo2_cta_text","label":"Second demo button text","default":"Try it today, risk-free"},
+
+    {"type":"header","content":"Compare section"},
+    {"type":"text","id":"compare_eyebrow","label":"Compare eyebrow","default":"Skip the natto. Skip the four bottles."},
+    {"type":"text","id":"compare_title","label":"Compare heading","default":"Eating natto daily is a chore. This isn't."},
+    {"type":"textarea","id":"compare_body","label":"Compare body","default":"Natto has to be bought fresh, stirred and swallowed with that smell, and it takes several servings to reach 10,000 FU. Lucent seals the full cardio stack into one enteric-coated capsule."},
+
+    {"type":"header","content":"What's inside section"},
+    {"type":"text","id":"formula_eyebrow","label":"Section eyebrow","default":"What's inside"},
+    {"type":"text","id":"formula_title","label":"Section heading","default":"Every capsule, on the label."},
+    {"type":"textarea","id":"formula_body","label":"Section body","default":"Serving size 1 capsule · 60 servings per bottle · delayed-release vegetable capsules. Soy-free, non-GMO, nothing to mix."},
+
+    {"type":"header","content":"Reviews / FAQ / final CTA"},
+    {"type":"text","id":"reviews_eyebrow","label":"Reviews eyebrow","default":"Product reviews"},
+    {"type":"text","id":"reviews_title_suffix","label":"Reviews title suffix","default":"reviews and counting."},
+    {"type":"text","id":"faq_heading","label":"FAQ heading","default":"Frequently Asked Questions"},
+    {"type":"text","id":"final_eyebrow","label":"Final CTA eyebrow","default":"The daily cardio capsule"},
+    {"type":"text","id":"final_title","label":"Final CTA heading","default":"Make the one-capsule cardio habit part of your morning."},
+    {"type":"textarea","id":"final_body","label":"Final CTA body","default":"10,800 FU nattokinase, serrapeptase, lumbrokinase and vitamin K2 in one enteric-coated capsule a day."},
+    {"type":"text","id":"final_cta_text","label":"Final CTA button text","default":"Add to cart, 100% risk-free"}
+  ],
+  "presets":[{"name":"Nattokinase PDP"}]
+}
+{% endschema %}

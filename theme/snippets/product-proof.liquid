@@ -1,0 +1,27 @@
+{%- assign proof_product = product -%}
+{%- assign rating_obj = blank -%}
+{%- assign rating_value = blank -%}
+{%- assign rating_max = 5 -%}
+{%- assign rating_count = blank -%}
+{%- if proof_product != blank -%}
+  {%- assign rating_obj = proof_product.metafields.reviews.rating.value -%}
+  {%- if rating_obj != blank -%}
+    {%- assign rating_value = rating_obj.rating | default: rating_obj -%}
+    {%- assign rating_max = rating_obj.scale_max | default: 5 -%}
+  {%- endif -%}
+  {%- assign rating_count = proof_product.metafields.reviews.rating_count.value | default: proof_product.metafields.reviews.rating_count -%}
+{%- endif -%}
+
+<div class="reviews__grid product-proof-grid">
+  {%- if rating_value != blank -%}
+    <article class="rev proof-stat">
+      <p class="proof-stat__value">{{ rating_value }} / {{ rating_max }}</p>
+      <h3>Customer rating</h3>
+      <p>{% if rating_count != blank %}Based on {{ rating_count }} customer ratings connected to this Shopify product.{% else %}Pulled from the rating data connected to this Shopify product.{% endif %}</p>
+    </article>
+  {%- endif -%}
+  <article class="rev proof-stat"><p class="proof-stat__value">10,800</p><h3>FU nattokinase</h3><p>Per capsule, above the 10,000 FU threshold in the clips everyone shares.</p></article>
+  <article class="rev proof-stat"><p class="proof-stat__value">180k</p><h3>SPU serrapeptase</h3><p>Plus 40 mg lumbrokinase and 180 mcg vitamin K2 as MK-7.*</p></article>
+  <article class="rev proof-stat"><p class="proof-stat__value">1</p><h3>Capsule a day</h3><p>Enteric-coated so it passes the stomach. Sixty capsules per bottle.</p></article>
+  <article class="rev proof-stat"><p class="proof-stat__value">0</p><h3>Soy, GMOs, natto smell</h3><p>Third-party tested and made in the USA.</p></article>
+</div>

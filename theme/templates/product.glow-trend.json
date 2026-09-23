@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "campaign": {
+      "type": "campaign-glow-trend",
+      "settings": {}
+    }
+  },
+  "order": ["campaign"]
+}

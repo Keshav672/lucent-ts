@@ -1,0 +1,162 @@
+{%- assign cp = product -%}
+{%- if cp == blank -%}{%- assign cp = settings.featured_product -%}{%- endif -%}
+{%- if cp == blank -%}{%- assign cp = all_products['lucent-nattokinase'] -%}{%- endif -%}
+{%- if cp == blank -%}{%- for fp_item in collections['all'].products -%}{%- if fp_item.title contains 'attokinase' -%}{%- assign cp = fp_item -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if cp == blank and collections['all'].products.size > 0 -%}{%- assign cp = collections['all'].products.first -%}{%- endif -%}
+{%- if cp != blank -%}{%- assign purl = cp.url -%}{%- else -%}{%- assign purl = routes.root_url -%}{%- endif -%}
+
+<section class="pm-ad pm-ad--article pm-ad--ranking">
+  <div class="pm-article-shell">
+    <div class="pm-article-brand"><a href="{{ purl }}">THE HEART DESK</a></div>
+
+    <header class="pm-article-head">
+      <p class="pm-article-cat">Cardio Supplements · 2026 Buyer's Guide</p>
+      <h1>We ranked 5 ways to get nattokinase. Here's what actually separates them.</h1>
+      <p class="pm-article-sub">Natto itself, low-dose capsules, enzyme stacks in separate bottles, liquid enzyme drops and one capsule that puts 10,800 FU nattokinase, serrapeptase, lumbrokinase and vitamin K2 together. The labels sound similar but they solve different problems. We ranked them on how likely you are to still be taking them in a month.</p>
+      <div class="pm-byline"><span>Updated September 2026 · 8 min read</span></div>
+    </header>
+
+    <figure class="pm-article-hero pm-photo pm-video-figure">
+      <video class="pm-inline-video" controls playsinline preload="metadata" poster="{{ 'demo-before-after-poster.jpg' | asset_url }}" width="1400" height="820">
+        <source src="{{ 'demo-before-after.mp4' | asset_url }}" type="video/mp4">
+      </video>
+      <figcaption>Our ranking is specifically about <strong>a nattokinase routine you'll keep for 60 days</strong>, not which product wins on price per bottle alone.</figcaption>
+    </figure>
+
+    <section class="pm-rank-intro">
+      <p class="pm-label">Quick Ranking</p>
+      <h2>The 5 formats, ranked at a glance</h2>
+      <p class="pm-section-deck">Scores are editorial judgments under the criteria below. This is a Lucent advertisement, not an independent lab test.</p>
+
+      <div class="pm-ranking-list">
+        <article class="pm-rank-card is-winner">
+          <div class="pm-rank-number">#1</div>
+          <div class="pm-rank-main"><div class="pm-rank-badge">OUR TOP PICK · ONLY CAPSULE WITH THE FULL CARDIO STACK</div><h3>Lucent Nattokinase 4-in-1</h3><p>10,800 FU nattokinase · 180,000 SPU serrapeptase · 40 mg lumbrokinase · 180 mcg vitamin K2</p><div class="pm-rank-tags"><span>Enteric-coated</span><span>Soy-free</span><span>One a day</span></div></div>
+          <div class="pm-score"><strong>9.4</strong><span>/10</span></div>
+        </article>
+        <article class="pm-rank-card">
+          <div class="pm-rank-number">#2</div>
+          <div class="pm-rank-main"><h3>Separate enzyme bottles</h3><p>Nattokinase, serrapeptase, K2 bought individually · full control · four habits</p><div class="pm-rank-tags"><span>Costly</span><span>Pill fatigue</span></div></div>
+          <div class="pm-score"><strong>7.9</strong><span>/10</span></div>
+        </article>
+        <article class="pm-rank-card">
+          <div class="pm-rank-number">#3</div>
+          <div class="pm-rank-main"><h3>Low-dose capsules (2,000–4,000 FU)</h3><p>Easy to find · several a day to reach 10,000 FU · rarely enteric-coated</p><div class="pm-rank-tags"><span>Small dose</span><span>Acid exposure</span></div></div>
+          <div class="pm-score"><strong>7.1</strong><span>/10</span></div>
+        </article>
+        <article class="pm-rank-card">
+          <div class="pm-rank-number">#4</div>
+          <div class="pm-rank-main"><h3>Natto, the food</h3><p>The original · sticky and pungent · five or six servings to reach the dose</p><div class="pm-rank-tags"><span>Daily chore</span><span>Acquired taste</span></div></div>
+          <div class="pm-score"><strong>6.8</strong><span>/10</span></div>
+        </article>
+        <article class="pm-rank-card">
+          <div class="pm-rank-number">#5</div>
+          <div class="pm-rank-main"><h3>Liquid enzyme drops</h3><p>Fast · expensive per day · needs refrigeration</p><div class="pm-rank-tags"><span>Highest cost</span><span>Bulky</span></div></div>
+          <div class="pm-score"><strong>6.3</strong><span>/10</span></div>
+        </article>
+      </div>
+
+      <div class="pm-score-method">
+        <strong>How we scored:</strong>
+        <span>Likelihood you'll keep taking it 30%</span><span>What's in the serving 25%</span><span>Taste &amp; convenience 20%</span><span>Delivery &amp; dietary fit 15%</span><span>Public review signal 10%</span>
+      </div>
+    </section>
+
+    <article class="pm-article-body">
+      <p class="pm-dropcap">"Nattokinase" sounds like one product until you line five of them up: the food itself, low-dose capsules, enzyme stacks bought bottle by bottle, liquid drops, and one capsule that quietly adds serrapeptase, lumbrokinase and vitamin K2 to a 10,800 FU dose. Some of these you'll take once and forget in a cupboard. Some are easy but stop at nattokinase. Only one of the five gives you the dose from the clips plus the rest of the cardio stack in the same two-second habit.</p>
+
+      <div class="pm-article-callout"><strong>Important context:</strong><p>We sell Lucent, so this ranking is not independent. We built the scoring criteria around a nattokinase routine you'll actually keep and disclose that bias instead of pretending otherwise. Descriptions of other formats summarize how those products are commonly marketed and can change.</p></div>
+
+      <section class="pm-brand-review pm-brand-review--winner">
+        <div class="pm-brand-review__head"><span class="pm-brand-rank">#1</span><div><p class="pm-label">Top Pick</p><h2>Lucent Nattokinase 4-in-1 Cardio Complex</h2></div><div class="pm-score pm-score--large"><strong>9.4</strong><span>/10</span></div></div>
+        <div class="pm-brand-grid">
+          <div><h3>Why it ranked here</h3><ul><li>10,800 FU nattokinase per capsule, above the 10,000 FU threshold in the clips</li><li>Only format in the set with serrapeptase, lumbrokinase and vitamin K2 (MK-7) built in</li><li>Enteric-coated, soy-free, non-GMO, third-party tested, made in the USA</li><li>Rated 4.8/5 by verified buyers and shipped from the U.S.</li></ul></div>
+          <div><h3>What to know</h3><ul><li>A bottle is 60 capsules, 60 days at one a day, and most shoppers buy the 2- or 3-bottle bundle to give it a real run</li><li>Fibrinolytic enzymes and K2 affect clotting; talk to your doctor first if you take blood thinners or any prescription medicine, are pregnant or nursing, or have surgery scheduled</li></ul></div>
+        </div>
+        <blockquote class="pm-rank-quote"><span>★★★★★</span><p>"Finally one capsule, not five. Replaced the whole shelf and the dose is higher."</p><cite>Ray T. · Lucent storefront review</cite></blockquote>
+        <a class="pm-article-cta" href="{{ purl }}#product-buy"><span>See the current Lucent bundles</span><strong>Shop now →</strong></a>
+      </section>
+
+      <section class="pm-brand-review">
+        <div class="pm-brand-review__head"><span class="pm-brand-rank">#2</span><div><p class="pm-label">Most Control, Most Bottles</p><h2>Separate enzyme bottles</h2></div><div class="pm-score pm-score--large"><strong>7.9</strong><span>/10</span></div></div>
+        <div class="pm-brand-snapshot"><span><b>Format</b> 3–4 capsules from different brands</span><span><b>Serving</b> Whatever you assemble</span><span><b>Signal</b> Popular with supplement veterans</span></div>
+        <p>Buying nattokinase, serrapeptase, lumbrokinase and K2 individually gives you full control of every dose.</p>
+        <div class="pm-review-balance"><div class="is-good"><strong>Why we like it</strong><p>Total flexibility, and you can pick the brand you trust for each enzyme.</p></div><div class="is-watch"><strong>Why Lucent ranks above it for our use case</strong><p>Four bottles, four price tags and four things to remember. Most people drop at least one within a month. Lucent puts the stack in one capsule.</p></div></div>
+      </section>
+
+      <section class="pm-brand-review">
+        <div class="pm-brand-review__head"><span class="pm-brand-rank">#3</span><div><p class="pm-label">Easiest To Find</p><h2>Low-dose capsules (2,000–4,000 FU)</h2></div><div class="pm-score pm-score--large"><strong>7.1</strong><span>/10</span></div></div>
+        <div class="pm-brand-snapshot"><span><b>Format</b> Capsule</span><span><b>Serving</b> Nattokinase only</span><span><b>Signal</b> On every pharmacy shelf</span></div>
+        <p>The mass-market capsule fixes the taste problem of natto and is easy to find in stores.</p>
+        <div class="pm-review-balance"><div class="is-good"><strong>What public reviews like</strong><p>Cheap, easy, widely available.</p></div><div class="is-watch"><strong>Why Lucent ranks above it for our use case</strong><p>You'd need three to five of them to reach 10,000 FU, most aren't enteric-coated, and there's no serrapeptase, lumbrokinase or K2.</p></div></div>
+      </section>
+
+      <section class="pm-brand-review">
+        <div class="pm-brand-review__head"><span class="pm-brand-rank">#4</span><div><p class="pm-label">The Original</p><h2>Natto, the food</h2></div><div class="pm-score pm-score--large"><strong>6.8</strong><span>/10</span></div></div>
+        <div class="pm-brand-snapshot"><span><b>Format</b> Fermented soybeans</span><span><b>Serving</b> Roughly 2,000 FU per pack</span><span><b>Signal</b> Centuries of Japanese breakfasts</span></div>
+        <p>Natto started the whole conversation and is cheap per pack, which is why it comes up in every clip.</p>
+        <div class="pm-review-balance"><div class="is-good"><strong>What public reviews like</strong><p>Whole food, inexpensive, traditional.</p></div><div class="is-watch"><strong>What we'd flag</strong><p>Sticky, pungent, needs to be bought fresh, and it takes five or six packs a day to reach the dose people talk about. Almost nobody outside Japan keeps it up.</p></div></div>
+      </section>
+
+      <section class="pm-brand-review">
+        <div class="pm-brand-review__head"><span class="pm-brand-rank">#5</span><div><p class="pm-label">Highest Cost Per Day</p><h2>Liquid enzyme drops</h2></div><div class="pm-score pm-score--large"><strong>6.3</strong><span>/10</span></div></div>
+        <div class="pm-brand-snapshot"><span><b>Format</b> Dropper bottle</span><span><b>Serving</b> Nattokinase in solution</span><span><b>Signal</b> Premium pricing</span></div>
+        <p>Drops are fast to take and carry premium branding.</p>
+        <div class="pm-review-balance"><div class="is-good"><strong>What public reviews like</strong><p>Quick, no swallowing capsules.</p></div><div class="is-watch"><strong>What we'd flag</strong><p>The most expensive way to get nattokinase by a wide margin, needs refrigeration, and there's no coating to protect the enzyme from stomach acid.</p></div></div>
+      </section>
+
+      <h2>The side-by-side comparison</h2>
+      <div class="pm-article-table pm-article-table--rank" role="table" aria-label="Nattokinase format comparison">
+        <div class="pm-art-row pm-art-head"><span>Format</span><span>What's in it</span><span>Why it landed here</span></div>
+        <div class="pm-art-row is-winner"><strong>#1 Lucent capsules</strong><span>10,800 FU nattokinase + serrapeptase + lumbrokinase + K2</span><span>Full stack, enteric-coated, one-second habit</span></div>
+        <div class="pm-art-row"><strong>#2 Separate bottles</strong><span>Whatever you assemble</span><span>Flexible, but four habits</span></div>
+        <div class="pm-art-row"><strong>#3 Low-dose capsules</strong><span>2,000–4,000 FU only</span><span>Easy, but several a day</span></div>
+        <div class="pm-art-row"><strong>#4 Natto</strong><span>Whole food, ~2,000 FU per pack</span><span>Traditional, but a daily chore</span></div>
+        <div class="pm-art-row"><strong>#5 Liquid drops</strong><span>Nattokinase in solution</span><span>Fast, but the highest cost</span></div>
+      </div>
+
+      <section class="pm-ranking-verdict">
+        <p class="pm-label">The Bottom Line</p>
+        <h2>The "winner" depends on what you actually want.</h2>
+        <div class="pm-verdict-grid">
+          <article><b>Want 10,000+ FU plus serrapeptase, lumbrokinase and K2 you'll take daily?</b><strong>Lucent</strong></article>
+          <article><b>Want to control every dose and don't mind four bottles?</b><strong>Separate bottles</strong></article>
+          <article><b>Want the cheapest capsule on the shelf?</b><strong>Low-dose capsules</strong></article>
+          <article><b>Want a whole food and can handle the taste?</b><strong>Natto</strong></article>
+          <article><b>Want speed regardless of cost?</b><strong>Liquid drops</strong></article>
+        </div>
+      </section>
+
+      <h2>Why we put Lucent at #1</h2>
+      <p>Not because every alternative is bad. Natto started the whole trend and separate bottles give real control. Lucent ranks first here because the criteria are deliberately about <strong>a nattokinase routine you'll keep for 60 days</strong>, and under that lens one enteric-coated capsule that delivers 10,800 FU and also covers serrapeptase, lumbrokinase and vitamin K2 has an inherent advantage over four products that are, at their core, nattokinase and nothing else.</p>
+      <p>That's also why we disclose the methodology. If your real priority is the cheapest capsule on the shelf, the ranking changes.</p>
+
+      <div class="pm-article-bottom">
+        <p class="pm-label">Our #1 Pick For This Use Case</p>
+        <h2>Lucent Nattokinase 4-in-1 Cardio Complex</h2>
+        <p>10,800 FU nattokinase. Serrapeptase, lumbrokinase, vitamin K2. One enteric-coated capsule a day.</p>
+        <a class="pm-primary" href="{{ purl }}#product-buy">See Today's Bundles →</a>
+        <p class="pm-guarantee">60-day money-back guarantee</p>
+      </div>
+
+      <details class="pm-sources">
+        <summary>Methodology &amp; source notes</summary>
+        <div>
+          <p><strong>Lucent:</strong> serving information taken from the product's supplement facts label, September 2026.</p>
+          <p><strong>Other formats:</strong> described by category based on how those products are commonly marketed; no specific competitor was tested.</p>
+          <p>Product formulas, prices and availability can change; check current brand pages before purchasing. Individual experiences vary.</p>
+        </div>
+      </details>
+
+      <div class="pm-disclosure pm-disclosure--article">
+        <p>This is a paid advertorial produced by Lucent. Lucent is ranked #1 under criteria selected by Lucent; this is not an independent consumer-testing organization, laboratory comparison, or news report. Scores are editorial judgments, not clinical scores.</p>
+        <p>*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Consult your doctor before use if you take blood-thinning or other medication.</p>
+      </div>
+    </article>
+  </div>
+  <a class="pm-sticky-cta" href="{{ purl }}#product-buy"><span>#1 for a nattokinase routine you'll keep</span><strong>Shop Lucent →</strong></a>
+</section>
+
+{% schema %}
+{"name":"Campaign - Ranked Guide","tag":"section","settings":[]}
+{% endschema %}

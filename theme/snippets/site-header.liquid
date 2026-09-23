@@ -1,0 +1,38 @@
+{%- assign featured_product = product -%}
+{%- if featured_product == blank -%}{%- assign featured_product = settings.featured_product -%}{%- endif -%}
+{%- if featured_product == blank -%}{%- assign featured_product = all_products['lucent-nattokinase'] -%}{%- endif -%}
+{%- if featured_product == blank -%}{%- for fp_item in collections['all'].products -%}{%- if fp_item.title contains 'attokinase' -%}{%- assign featured_product = fp_item -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if featured_product == blank and collections['all'].products.size > 0 -%}{%- assign featured_product = collections['all'].products.first -%}{%- endif -%}
+{%- if featured_product != blank -%}{%- assign featured_url = featured_product.url -%}{%- else -%}{%- assign featured_url = routes.root_url -%}{%- endif -%}
+{%- assign contact_page = pages['contact'] -%}{%- if contact_page == blank -%}{%- assign contact_page = pages['contact-us'] -%}{%- endif -%}
+{%- if contact_page != blank -%}{%- assign contact_url = contact_page.url -%}{%- else -%}{%- assign contact_url = 'mailto:' | append: shop.email -%}{%- endif -%}
+
+<a href="#content" class="skip-link">Skip to content</a>
+{%- if settings.show_sale_bar != false -%}
+<div class="utilbar sale-timer" role="status" aria-live="polite" data-sale-timer>
+  <div class="wrap sale-timer__inner">
+    <div class="sale-timer__message"><span class="sale-timer__spark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><div class="sale-timer__copy"><p class="sale-timer__title">{{ settings.sale_bar_title | default: 'LAUNCH SALE' }}</p><p class="sale-timer__subtitle">{{ settings.sale_bar_subtitle | default: 'UP TO 33% OFF' }}</p></div></div>
+    <div class="sale-timer__countdown" aria-label="Time remaining in today's sale"><span class="sale-timer__unit"><strong data-sale-hours>15</strong><small>HR</small></span><span class="sale-timer__unit"><strong data-sale-minutes>00</strong><small>MIN</small></span><span class="sale-timer__unit"><strong data-sale-seconds>00</strong><small>SEC</small></span></div>
+  </div>
+</div>
+{%- endif -%}
+<header class="site-head" data-site-header>
+  <div class="wrap site-head__inner">
+    <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-menu" data-menu-toggle><span></span><span></span><span></span></button>
+    <a href="{{ routes.root_url }}" class="brand brand--center" aria-label="Lucent home"><span class="brand__type">Lucent</span></a>
+    <div class="site-head__actions"><button type="button" class="cart-bag{% if cart.item_count > 0 %} cart-bag--has-items{% endif %}" aria-label="Open cart, {{ cart.item_count }} items" data-cart-open><svg class="cart-bag__icon" viewBox="0 0 32 34" aria-hidden="true"><path class="cart-bag__body" d="M5.5 11.5h21l-1.5 18H7l-1.5-18Z"/><path class="cart-bag__handle" d="M11 12V9.5a5 5 0 0 1 10 0V12"/></svg><span class="cart-bag__count" data-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span></button></div>
+  </div>
+</header>
+<div class="menu-scrim" data-menu-scrim hidden></div>
+<aside class="menu-drawer" id="site-menu" aria-label="Main navigation" aria-hidden="true" data-menu-drawer>
+  <div class="menu-drawer__top"><span class="brand__type">Lucent</span><button type="button" class="menu-close" aria-label="Close navigation" data-menu-close>×</button></div>
+  <nav class="menu-drawer__nav">
+    <a href="{{ routes.root_url }}">Home</a>
+    <a href="{{ featured_url }}#product-buy">Shop Nattokinase</a>
+    <a href="{{ featured_url }}#why-works">Why it works</a>
+    <a href="{{ featured_url }}#pdp-formula">What's inside</a>
+    <a href="{{ featured_url }}#faq">FAQ</a>
+    <a href="{{ contact_url }}">Contact</a>
+  </nav>
+  <a href="{{ featured_url }}#product-buy" class="btn btn--block menu-drawer__cta">Shop Nattokinase</a>
+</aside>

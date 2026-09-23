@@ -1,0 +1,39 @@
+{%- comment -%}
+  Slide-in cart drawer with live Shopify cart line items and totals.
+  Line items + totals are re-rendered client-side from /cart.js so the drawer
+  always matches the live Shopify cart.
+{%- endcomment -%}
+
+<div class="cd-scrim" data-cart-scrim hidden></div>
+<aside class="cart-drawer" id="cart-drawer" aria-label="Your cart" aria-hidden="true" data-cart-drawer
+        data-cart-url="{{ routes.cart_url }}.js"
+        data-add-url="{{ routes.cart_add_url }}.js"
+        data-change-url="{{ routes.cart_change_url }}.js"
+        data-checkout-url="{{ routes.cart_url }}">
+  <header class="cart-drawer__top">
+    <h2 class="cart-drawer__title">Your cart</h2>
+    <button type="button" class="cart-drawer__close" aria-label="Close cart" data-cart-close>&times;</button>
+  </header>
+
+  <div class="cart-drawer__body" data-cart-body>
+    <div class="cart-drawer__empty" data-cart-empty>
+      <p class="cart-drawer__empty-t">Your cart is empty</p>
+      <p class="cart-drawer__empty-s">Add Lucent Nattokinase to start your one-capsule cardio habit.</p>
+    </div>
+    <ul class="cart-drawer__lines" data-cart-lines></ul>
+  </div>
+
+  <footer class="cart-drawer__foot" data-cart-foot hidden>
+    <div class="cart-drawer__totalrow">
+      <span>Total</span>
+      <strong data-cart-total>{{ cart.total_price | money }}</strong>
+    </div>
+    <p class="cart-drawer__note">Taxes &amp; shipping calculated at checkout.</p>
+    <form action="{{ routes.cart_url }}" method="post" class="cart-drawer__checkout-form">
+      <button type="submit" name="checkout" class="btn btn--block btn--lg cart-drawer__checkout" data-cart-checkout><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Secure checkout</button>
+    </form>
+    <ul class="cart-drawer__pays" aria-label="Accepted payment methods">
+      <li>Visa</li><li>Mastercard</li><li>Amex</li><li>PayPal</li><li>Apple&nbsp;Pay</li><li>G&nbsp;Pay</li><li>Shop&nbsp;Pay</li>
+    </ul>
+  </footer>
+</aside>

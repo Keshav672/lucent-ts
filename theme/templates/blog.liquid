@@ -1,0 +1,1 @@
+<section class="simple-page"><div class="wrap simple-page__article"><p class="eyebrow">Lucent journal</p><h1>{{ blog.title }}</h1><div class="search-results">{% for article in blog.articles %}<a href="{{ article.url }}">{{ article.title }}</a>{% else %}<p>No articles yet.</p>{% endfor %}</div></div></section>

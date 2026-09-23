@@ -1,0 +1,43 @@
+{%- assign contact_page = pages['contact'] -%}
+{%- if contact_page == blank -%}{%- assign contact_page = pages['contact-us'] -%}{%- endif -%}
+{%- if contact_page != blank -%}
+  {%- assign contact_url = contact_page.url -%}
+{%- else -%}
+  {%- assign contact_url = '/pages/contact' -%}
+{%- endif -%}
+<section class="policy-page shipping-returns-page">
+  <div class="wrap policy-page__wrap">
+    <header class="policy-page__header">
+      <p class="eyebrow">Lucent help</p>
+      <h1>Shipping &amp; returns</h1>
+      <p>What to expect when your Lucent order is on the way, plus the conditions for a return.</p>
+    </header>
+
+    <div class="policy-page__grid">
+      <article class="policy-card">
+        <span class="policy-card__number">01</span>
+        <h2>Shipping</h2>
+        <p>Orders have an approximate shipping time of <strong>7 days</strong>. Actual delivery timing can vary depending on destination and carrier conditions.</p>
+        <p><strong>Packaging may vary:</strong> You may receive this product in updated packaging while we transition inventory.</p>
+        <p>Once tracking is available, use the carrier updates for the most current delivery estimate.</p>
+      </article>
+
+      <article class="policy-card">
+        <span class="policy-card__number">02</span>
+        <h2>Returns</h2>
+        <p>Return requests must be made within <strong>30 days</strong>. Returns are not accepted after the 30-day window.</p>
+        <p>For hygiene and product-integrity reasons, <strong>used products cannot be returned</strong>. Eligible items must be unused and in returnable condition.</p>
+      </article>
+    </div>
+
+    <div class="policy-page__contact">
+      <h2>Need help with an order?</h2>
+      <p>If you have a delivery issue or need to ask whether an unopened item qualifies for a return, contact Lucent before sending anything back.</p>
+      <a class="btn" href="{{ contact_url }}">Contact us</a>
+    </div>
+
+    {% if page.handle == 'shipping-returns' and page.content != blank %}
+      <div class="rte policy-page__extra">{{ page.content }}</div>
+    {% endif %}
+  </div>
+</section>

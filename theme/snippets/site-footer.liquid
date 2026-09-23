@@ -1,0 +1,20 @@
+{%- assign featured_product = product -%}
+{%- if featured_product == blank -%}{%- assign featured_product = settings.featured_product -%}{%- endif -%}
+{%- if featured_product == blank -%}{%- assign featured_product = all_products['lucent-nattokinase'] -%}{%- endif -%}
+{%- if featured_product == blank -%}{%- for fp_item in collections['all'].products -%}{%- if fp_item.title contains 'attokinase' -%}{%- assign featured_product = fp_item -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if featured_product == blank and collections['all'].products.size > 0 -%}{%- assign featured_product = collections['all'].products.first -%}{%- endif -%}
+{%- if featured_product != blank -%}{%- assign featured_url = featured_product.url -%}{%- else -%}{%- assign featured_url = '/products/lucent-nattokinase' -%}{%- endif -%}
+{%- assign contact_page = pages['contact'] -%}{%- if contact_page == blank -%}{%- assign contact_page = pages['contact-us'] -%}{%- endif -%}
+{%- if contact_page != blank -%}{%- assign contact_url = contact_page.url -%}{%- else -%}{%- assign contact_url = 'mailto:' | append: shop.email -%}{%- endif -%}
+{%- assign shipping_returns_page = pages['shipping-returns'] -%}{%- if shipping_returns_page == blank -%}{%- assign shipping_returns_page = pages['shipping-and-returns'] -%}{%- endif -%}
+{%- if shipping_returns_page != blank -%}{%- assign shipping_returns_url = shipping_returns_page.url -%}{%- else -%}{%- assign shipping_returns_url = contact_url -%}{%- endif -%}
+{%- assign support_email = settings.support_email | default: shop.email -%}
+<footer class="site-foot">
+  <div class="wrap site-foot__grid">
+    <div class="foot__brand"><span class="brand__type">Lucent</span><p>Heart-directed nutrition with a cleaner, easier-to-read formula.</p></div>
+    <div class="foot__col"><h4>Shop</h4><a href="{{ featured_url }}#product-buy">Nattokinase 4-in-1</a><a href="{{ routes.cart_url }}">Cart</a></div>
+    <div class="foot__col"><h4>Learn</h4><a href="{{ featured_url }}#why-works">Why this formula</a><a href="{{ featured_url }}#pdp-formula">Supplement facts</a><a href="{{ featured_url }}#faq">FAQ</a></div>
+    <div class="foot__col"><h4>Help</h4><a href="{{ contact_url }}">Contact</a><a href="{{ shipping_returns_url }}">Shipping &amp; returns</a><a href="{{ routes.account_url }}">Account</a></div>
+  </div>
+  <div class="wrap foot__legal"><p>&copy; {{ 'now' | date: '%Y' }} Lucent · <a href="mailto:{{ support_email }}">{{ support_email }}</a></p><p class="foot__disclaimer">*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Consult a healthcare professional before use if you take blood-thinning or other medication, are pregnant or nursing, or have a medical condition.</p></div>
+</footer>

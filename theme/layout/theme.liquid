@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+{%- assign campaign_mode = false -%}
+{%- if template.name == 'product' and template.suffix == 'glow-trend' -%}{%- assign campaign_mode = true -%}{%- endif -%}
+{%- if template.name == 'product' and template.suffix == 'ranked-guide' -%}{%- assign campaign_mode = true -%}{%- endif -%}
+{%- if template.name == 'page' and template.suffix == 'glow-trend' -%}{%- assign campaign_mode = true -%}{%- endif -%}
+{%- if template.name == 'page' and template.suffix == 'ranked-guide' -%}{%- assign campaign_mode = true -%}{%- endif -%}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15161B">
+  {%- if campaign_mode -%}<meta name="robots" content="noindex,nofollow">{%- endif -%}
+  <link rel="canonical" href="{{ canonical_url }}">
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" href="{{ settings.favicon | image_url: width: 64 }}">
+  {%- endif -%}
+  <title>{{ page_title }}{% if current_page != 1 %} &ndash; {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+  {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
+
+  {{ content_for_header }}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  {{ 'lumenity.css' | asset_url | stylesheet_tag }}
+</head>
+<body class="template-{{ template.name | handle }}{% if campaign_mode %} campaign-mode{% endif %}">
+  {% if campaign_mode %}{% render 'campaign-header' %}{% else %}{% render 'site-header' %}{% endif %}
+  <main id="content" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+  {% unless campaign_mode %}{% render 'cart-drawer' %}{% endunless %}
+  {% if campaign_mode %}{% render 'campaign-footer' %}{% else %}{% render 'site-footer' %}{% endif %}
+  <script src="{{ 'lumenity.js' | asset_url }}" defer></script>
+</body>
+</html>

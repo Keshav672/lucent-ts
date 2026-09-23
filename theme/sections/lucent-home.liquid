@@ -1,0 +1,144 @@
+{%- comment -%}
+  Lucent Nattokinase homepage, short, punchy gateway
+  (hero + promise strip + GIF teaser + why + testimonials + trust marquee + CTA)
+  that pushes to the full product page.
+{%- endcomment -%}
+{%- assign p = settings.featured_product -%}
+{%- if p == blank -%}{%- assign p = all_products['lucent-nattokinase'] -%}{%- endif -%}
+{%- if p == blank -%}{%- for fp_item in collections['all'].products -%}{%- if fp_item.title contains 'attokinase' -%}{%- assign p = fp_item -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if p == blank and collections['all'].products.size > 0 -%}{%- assign p = collections['all'].products.first -%}{%- endif -%}
+{%- if p != blank -%}{%- assign purl = p.url -%}{%- assign pv = p.selected_or_first_available_variant -%}{%- else -%}{%- assign purl = routes.root_url -%}{%- endif -%}
+{%- assign s = section.settings -%}
+
+<section class="lhero">
+  <div class="wrap lhero__grid">
+    <div class="lhero__copy">
+      <p class="lhero__eyebrow">{{ s.hero_eyebrow | default: "The daily cardio capsule" }}</p>
+      <h1 class="lhero__title">{{ s.hero_title | default: "Japan's longevity habit. One capsule." }}</h1>
+      <p class="lhero__sub">{{ s.hero_subtitle | default: "10,800 FU nattokinase with serrapeptase, lumbrokinase and vitamin K2 (MK-7), sealed in one enteric-coated capsule a day. Soy-free, third-party tested, made in the USA." }}</p>
+      <div class="lhero__actions">
+        <a href="{{ purl }}" class="btn btn--lg">Shop Nattokinase</a>
+        <a href="{{ purl }}#demo" class="link-arrow">Watch it work <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="lhero__rating"><span class="stars" data-stars="5.0" aria-hidden="true">★★★★★</span> <strong>{{ s.hero_rating | default: '4.8' }}</strong> · {{ s.hero_reviews | default: '1,184' }} reviews · {{ s.hero_proof | default: '4k+ bottles shipped this month' }}</div>
+      <ul class="lhero__chips"><li>10,800 FU</li><li>Enteric-coated</li><li>Soy-free</li><li>60 capsules</li></ul>
+    </div>
+    <figure class="lhero__shot">
+      <img src="{{ 'lucent-hero.jpg' | asset_url }}" width="1024" height="1024" alt="Lucent Nattokinase 4-in-1 Cardio Complex" loading="eager">
+    </figure>
+  </div>
+</section>
+
+<section class="strip" aria-label="Product promise">
+  <div class="wrap"><p class="strip__line">{{ s.strip_text | default: "Circulation. Fibrin balance. Calcium where it belongs." }} <span>{{ s.strip_text_accent | default: "One capsule. Once a day. Done." }}</span></p></div>
+</section>
+
+{%- comment -%} GIF teaser ===== {%- endcomment -%}
+<section class="lgif">
+  <div class="wrap lgif__grid">
+    <figure class="lgif__phone"><img src="{{ 'gif-hero-teaser.gif' | asset_url }}" alt="One Lucent Nattokinase capsule held up to the camera" width="270" height="480" loading="lazy"><span class="lgif__cap">{{ s.lgif_cap | default: "60 capsules · 1 a day" }}</span></figure>
+    <div class="lgif__copy">
+      <p class="eyebrow">{{ s.lgif_eyebrow | default: "Why people love it" }}</p>
+      <h2>{{ s.lgif_title | default: "When eating natto every day isn't happening, make this the one-capsule fix." }}</h2>
+      <p>{{ s.lgif_body | default: "No fermented soybeans, no smell, no four-bottle enzyme stack. Take one capsule with breakfast and get nattokinase, serrapeptase, lumbrokinase and vitamin K2 in one go." }}</p>
+      <ul class="lgif__list">
+        <li>10,800 FU nattokinase, above the 10,000 FU threshold*</li>
+        <li>Serrapeptase &amp; lumbrokinase for healthy blood flow*</li>
+        <li>Vitamin K2 (MK-7) to direct calcium to bones*</li>
+      </ul>
+      <a href="{{ purl }}" class="btn">Try risk-free</a>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Why it works ===== {%- endcomment -%}
+<section class="works">
+  <div class="wrap">
+    <header class="sec-head"><p class="eyebrow">{{ s.works_eyebrow | default: "Why it works so well" }}</p><h2>{{ s.works_title | default: "Four cardio enzymes and nutrients in one capsule, not four bottles." }}</h2></header>
+    <div class="works__grid">
+      <article class="work"><span class="work__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><h3>Flows</h3><p>10,800 FU nattokinase supports healthy fibrin balance and circulation.*</p></article>
+      <article class="work"><span class="work__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="m8 12 3 3 5-6"/></svg></span><h3>Clears</h3><p>Serrapeptase and lumbrokinase, the systemic enzymes studied for healthy blood flow.*</p></article>
+      <article class="work"><span class="work__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 20V9l6-5 6 5v11"/><path d="M10 20v-6h4v6"/></svg></span><h3>Directs</h3><p>Vitamin K2 (MK-7) helps put calcium in bones, not soft tissue.*</p></article>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Testimonials teaser ===== {%- endcomment -%}
+<section class="tmi">
+  <div class="wrap">
+    <header class="sec-head"><p class="eyebrow">{{ s.testimonials_eyebrow | default: "Straight from the comments" }}</p><h2>{{ s.testimonials_title | default: "Why customers keep reordering." }}</h2></header>
+    <div class="tmi__grid">
+      <figure class="tmi__card"><span class="tmi__av" style="--a:#8E2C2C;--b:#E7C873">RT</span><figcaption><span class="tmi__stars" aria-hidden="true">★★★★★</span><h3>Finally one capsule, not five</h3><p>“Replaced three bottles with one, and the dose is higher than what I was taking.”</p><cite>Ray T., 58</cite></figcaption></figure>
+      <figure class="tmi__card"><span class="tmi__av" style="--a:#15161B;--b:#C9A24A">DM</span><figcaption><span class="tmi__stars" aria-hidden="true">★★★★★</span><h3>My dad takes it now too</h3><p>“Saw the clip, ordered the 3-pack. He says his legs feel lighter on his evening walk.”</p><cite>Denise M., 44</cite></figcaption></figure>
+      <figure class="tmi__card"><span class="tmi__av" style="--a:#2A2C34;--b:#E7C873">KL</span><figcaption><span class="tmi__stars" aria-hidden="true">★★★★★</span><h3>Tried natto. Never again.</h3><p>“Lasted four days on natto. Same enzyme, no smell, no stomach upset.”</p><cite>Ken L., 51</cite></figcaption></figure>
+    </div>
+    <p class="tmi__cta"><a href="{{ purl }}#reviews" class="link-arrow">Read all reviews <span aria-hidden="true">→</span></a></p>
+  </div>
+</section>
+
+{%- comment -%} Trust marquee ===== {%- endcomment -%}
+<section class="press" aria-label="Quality standards">
+  <div class="wrap">
+    <p class="press__label">{{ s.press_label | default: "Made to a standard" }}</p>
+    <div class="press__marquee" role="img" aria-label="10,800 FU per capsule, third-party tested, made in the USA, enteric-coated, soy-free, non-GMO">
+      <ul class="press__logos press__track" aria-hidden="true">
+        {%- for i in (1..4) -%}
+        <li><span class="press__wm press__wm--marie">10,800 FU</span></li>
+        <li><span class="press__wm press__wm--strategist">Third-party tested</span></li>
+        <li><span class="press__wm press__wm--glamour">MADE IN USA</span></li>
+        <li><span class="press__wm press__wm--strategist">Enteric-coated</span></li>
+        <li><span class="press__wm press__wm--marie">Soy-free</span></li>
+        <li><span class="press__wm press__wm--strategist">Non-GMO</span></li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="final"><div class="wrap final__inner"><p class="eyebrow eyebrow--light">{{ s.final_eyebrow | default: "The daily cardio capsule" }}</p><h2>{{ s.final_title | default: "Make the one-capsule cardio habit part of your morning." }}</h2><p>{{ s.final_body | default: "10,800 FU nattokinase, serrapeptase, lumbrokinase and vitamin K2 in one enteric-coated capsule a day." }}</p><a href="{{ purl }}#product-buy" class="btn btn--invert btn--lg">Shop Nattokinase</a></div></section>
+
+{% if pv %}
+<div class="sticky-cta" aria-label="Quick shop">
+  <div class="sticky-cta__info"><span class="sticky-cta__name">{{ p.title }}</span><span class="sticky-cta__price">{{ pv.price | money }}</span></div>
+  <a class="btn btn--sm" href="{{ purl }}#product-buy">Shop now</a>
+</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Lucent Home",
+  "tag": "section",
+  "settings": [
+    {"type":"header","content":"Hero"},
+    {"type":"text","id":"hero_eyebrow","label":"Hero eyebrow","default":"The daily cardio capsule"},
+    {"type":"textarea","id":"hero_title","label":"Hero heading","default":"Japan's longevity habit. One capsule."},
+    {"type":"textarea","id":"hero_subtitle","label":"Hero subtitle","default":"10,800 FU nattokinase with serrapeptase, lumbrokinase and vitamin K2 (MK-7), sealed in one enteric-coated capsule a day. Soy-free, third-party tested, made in the USA."},
+    {"type":"text","id":"hero_rating","label":"Hero rating","default":"4.8"},
+    {"type":"text","id":"hero_reviews","label":"Hero review count","default":"1,184"},
+    {"type":"text","id":"hero_proof","label":"Hero social proof","default":"4k+ bottles shipped this month"},
+
+    {"type":"header","content":"Promise strip"},
+    {"type":"text","id":"strip_text","label":"Strip text","default":"Circulation. Fibrin balance. Calcium where it belongs."},
+    {"type":"text","id":"strip_text_accent","label":"Strip accent text","default":"One capsule. Once a day. Done."},
+
+    {"type":"header","content":"GIF teaser"},
+    {"type":"text","id":"lgif_cap","label":"Teaser image caption","default":"60 capsules · 1 a day"},
+    {"type":"text","id":"lgif_eyebrow","label":"Teaser eyebrow","default":"Why people love it"},
+    {"type":"textarea","id":"lgif_title","label":"Teaser heading","default":"When eating natto every day isn't happening, make this the one-capsule fix."},
+    {"type":"textarea","id":"lgif_body","label":"Teaser body","default":"No fermented soybeans, no smell, no four-bottle enzyme stack. Take one capsule with breakfast and get nattokinase, serrapeptase, lumbrokinase and vitamin K2 in one go."},
+
+    {"type":"header","content":"Why it works / testimonials / trust"},
+    {"type":"text","id":"works_eyebrow","label":"Why-it-works eyebrow","default":"Why it works so well"},
+    {"type":"text","id":"works_title","label":"Why-it-works heading","default":"Four cardio enzymes and nutrients in one capsule, not four bottles."},
+    {"type":"text","id":"testimonials_eyebrow","label":"Testimonials eyebrow","default":"Straight from the comments"},
+    {"type":"text","id":"testimonials_title","label":"Testimonials heading","default":"Why customers keep reordering."},
+    {"type":"text","id":"press_label","label":"Trust strip label","default":"Made to a standard"},
+
+    {"type":"header","content":"Final CTA"},
+    {"type":"text","id":"final_eyebrow","label":"Final CTA eyebrow","default":"The daily cardio capsule"},
+    {"type":"text","id":"final_title","label":"Final CTA heading","default":"Make the one-capsule cardio habit part of your morning."},
+    {"type":"textarea","id":"final_body","label":"Final CTA body","default":"10,800 FU nattokinase, serrapeptase, lumbrokinase and vitamin K2 in one enteric-coated capsule a day."}
+  ],
+  "presets": [{"name":"Lucent Home"}]
+}
+{% endschema %}

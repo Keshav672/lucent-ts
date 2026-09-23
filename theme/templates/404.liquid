@@ -1,0 +1,13 @@
+{%- assign fp = settings.featured_product -%}
+{%- if fp == blank -%}{%- assign fp = all_products['lucent-nattokinase'] -%}{%- endif -%}
+{%- if fp == blank -%}{%- for fp_item in collections['all'].products -%}{%- if fp_item.title contains 'attokinase' -%}{%- assign fp = fp_item -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if fp == blank and collections['all'].products.size > 0 -%}{%- assign fp = collections['all'].products.first -%}{%- endif -%}
+{%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.root_url -%}{%- endif -%}
+<section class="simple-page simple-page--center"><div class="wrap simple-page__narrow"><p class="eyebrow">404</p><h1>That page slipped away.</h1><p>Nothing is broken, there just isn't a page at this address.</p><a class="btn btn--lg" href="{{ fp_url }}">Shop Nattokinase</a> <a class="link-arrow" href="{{ routes.root_url }}" style="margin-left:16px">Back to Lucent</a></div></section>
+<script>
+  /* Old or mistyped product / collection links land on the live product page instead of dead-ending. */
+  (function () {
+    var p = window.location.pathname;
+    if (/^\/(products|collections)\//.test(p)) { window.location.replace({{ fp_url | json }} + '#product-buy'); }
+  })();
+</script>

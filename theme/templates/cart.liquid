@@ -1,0 +1,72 @@
+{%- assign featured_product = settings.featured_product -%}
+{%- if featured_product == blank -%}{%- assign featured_product = all_products['lucent-nattokinase'] -%}{%- endif -%}
+{%- if featured_product == blank -%}{%- for fp_item in collections['all'].products -%}{%- if fp_item.title contains 'attokinase' -%}{%- assign featured_product = fp_item -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if featured_product == blank and collections['all'].products.size > 0 -%}{%- assign featured_product = collections['all'].products.first -%}{%- endif -%}
+{%- if featured_product != blank -%}{%- assign featured_url = featured_product.url -%}{%- else -%}{%- assign featured_url = routes.root_url -%}{%- endif -%}
+<section class="cart-page" data-cart-change-url="{{ routes.cart_change_url }}.js">
+  <div class="wrap cart-shell">
+    <header class="cart-head">
+      <h1>Your cart</h1>
+      <a href="{{ featured_url }}">Continue shopping</a>
+    </header>
+
+    {% if cart.item_count == 0 %}
+      <div class="cart-empty">
+        <h2>Your cart is empty.</h2>
+        <p>Add Lucent Nattokinase when you're ready to start the one-capsule cardio habit.</p>
+        <a href="{{ featured_url }}" class="btn btn--lg">Shop Nattokinase</a>
+      </div>
+    {% else %}
+      {%- form 'cart', cart, id: 'cart-form' -%}
+        <div class="cart-list">
+          {% for item in cart.items %}
+            <article class="cart-item" data-cart-item data-cart-line="{{ forloop.index }}">
+              <a class="cart-item__media" href="{{ item.url }}" aria-label="View {{ item.product.title | escape }}">
+                {% if item.image %}
+                  <img src="{{ item.image | image_url: width: 240 }}" alt="{{ item.image.alt | default: item.product.title | escape }}" width="208" height="208" loading="lazy">
+                {% endif %}
+              </a>
+
+              <div class="cart-item__body">
+                <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
+                {% unless item.product.has_only_default_variant %}
+                  <p class="cart-item__variant">{{ item.variant.title }}</p>
+                {% endunless %}
+
+                <div class="cart-item__controls">
+                  <div class="qty-stepper" data-cart-qty>
+                    <button type="button" class="qty-stepper__btn" data-cart-minus aria-label="Decrease {{ item.product.title | escape }} quantity">&minus;</button>
+                    <input
+                      class="qty-stepper__input"
+                      type="number"
+                      name="updates[{{ item.key }}]"
+                      value="{{ item.quantity }}"
+                      min="0"
+                      inputmode="numeric"
+                      aria-label="Quantity for {{ item.product.title | escape }}"
+                      data-cart-quantity
+                    >
+                    <button type="button" class="qty-stepper__btn" data-cart-plus aria-label="Increase {{ item.product.title | escape }} quantity">+</button>
+                  </div>
+                  <a href="{{ item.url_to_remove }}" class="cart-item__remove">Remove</a>
+                </div>
+              </div>
+
+              <div class="cart-item__price">{{ item.final_line_price | money }}</div>
+            </article>
+          {% endfor %}
+        </div>
+
+        <div class="cart-summary">
+          <p class="cart-ajax-status" data-cart-status role="status" aria-live="polite"></p>
+          <div class="cart-summary__row">
+            <span>Subtotal</span>
+            <strong>{{ cart.total_price | money }}</strong>
+          </div>
+          <p class="cart-summary__note">Shipping and taxes are calculated at checkout.</p>
+          <button type="submit" name="checkout" class="btn btn--lg">Checkout securely</button>
+        </div>
+      {%- endform -%}
+    {% endif %}
+  </div>
+</section>

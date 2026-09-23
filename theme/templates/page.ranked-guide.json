@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "campaign": {
+      "type": "campaign-ranked-guide",
+      "settings": {}
+    }
+  },
+  "order": ["campaign"]
+}

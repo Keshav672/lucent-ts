@@ -1,0 +1,124 @@
+{%- assign cp = product -%}
+{%- if cp == blank -%}{%- assign cp = settings.featured_product -%}{%- endif -%}
+{%- if cp == blank -%}{%- assign cp = all_products['lucent-nattokinase'] -%}{%- endif -%}
+{%- if cp == blank -%}{%- for fp_item in collections['all'].products -%}{%- if fp_item.title contains 'attokinase' -%}{%- assign cp = fp_item -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if cp == blank and collections['all'].products.size > 0 -%}{%- assign cp = collections['all'].products.first -%}{%- endif -%}
+{%- if cp != blank -%}{%- assign purl = cp.url -%}{%- else -%}{%- assign purl = routes.root_url -%}{%- endif -%}
+
+<section class="pm-ad pm-ad--five-things">
+  <div class="pm-shell">
+    <div class="pm-top-proof">★★★★★ <strong>Rated 4.8/5 by verified buyers · ships from the U.S.</strong></div>
+
+    <header class="pm-lead">
+      <h1>"Why is nobody talking about this?" <span>We looked into the nattokinase clip that's all over everyone's feed</span></h1>
+      <p class="pm-deck">The clip everyone's seen has a podcast host being told about an enzyme from fermented Japanese soybeans and asking why nobody's talking about it. Here's what nattokinase actually is, why the 10,000 FU number keeps coming up, and what to know before you buy a bottle.</p>
+      <a class="pm-primary" href="{{ purl }}#product-buy">See today's bundles →</a>
+      <p class="pm-guarantee">60-Day Money-Back Guarantee</p>
+    </header>
+
+    <figure class="pm-hero-image pm-photo pm-video-figure">
+      <video class="pm-inline-video" controls playsinline preload="metadata" poster="{{ 'demo-pop-poster.jpg' | asset_url }}" width="1400" height="820">
+        <source src="{{ 'demo-pop.mp4' | asset_url }}" type="video/mp4">
+      </video>
+      <figcaption>The hook that put this on everyone's feed: "The Japanese eat natto like it's candy. Guess which country leads the world in heart-related deaths."</figcaption>
+    </figure>
+
+    <section class="pm-mini-intro">
+      <p class="pm-label">What Nattokinase Actually Is</p>
+      <h2>It's the enzyme natto produces while it ferments, and it's been in the Japanese diet for generations.</h2>
+      <p>Natto is fermented soybeans, a traditional breakfast food in Japan. During fermentation the Bacillus subtilis culture produces nattokinase, an enzyme studied for its role in supporting healthy fibrin balance and circulation. Large studies of Japanese adults have linked higher natto intake with better long-term outcomes, which is why longevity keeps coming up in the clips. Lucent puts 10,800 FU of it in one enteric-coated capsule, then adds serrapeptase, lumbrokinase and vitamin K2.*</p>
+    </section>
+
+    <section class="pm-reason">
+      <div class="pm-reason-head"><span>Not New, Just Easier</span><b>01</b></div>
+      <h2>Natto has been eaten for centuries. This is the same enzyme, minus the acquired taste.</h2>
+      <p>Natto is sticky, it smells, and it takes five or six servings to reach the 10,000 FU people talk about. Most people who try eating it daily quit within a week. A capsule removes every step except "take one."</p>
+      <a class="pm-text-cta" href="{{ purl }}#why-works">see how the formula works →</a>
+    </section>
+
+    <section class="pm-reason">
+      <div class="pm-reason-head"><span>Four Enzymes And Nutrients, One Capsule</span><b>02</b></div>
+      <h2>Most nattokinase is one ingredient. This one is the full cardio stack.</h2>
+      <p>Alongside 10,800 FU nattokinase, each capsule carries 180,000 SPU serrapeptase, studied for a healthy inflammatory response, 40 mg lumbrokinase, studied for fibrin breakdown and healthy blood flow, and 180 mcg vitamin K2 as MK-7, which helps direct calcium into bones instead of soft tissue.*</p>
+      <a class="pm-text-cta" href="{{ purl }}#product-buy">check today's price and bundles →</a>
+    </section>
+
+    <section class="pm-reason">
+      <div class="pm-reason-head"><span>Enteric-Coated, Soy-Free</span><b>03</b></div>
+      <h2>Not a gummy, not a shake, not a soybean.</h2>
+      <p>Enzymes are proteins, and stomach acid breaks proteins down. The delayed-release capsule is designed to pass the stomach and release in the intestines. The finished capsule is soy-free, non-GMO, third-party tested and made in the USA. Sixty capsules, one habit.</p>
+      <a class="pm-text-cta" href="{{ purl }}#pdp-formula">see what's inside →</a>
+    </section>
+
+    <section class="pm-reason">
+      <div class="pm-reason-head"><span>Honest Expectations</span><b>04</b></div>
+      <h2>It's a daily habit, not an overnight switch.</h2>
+      <p>The people posting about it took a capsule every day for at least a bottle. Give it the full 60 days, and talk to your doctor first if you take blood thinners or any prescription medicine. That's why most shoppers pick the 2-bottle or 3-bottle bundle.</p>
+      <a class="pm-text-cta" href="{{ purl }}#faq">read the full FAQ →</a>
+    </section>
+
+    <section class="pm-reason">
+      <div class="pm-reason-head"><span>The Aisle Is Confusing</span><b>05</b></div>
+      <h2>"Nattokinase" is not one product.</h2>
+      <div class="pm-competitor-cards">
+        <article><strong>Natto, the food</strong><p>The original source, but sticky, pungent, and five or six servings to reach 10,000 FU.</p></article>
+        <article><strong>2,000 FU capsules</strong><p>Easy to find, but you need several a day to reach the dose people talk about, and most aren't enteric-coated.</p></article>
+        <article><strong>Separate enzyme bottles</strong><p>Nattokinase here, serrapeptase there, K2 somewhere else. Four bottles, four habits, four price tags.</p></article>
+        <article class="is-featured"><strong>Lucent Nattokinase 4-in-1</strong><p>10,800 FU nattokinase plus serrapeptase, lumbrokinase and vitamin K2 (MK-7) in one enteric-coated capsule.</p></article>
+      </div>
+      <p>None of the alternatives are automatically wrong for everyone. Lucent is built for the person who wants the dose from the clips, with the rest of the cardio stack included, in a capsule they'll actually take every day.</p>
+      <a class="pm-text-cta" href="{{ purl }}#product-buy">see today's Lucent bundles →</a>
+    </section>
+
+    <section class="pm-voices">
+      <h2>Here's what people have to say about Lucent</h2>
+      <p class="pm-section-deck">The feedback repeats the same themes: one capsule replaced a shelf of bottles, no natto smell, and it's easy to keep up.</p>
+      <div class="pm-voice-grid">
+        <blockquote><span>★★★★★</span><p>"Finally one capsule, not five. The dose is higher than what I was taking, too."</p><cite>Ray T. · Verified buyer</cite></blockquote>
+        <blockquote><span>★★★★☆</span><p>"Give it the full bottle. Week one nothing, week four my dad said his legs felt lighter on his walk."</p><cite>Denise M. · Verified buyer</cite></blockquote>
+        <blockquote><span>★★★★★</span><p>"Tried natto for four days. Never again. This is the enzyme without the smell."</p><cite>Ken L. · Verified buyer</cite></blockquote>
+      </div>
+    </section>
+
+    <section class="pm-problem-grid-section">
+      <p class="pm-label">What's Actually At Stake</p>
+      <h2>The habit this is built for is the one you keep skipping.</h2>
+      <div class="pm-problem-grid">
+        <article><span>01</span><h3>You bought natto and stopped</h3><p>Most tubs end up in the back of the fridge because eating fermented soybeans every morning is a chore.</p></article>
+        <article><span>02</span><h3>Your family history worries you</h3><p>Nattokinase, serrapeptase and lumbrokinase are the enzymes studied for healthy fibrin balance and circulation.*</p></article>
+        <article><span>03</span><h3>You're tired of a counter full of bottles</h3><p>Nattokinase, serrapeptase, lumbrokinase and K2 in one capsule replaces four.</p></article>
+        <article><span>04</span><h3>You want soy-free and tested</h3><p>Soy-free, non-GMO, enteric-coated, third-party tested, made in the USA.</p></article>
+      </div>
+    </section>
+
+    <section class="pm-comments">
+      <h2>Don't take our word for it. Ask the questions shoppers actually ask.</h2>
+      <p class="pm-section-deck">Skepticism first, clear answer second.</p>
+      <div class="pm-comment-thread">
+        <div class="pm-comment"><div class="pm-avatar">JM</div><div><strong>Jordan M.</strong><p>Is 10,800 FU actually higher than the normal capsules?</p><small>Question from a shopper</small></div></div>
+        <div class="pm-comment pm-comment--reply"><div class="pm-avatar">L</div><div><strong>Lucent</strong><p>Yes. Most single capsules on the shelf are 2,000 to 4,000 FU. Lucent is 10,800 FU per capsule, and the FU activity is third-party tested per batch.</p><small>Brand response</small></div></div>
+        <div class="pm-comment"><div class="pm-avatar">AK</div><div><strong>Avery K.</strong><p>Is this the same bottle I keep seeing in videos?</p><small>Question from a shopper</small></div></div>
+        <div class="pm-comment pm-comment--reply"><div class="pm-avatar">L</div><div><strong>Lucent</strong><p>Yes, the same Lucent Nattokinase 4-in-1 Cardio Complex, 10,800 FU nattokinase with serrapeptase, lumbrokinase and vitamin K2, 60 capsules, shipped from the U.S.</p><small>Brand response</small></div></div>
+      </div>
+    </section>
+
+    <section class="pm-final">
+      <p class="pm-label pm-label--light">Built for the two seconds after breakfast</p>
+      <h2>Japan's habit, no natto.</h2>
+      <p>10,800 FU nattokinase. Serrapeptase, lumbrokinase, vitamin K2. One enteric-coated capsule a day.</p>
+      <a class="pm-primary pm-primary--light" href="{{ purl }}#product-buy">See Today's Bundles →</a>
+      <p class="pm-guarantee pm-guarantee--light">60-day money-back guarantee</p>
+    </section>
+
+    <div class="pm-disclosure">
+      <p>This is an advertorial and advertisement for Lucent Nattokinase 4-in-1 Cardio Complex, not an independent news article or consumer-protection report. Category descriptions summarize publicly marketed positioning and may change.</p>
+      <p>*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Consult your doctor before use if you take blood-thinning or other medication. Customer-review figures reflect first-party storefront claims. Individual experiences vary.</p>
+    </div>
+  </div>
+
+  <a class="pm-sticky-cta" href="{{ purl }}#product-buy"><span>The nattokinase with the full cardio stack built in</span><strong>Shop now →</strong></a>
+</section>
+
+{% schema %}
+{"name":"Campaign - Viral Clip","tag":"section","settings":[]}
+{% endschema %}

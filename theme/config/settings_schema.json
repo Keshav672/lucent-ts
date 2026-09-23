@@ -1,0 +1,26 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Lucent Nattokinase",
+    "theme_version": "1.0.0",
+    "theme_author": "Lucent",
+    "theme_documentation_url": "https://shoplucent.net",
+    "theme_support_url": "https://shoplucent.net/pages/contact"
+  },
+  {
+    "name": "Store",
+    "settings": [
+      {"type": "product", "id": "featured_product", "label": "Featured product", "info": "The product every Shop link, the home page and the cart point to. Defaults to the product with handle lucent-nattokinase."},
+      {"type": "image_picker", "id": "favicon", "label": "Favicon"},
+      {"type": "text", "id": "support_email", "label": "Support email", "default": "hello@shoplucent.com"}
+    ]
+  },
+  {
+    "name": "Announcement bar",
+    "settings": [
+      {"type": "checkbox", "id": "show_sale_bar", "label": "Show sale countdown bar", "default": true},
+      {"type": "text", "id": "sale_bar_title", "label": "Title", "default": "LAUNCH SALE"},
+      {"type": "text", "id": "sale_bar_subtitle", "label": "Subtitle", "default": "UP TO 33% OFF"}
+    ]
+  }
+]

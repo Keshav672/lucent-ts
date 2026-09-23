@@ -1,0 +1,7 @@
+{%- assign campaign_product = product -%}
+{%- if campaign_product == blank -%}{%- assign campaign_product = settings.featured_product -%}{%- endif -%}
+{%- if campaign_product == blank -%}{%- assign campaign_product = all_products['lucent-nattokinase'] -%}{%- endif -%}
+{%- if campaign_product == blank -%}{%- for fp_item in collections['all'].products -%}{%- if fp_item.title contains 'attokinase' -%}{%- assign campaign_product = fp_item -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if campaign_product == blank and collections['all'].products.size > 0 -%}{%- assign campaign_product = collections['all'].products.first -%}{%- endif -%}
+{%- if campaign_product != blank -%}{%- assign campaign_link = campaign_product.url -%}{%- else -%}{%- assign campaign_link = routes.root_url -%}{%- endif -%}
+<header class="campaign-header"><div class="campaign-header__in"><a class="campaign-brand" href="{{ campaign_link }}">THE HEART DESK</a><a class="campaign-shop" href="{{ campaign_link }}#product-buy">Shop Lucent</a></div></header>
