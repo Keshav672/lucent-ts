@@ -337,81 +337,286 @@
 
 {% schema %}
 {
-  "name":"Nattokinase PDP",
-  "tag":"section",
-  "settings":[
-    {"type":"header","content":"Buy box"},
-    {"type":"text","id":"pdp_eyebrow","label":"Product eyebrow","default":"The daily cardio capsule"},
-    {"type":"text","id":"pdp_lead_strong","label":"Lead bold intro","default":"Japan's longevity habit, without the natto."},
-    {"type":"text","id":"pdp_lead_body","label":"Lead body text","default":"10,800 FU nattokinase with serrapeptase, lumbrokinase and vitamin K2 (MK-7) in one enteric-coated capsule a day"},
-    {"type":"text","id":"cta_text","label":"Add to cart text","default":"Add to cart"},
-    {"type":"text","id":"sale_label","label":"Sale badge prefix (optional, keep short)","default":""},
-    {"type":"checkbox","id":"show_dynamic_checkout","label":"Show accelerated checkout","default":false},
-
-    {"type":"header","content":"Social proof"},
-    {"type":"text","id":"rating","label":"Star rating (display)","default":"4.8","info":"Uses reviews metafields first. Enter a verified fallback only if needed."},
-    {"type":"text","id":"review_count","label":"Review count (display)","default":"1,184"},
-    {"type":"text","id":"monthly_social_proof","label":"Monthly social-proof pill","default":"4k+ bottles shipped this month."},
-    {"type":"text","id":"guarantee_days","label":"Money-back days","default":"60"},
-
-    {"type":"header","content":"How-it-works section"},
-    {"type":"text","id":"founder_badge","label":"Band badge","default":"1 a day"},
-    {"type":"text","id":"founder_eyebrow","label":"Band eyebrow","default":"One capsule. Once a day. Done."},
-    {"type":"textarea","id":"founder_title","label":"Band heading","default":"Japan's longevity habit, without eating natto every day."},
-    {"type":"textarea","id":"founder_body","label":"Band body","default":"Japan is famous for long life, and fermented natto has been on the table there for generations. The catch is the taste. Lucent puts 10,800 FU of nattokinase in one enteric-coated capsule, then adds serrapeptase, lumbrokinase and vitamin K2 so the whole cardio stack is one habit instead of four bottles."},
-
-    {"type":"header","content":"Video section"},
-    {"type":"text","id":"demo_eyebrow","label":"Video section eyebrow","default":"The clip everyone's asking about"},
-    {"type":"text","id":"demo_title","label":"Video section heading","default":"See why nattokinase is going viral."},
-    {"type":"textarea","id":"demo_subtitle","label":"Video section subtitle","default":"Real people, real routines. One capsule a day, no fermented soybeans, no acquired taste."},
-    {"type":"text","id":"demo_cta_text","label":"Video section button text","default":"Try it risk-free, today"},
-
-    {"type":"header","content":"Results stats (animated)"},
-    {"type":"text","id":"stats_eyebrow","label":"Stats eyebrow","default":"What customers are saying"},
-    {"type":"text","id":"stats_title","label":"Stats heading","default":"Results felt by those who switched to Lucent"},
-    {"type":"text","id":"stat1_value","label":"Stat 1 %","default":"91"},
-    {"type":"text","id":"stat1_label","label":"Stat 1 label","default":"said they felt more energetic and “lighter” after the first bottle"},
-    {"type":"text","id":"stat2_value","label":"Stat 2 %","default":"88"},
-    {"type":"text","id":"stat2_label","label":"Stat 2 label","default":"said it was easier to keep than eating natto every day"},
-    {"type":"text","id":"stat3_value","label":"Stat 3 %","default":"96"},
-    {"type":"text","id":"stat3_label","label":"Stat 3 label","default":"preferred one capsule to a four-bottle enzyme stack"},
-    {"type":"textarea","id":"stats_note","label":"Stats note","default":"*Customer-reported feedback from post-purchase surveys after 30 days. Individual results vary."},
-
-    {"type":"header","content":"Why it works section"},
-    {"type":"text","id":"works_eyebrow","label":"Why-it-works eyebrow","default":"Why it works so well"},
-    {"type":"text","id":"works_title","label":"Why-it-works heading","default":"Four cardio enzymes and nutrients in one capsule, not four bottles."},
-
-    {"type":"header","content":"Testimonials section"},
-    {"type":"text","id":"testimonials_eyebrow","label":"Testimonials eyebrow","default":"Straight from the comments"},
-    {"type":"text","id":"testimonials_title","label":"Testimonials heading","default":"Why customers keep reordering."},
-
-    {"type":"header","content":"Second demo section"},
-    {"type":"text","id":"demo2_badge","label":"Second demo badge","default":"60-day bottle"},
-    {"type":"text","id":"demo2_eyebrow","label":"Second demo eyebrow","default":"See it for yourself"},
-    {"type":"textarea","id":"demo2_title","label":"Second demo heading","default":"Keep things flowing. One capsule at a time."},
-    {"type":"textarea","id":"demo2_body","label":"Second demo body","default":"Sixty enteric-coated capsules, one simple habit. Nattokinase for fibrin balance, serrapeptase and lumbrokinase for healthy blood flow, and vitamin K2 to keep calcium in your bones."},
-    {"type":"text","id":"demo2_cta_text","label":"Second demo button text","default":"Try it today, risk-free"},
-
-    {"type":"header","content":"Compare section"},
-    {"type":"text","id":"compare_eyebrow","label":"Compare eyebrow","default":"Skip the natto. Skip the four bottles."},
-    {"type":"text","id":"compare_title","label":"Compare heading","default":"Eating natto daily is a chore. This isn't."},
-    {"type":"textarea","id":"compare_body","label":"Compare body","default":"Natto has to be bought fresh, stirred and swallowed with that smell, and it takes several servings to reach 10,000 FU. Lucent seals the full cardio stack into one enteric-coated capsule."},
-
-    {"type":"header","content":"What's inside section"},
-    {"type":"text","id":"formula_eyebrow","label":"Section eyebrow","default":"What's inside"},
-    {"type":"text","id":"formula_title","label":"Section heading","default":"Every capsule, on the label."},
-    {"type":"textarea","id":"formula_body","label":"Section body","default":"Serving size 1 capsule · 60 servings per bottle · delayed-release vegetable capsules. Soy-free, non-GMO, nothing to mix."},
-
-    {"type":"header","content":"Reviews / FAQ / final CTA"},
-    {"type":"text","id":"reviews_eyebrow","label":"Reviews eyebrow","default":"Product reviews"},
-    {"type":"text","id":"reviews_title_suffix","label":"Reviews title suffix","default":"reviews and counting."},
-    {"type":"text","id":"faq_heading","label":"FAQ heading","default":"Frequently Asked Questions"},
-    {"type":"text","id":"final_eyebrow","label":"Final CTA eyebrow","default":"The daily cardio capsule"},
-    {"type":"text","id":"final_title","label":"Final CTA heading","default":"Make the one-capsule cardio habit part of your morning."},
-    {"type":"textarea","id":"final_body","label":"Final CTA body","default":"10,800 FU nattokinase, serrapeptase, lumbrokinase and vitamin K2 in one enteric-coated capsule a day."},
-    {"type":"text","id":"final_cta_text","label":"Final CTA button text","default":"Add to cart, 100% risk-free"}
+  "name": "Nattokinase PDP",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Buy box"
+    },
+    {
+      "type": "text",
+      "id": "pdp_eyebrow",
+      "label": "Product eyebrow",
+      "default": "The daily cardio capsule"
+    },
+    {
+      "type": "text",
+      "id": "pdp_lead_strong",
+      "label": "Lead bold intro",
+      "default": "Japan's longevity habit, without the natto."
+    },
+    {
+      "type": "text",
+      "id": "pdp_lead_body",
+      "label": "Lead body text",
+      "default": "10,800 FU nattokinase with serrapeptase, lumbrokinase and vitamin K2 (MK-7) in one enteric-coated capsule a day"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Add to cart text",
+      "default": "Add to cart"
+    },
+    {
+      "type": "text",
+      "id": "sale_label",
+      "label": "Sale badge prefix (optional, keep short)",
+      "default": ""
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show accelerated checkout",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Social proof"
+    },
+    {
+      "type": "text",
+      "id": "rating",
+      "label": "Star rating (display)",
+      "default": "4.8",
+      "info": "Uses reviews metafields first. Enter a verified fallback only if needed."
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review count (display)",
+      "default": "1,184"
+    },
+    {
+      "type": "text",
+      "id": "monthly_social_proof",
+      "label": "Monthly social-proof pill",
+      "default": "4k+ bottles shipped this month."
+    },
+    {
+      "type": "text",
+      "id": "guarantee_days",
+      "label": "Money-back days",
+      "default": "60"
+    },
+    {
+      "type": "header",
+      "content": "How-it-works section"
+    },
+    {
+      "type": "text",
+      "id": "founder_eyebrow",
+      "label": "Band eyebrow",
+      "default": "One capsule. Once a day. Done."
+    },
+    {
+      "type": "textarea",
+      "id": "founder_title",
+      "label": "Band heading",
+      "default": "Japan's longevity habit, without eating natto every day."
+    },
+    {
+      "type": "textarea",
+      "id": "founder_body",
+      "label": "Band body",
+      "default": "Japan is famous for long life, and fermented natto has been on the table there for generations. The catch is the taste. Lucent puts 10,800 FU of nattokinase in one enteric-coated capsule, then adds serrapeptase, lumbrokinase and vitamin K2 so the whole cardio stack is one habit instead of four bottles."
+    },
+    {
+      "type": "header",
+      "content": "Video section"
+    },
+    {
+      "type": "text",
+      "id": "demo_title",
+      "label": "Video section heading",
+      "default": "See why nattokinase is going viral."
+    },
+    {
+      "type": "textarea",
+      "id": "demo_subtitle",
+      "label": "Video section subtitle",
+      "default": "Real people, real routines. One capsule a day, no fermented soybeans, no acquired taste."
+    },
+    {
+      "type": "text",
+      "id": "demo_cta_text",
+      "label": "Video section button text",
+      "default": "Try it risk-free, today"
+    },
+    {
+      "type": "header",
+      "content": "Results stats (animated)"
+    },
+    {
+      "type": "text",
+      "id": "stats_title",
+      "label": "Stats heading",
+      "default": "Results felt by those who switched to Lucent"
+    },
+    {
+      "type": "text",
+      "id": "stat1_value",
+      "label": "Stat 1 %",
+      "default": "91"
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "Stat 1 label",
+      "default": "said they felt more energetic and “lighter” after the first bottle"
+    },
+    {
+      "type": "text",
+      "id": "stat2_value",
+      "label": "Stat 2 %",
+      "default": "88"
+    },
+    {
+      "type": "text",
+      "id": "stat2_label",
+      "label": "Stat 2 label",
+      "default": "said it was easier to keep than eating natto every day"
+    },
+    {
+      "type": "text",
+      "id": "stat3_value",
+      "label": "Stat 3 %",
+      "default": "96"
+    },
+    {
+      "type": "text",
+      "id": "stat3_label",
+      "label": "Stat 3 label",
+      "default": "preferred one capsule to a four-bottle enzyme stack"
+    },
+    {
+      "type": "textarea",
+      "id": "stats_note",
+      "label": "Stats note",
+      "default": "*Customer-reported feedback from post-purchase surveys after 30 days. Individual results vary."
+    },
+    {
+      "type": "header",
+      "content": "Why it works section"
+    },
+    {
+      "type": "text",
+      "id": "works_title",
+      "label": "Why-it-works heading",
+      "default": "Four cardio enzymes and nutrients in one capsule, not four bottles."
+    },
+    {
+      "type": "header",
+      "content": "Testimonials section"
+    },
+    {
+      "type": "header",
+      "content": "Second demo section"
+    },
+    {
+      "type": "text",
+      "id": "demo2_badge",
+      "label": "Second demo badge",
+      "default": "60-day bottle"
+    },
+    {
+      "type": "textarea",
+      "id": "demo2_title",
+      "label": "Second demo heading",
+      "default": "Keep things flowing. One capsule at a time."
+    },
+    {
+      "type": "textarea",
+      "id": "demo2_body",
+      "label": "Second demo body",
+      "default": "Sixty enteric-coated capsules, one simple habit. Nattokinase for fibrin balance, serrapeptase and lumbrokinase for healthy blood flow, and vitamin K2 to keep calcium in your bones."
+    },
+    {
+      "type": "text",
+      "id": "demo2_cta_text",
+      "label": "Second demo button text",
+      "default": "Try it today, risk-free"
+    },
+    {
+      "type": "header",
+      "content": "Compare section"
+    },
+    {
+      "type": "text",
+      "id": "compare_title",
+      "label": "Compare heading",
+      "default": "Eating natto daily is a chore. This isn't."
+    },
+    {
+      "type": "textarea",
+      "id": "compare_body",
+      "label": "Compare body",
+      "default": "Natto has to be bought fresh, stirred and swallowed with that smell, and it takes several servings to reach 10,000 FU. Lucent seals the full cardio stack into one enteric-coated capsule."
+    },
+    {
+      "type": "header",
+      "content": "What's inside section"
+    },
+    {
+      "type": "text",
+      "id": "formula_title",
+      "label": "Section heading",
+      "default": "Every capsule, on the label."
+    },
+    {
+      "type": "textarea",
+      "id": "formula_body",
+      "label": "Section body",
+      "default": "Serving size 1 capsule · 60 servings per bottle · delayed-release vegetable capsules. Soy-free, non-GMO, nothing to mix."
+    },
+    {
+      "type": "header",
+      "content": "Reviews / FAQ / final CTA"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "FAQ heading",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "text",
+      "id": "final_title",
+      "label": "Final CTA heading",
+      "default": "Make the one-capsule cardio habit part of your morning."
+    },
+    {
+      "type": "textarea",
+      "id": "final_body",
+      "label": "Final CTA body",
+      "default": "10,800 FU nattokinase, serrapeptase, lumbrokinase and vitamin K2 in one enteric-coated capsule a day."
+    },
+    {
+      "type": "text",
+      "id": "final_cta_text",
+      "label": "Final CTA button text",
+      "default": "Add to cart, 100% risk-free"
+    }
   ],
-  "blocks":[{"type":"@app"}],
-  "presets":[{"name":"Nattokinase PDP"}]
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nattokinase PDP"
+    }
+  ]
 }
 {% endschema %}
