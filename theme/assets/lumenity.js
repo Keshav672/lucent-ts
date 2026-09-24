@@ -106,7 +106,7 @@
   var stickyPrice = document.querySelector('[data-pdp-sticky-price]');
   var buttonPriceEl = document.querySelector('[data-pdp-button-price]');
   if (stickyPrice && buttonPriceEl) {
-    new MutationObserver(function () { stickyPrice.textContent = buttonPriceEl.textContent.replace(/\s*\/\s*each$/, ''); })
+    new MutationObserver(function () { stickyPrice.textContent = buttonPriceEl.textContent.replace(/\s*\/\s*(each|bottle)$/, ''); })
       .observe(buttonPriceEl, { childList: true, characterData: true, subtree: true });
   }
 
@@ -170,7 +170,7 @@
     var unitCompare = sourceCompare ? formatMoney(sourceCompare.value / quantity, sourceCompare.symbol) : null;
 
     priceNow.textContent = unitCurrent;
-    if (buttonPrice) buttonPrice.textContent = unitCurrent + ' / each';
+    if (buttonPrice) buttonPrice.textContent = unitCurrent + ' / bottle';
 
     var currentMoney = parseMoney(unitCurrent);
     var compareMoney = unitCompare ? parseMoney(unitCompare) : null;
@@ -190,7 +190,7 @@
     if (priceSave) {
       if (savePercent && savePercent > 0) {
         priceSave.style.display = '';
-        priceSave.textContent = 'Launch sale · save ' + Math.round(savePercent) + '%';
+        priceSave.textContent = 'Save ' + Math.round(savePercent) + '%';
       } else {
         priceSave.style.display = 'none';
       }
@@ -677,7 +677,7 @@
     if (priceSave) {
       if (percent > 0) {
         priceSave.style.display = '';
-        priceSave.textContent = 'Launch sale · save ' + percent + '%';
+        priceSave.textContent = 'Save ' + percent + '%';
       } else {
         priceSave.style.display = 'none';
       }
@@ -687,7 +687,7 @@
   function setThemePrice(currentText, compareText, fallbackPercent) {
     if (!currentText) return;
     priceNow.textContent = currentText;
-    if (buttonPrice) buttonPrice.textContent = currentText + ' / each';
+    if (buttonPrice) buttonPrice.textContent = currentText + ' / bottle';
     if (priceWas) {
       var current = parseMoney(currentText);
       var compare = parseMoney(compareText || '');

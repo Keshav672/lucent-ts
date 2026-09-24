@@ -653,3 +653,12 @@ html,body{overflow-x:clip}
 .campaign-foot{padding:36px 24px;color:var(--ink-soft);font-size:13px;line-height:1.6}
 .campaign-foot .pm-shell{max-width:960px;margin-inline:auto}
 .campaign-foot strong{display:block;margin-bottom:8px;color:var(--pine);font-family:var(--display);font-size:20px}
+
+/* ===== Price row: one clean line on desktop, badge drops to its own line on phones ===== */
+.pdp__price{display:flex;flex-wrap:wrap;align-items:center;column-gap:9px;row-gap:8px;margin:18px 0 14px}
+.pdp__price-main{display:inline-flex;align-items:baseline;gap:5px;white-space:nowrap}
+.pdp__now{font-size:30px;line-height:1}
+.pdp__unit{margin:0;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap}
+.pdp__was{font-size:15px;line-height:1;white-space:nowrap}
+.pdp__save{display:inline-flex;align-items:center;padding:6px 9px;border-radius:8px;font-size:11px;line-height:1;letter-spacing:.04em;white-space:nowrap}
+@media (max-width:700px){.pdp__now{font-size:30px}}

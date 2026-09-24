@@ -62,11 +62,11 @@
       </ul>
 
       <div class="pdp__price" aria-live="polite">
-        <span class="pdp__now" data-pdp-now>{{ v.price | money }}</span><span class="pdp__unit" data-pdp-unit>/ each</span>
+        <span class="pdp__price-main"><span class="pdp__now" data-pdp-now>{{ v.price | money }}</span><span class="pdp__unit" data-pdp-unit>/ bottle</span></span>
         <span class="pdp__was" data-pdp-was {% unless v.compare_at_price > v.price %}style="display:none"{% endunless %}>{{ v.compare_at_price | money }}</span>
         {%- assign off = 0 -%}
         {%- if v.compare_at_price > v.price -%}{%- assign off = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round -%}{%- endif -%}
-        <span class="pdp__save" data-pdp-save {% if off == 0 %}style="display:none"{% endif %}>{% if off > 0 %}{{ s.sale_label | default: 'Launch sale' }} · save {{ off }}%{% endif %}</span>
+        <span class="pdp__save" data-pdp-save {% if off == 0 %}style="display:none"{% endif %}>{% if off > 0 %}{% if s.sale_label != blank %}{{ s.sale_label }} · {% endif %}Save {{ off }}%{% endif %}</span>
       </div>
 
       {%- comment -%} KaChing Bundles renders here via its app block (add it to this section in the theme editor). The theme has no bundle picker of its own. {%- endcomment -%}
@@ -79,7 +79,7 @@
         <input type="hidden" name="quantity" value="1" data-pdp-quantity>
         <button type="submit" name="add" class="btn btn--block btn--lg pdp__atc" data-pdp-atc {% unless product.available %}disabled{% endunless %}>
           <span data-pdp-atc-label>{% if product.available %}{{ s.cta_text | default: 'Add to cart' }}{% else %}Sold out{% endif %}</span>
-          {% if product.available %}<span aria-hidden="true">·</span><span data-pdp-button-price>{{ v.price | money }} / each</span>{% endif %}
+          {% if product.available %}<span aria-hidden="true">·</span><span data-pdp-button-price>{{ v.price | money }} / bottle</span>{% endif %}
         </button>
         {% if s.show_dynamic_checkout and product.available %}<div class="pdp__express-btn">{{ form | payment_button }}</div>{% endif %}
       {%- endform -%}
@@ -345,7 +345,7 @@
     {"type":"text","id":"pdp_lead_strong","label":"Lead bold intro","default":"Japan's longevity habit, without the natto."},
     {"type":"text","id":"pdp_lead_body","label":"Lead body text","default":"10,800 FU nattokinase with serrapeptase, lumbrokinase and vitamin K2 (MK-7) in one enteric-coated capsule a day"},
     {"type":"text","id":"cta_text","label":"Add to cart text","default":"Add to cart"},
-    {"type":"text","id":"sale_label","label":"Sale badge label","default":"Launch sale"},
+    {"type":"text","id":"sale_label","label":"Sale badge prefix (optional, keep short)","default":""},
     {"type":"checkbox","id":"show_dynamic_checkout","label":"Show accelerated checkout","default":false},
 
     {"type":"header","content":"Social proof"},
