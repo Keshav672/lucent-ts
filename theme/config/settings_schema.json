@@ -19,8 +19,8 @@
     "name": "Announcement bar",
     "settings": [
       {"type": "checkbox", "id": "show_sale_bar", "label": "Show sale countdown bar", "default": true},
-      {"type": "text", "id": "sale_bar_title", "label": "Title", "default": "LAUNCH SALE"},
-      {"type": "text", "id": "sale_bar_subtitle", "label": "Subtitle", "default": "UP TO 45% OFF"}
+      {"type": "text", "id": "sale_bar_title", "label": "Title", "default": "LOW STOCK ALERT"},
+      {"type": "text", "id": "sale_bar_subtitle", "label": "Subtitle", "default": "45% OFF WHILE THIS BATCH LASTS"}
     ]
   }
 ]
