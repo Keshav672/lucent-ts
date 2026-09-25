@@ -11,7 +11,7 @@
 {%- if settings.show_sale_bar != false -%}
 <div class="utilbar sale-timer" role="status" aria-live="polite" data-sale-timer>
   <div class="wrap sale-timer__inner">
-    <div class="sale-timer__message"><span class="sale-timer__spark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><div class="sale-timer__copy"><p class="sale-timer__title">{{ settings.sale_bar_title | default: 'LOW STOCK ALERT' }}</p><p class="sale-timer__subtitle">{{ settings.sale_bar_subtitle | default: '45% OFF WHILE THIS BATCH LASTS' }}</p></div></div>
+    <div class="sale-timer__message"><span class="sale-timer__spark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><div class="sale-timer__copy"><p class="sale-timer__title">{{ settings.sale_bar_title | default: 'FALL SALE' }}</p><p class="sale-timer__subtitle">{{ settings.sale_bar_subtitle | default: '45% OFF WHILE STOCK LASTS' }}</p></div></div>
     <div class="sale-timer__countdown" aria-label="Time remaining at this price"><span class="sale-timer__unit"><strong data-sale-hours>15</strong><small>HR</small></span><span class="sale-timer__unit"><strong data-sale-minutes>00</strong><small>MIN</small></span><span class="sale-timer__unit"><strong data-sale-seconds>00</strong><small>SEC</small></span></div>
   </div>
 </div>
