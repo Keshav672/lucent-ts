@@ -20,7 +20,7 @@
     "settings": [
       {"type": "checkbox", "id": "show_sale_bar", "label": "Show sale countdown bar", "default": true},
       {"type": "text", "id": "sale_bar_title", "label": "Title", "default": "FALL SALE"},
-      {"type": "text", "id": "sale_bar_subtitle", "label": "Subtitle", "default": "45% OFF WHILE STOCK LASTS"}
+      {"type": "text", "id": "sale_bar_subtitle", "label": "Subtitle", "default": "50% OFF WHILE STOCK LASTS"}
     ]
   }
 ]
