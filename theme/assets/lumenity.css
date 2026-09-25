@@ -663,7 +663,8 @@ html,body{overflow-x:clip}
 .pdp__save{display:inline-flex;align-items:center;padding:6px 9px;border-radius:8px;font-size:11px;line-height:1;letter-spacing:.04em;white-space:nowrap}
 @media (max-width:700px){.pdp__now{font-size:30px}}
 
-/* ===== Stock notice (buy box) ===== */
-.pdp__stock-notice{margin:0 0 14px;font-size:15px;line-height:1.5;color:var(--ink)}
+/* ===== Stock notice (top of buy box) ===== */
+.pdp__stock-notice{display:flex;gap:10px;align-items:flex-start;margin:0 0 16px;padding:12px 14px;border:1.5px solid #D9B45C;border-radius:12px;background:#FBF3DC;color:#3C3012;font-size:14px;line-height:1.45}
+.pdp__stock-notice p{margin:0}
 .pdp__stock-notice strong{color:var(--oil);font-weight:800}
-.pdp__stock-ic{display:inline-block;vertical-align:-3px;margin-left:2px;color:#B8860B}
+.pdp__stock-ic{flex:none;margin-top:1px;color:#B8860B}

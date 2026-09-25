@@ -41,6 +41,7 @@
     </div>
 
     <aside class="pdp__buy" data-pdp-buybox>
+      <div class="pdp__stock-notice" role="status"><span class="pdp__stock-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M12 3 2.5 20h19L12 3Z"/><path d="M12 10v4M12 17h.01"/></svg></span><p>{{ s.stock_notice_body | default: 'Due to high demand and a global shortage of nattokinase,' }} <strong>{{ 'now' | date: '%B' }}</strong> {{ s.stock_notice_tail | default: 'has a very high risk of selling out' }}</p></div>
       <div class="pdp__proof-stack">
         {%- if rating != blank -%}
         <div class="pdp__ratingline pdp__ratingline--inline">
@@ -74,7 +75,6 @@
 
       <div class="pdp__shipbar"><span class="pdp__shipbar-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="17" height="17"><path d="M3 6.5h11v9H3zM14 9.5h3.6l3.4 3.3v2.7h-7z"/><circle cx="7" cy="18" r="1.7"/><circle cx="17.4" cy="18" r="1.7"/></svg></span> <strong>Ships from the U.S.</strong> · fast tracked delivery, typically 3–7 days</div>
 
-      <p class="pdp__stock-notice" role="status">{{ s.stock_notice_body | default: 'Due to high demand and a global shortage of nattokinase,' }} <strong>{{ 'now' | date: '%B' }}</strong> {{ s.stock_notice_tail | default: 'has a very high risk of selling out' }} <span class="pdp__stock-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12 3 2.5 20h19L12 3Z"/><path d="M12 10v4M12 17h.01"/></svg></span></p>
 
       {%- form 'product', product, id: 'pdp-form' -%}
         <input type="hidden" name="id" value="{{ v.id }}" data-pdp-variant>
