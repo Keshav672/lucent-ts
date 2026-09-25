@@ -47,7 +47,7 @@ re-cut from the TikTok ads.
   their brand and were not used. Those seven panels are the supplier's artwork — make sure you
   have the right to use them before going live.
 * Your hero says "1 month supply / 30 servings"; the supplement-facts panel (and the label) says
-  1 capsule, 60 servings. Pick one — the theme copy currently follows the label (one a day, 60 days).
+  1 capsule, 60 servings. The theme copy now says 30 capsules / 30 days per your hero and bottle art; update the facts panel if that is the final label.
 
 ## Compliance
 

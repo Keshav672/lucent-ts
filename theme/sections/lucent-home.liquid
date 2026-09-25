@@ -21,7 +21,7 @@
         <a href="{{ purl }}#demo" class="link-arrow">Watch it work <span aria-hidden="true">→</span></a>
       </div>
       <div class="lhero__rating"><span class="stars" data-stars="5.0" aria-hidden="true">★★★★★</span> <strong>{{ s.hero_rating | default: '4.8' }}</strong> · {{ s.hero_reviews | default: '1,184' }} reviews · {{ s.hero_proof | default: '4k+ bottles shipped this month' }}</div>
-      <ul class="lhero__chips"><li>10,800 FU</li><li>Enteric-coated</li><li>Soy-free</li><li>60 capsules</li></ul>
+      <ul class="lhero__chips"><li>10,800 FU</li><li>Enteric-coated</li><li>Soy-free</li><li>30 capsules</li></ul>
     </div>
     <figure class="lhero__shot">
       <img src="{{ 'lucent-hero.jpg' | asset_url }}" width="1024" height="1024" alt="Lucent Nattokinase 4-in-1 Cardio Complex" loading="eager">
@@ -36,7 +36,7 @@
 {%- comment -%} GIF teaser ===== {%- endcomment -%}
 <section class="lgif">
   <div class="wrap lgif__grid">
-    <figure class="lgif__phone"><img src="{{ 'gif-hero-teaser.gif' | asset_url }}" alt="One Lucent Nattokinase capsule held up to the camera" width="270" height="480" loading="lazy"><span class="lgif__cap">{{ s.lgif_cap | default: "60 capsules · 1 a day" }}</span></figure>
+    <figure class="lgif__phone"><img src="{{ 'gif-hero-teaser.gif' | asset_url }}" alt="One Lucent Nattokinase capsule held up to the camera" width="270" height="480" loading="lazy"><span class="lgif__cap">{{ s.lgif_cap | default: "30 capsules · 1 a day" }}</span></figure>
     <div class="lgif__copy">
       <p class="eyebrow">{{ s.lgif_eyebrow | default: "Why people love it" }}</p>
       <h2>{{ s.lgif_title | default: "When eating natto every day isn't happening, make this the one-capsule fix." }}</h2>
@@ -122,7 +122,7 @@
     {"type":"text","id":"strip_text_accent","label":"Strip accent text","default":"One capsule. Once a day. Done."},
 
     {"type":"header","content":"GIF teaser"},
-    {"type":"text","id":"lgif_cap","label":"Teaser image caption","default":"60 capsules · 1 a day"},
+    {"type":"text","id":"lgif_cap","label":"Teaser image caption","default":"30 capsules · 1 a day"},
     {"type":"text","id":"lgif_eyebrow","label":"Teaser eyebrow","default":"Why people love it"},
     {"type":"textarea","id":"lgif_title","label":"Teaser heading","default":"When eating natto every day isn't happening, make this the one-capsule fix."},
     {"type":"textarea","id":"lgif_body","label":"Teaser body","default":"No fermented soybeans, no smell, no four-bottle enzyme stack. Take one capsule with breakfast and get nattokinase, serrapeptase, lumbrokinase and vitamin K2 in one go."},
