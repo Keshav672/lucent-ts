@@ -71,6 +71,9 @@
                 {%- if pct > 0 -%}<span class="opt__sale">{{ section.settings.sale_label | default: 'Fall sale' }} · {{ pct }}% off</span>{%- endif -%}
               </span>
               <span class="opt__p"><span class="opt__pp"><strong>{{ per | money }}</strong><small>/bottle</small></span>{% if cper > per %}<s>{{ cper | money }}</s>{% endif %}</span>
+              {%- if forloop.last and forloop.index > 2 -%}
+              <span class="opt__more opt__perk"><span class="opt__perk-ck">{% render 'icon', name: 'check' %}</span><span class="opt__perk-ic">{% render 'icon', name: 'truck' %}</span><span><strong>{{ section.settings.perk_title }}</strong><small>{{ section.settings.perk_sub }}</small></span></span>
+              {%- endif -%}
               {%- if product.variants.size > 1 -%}
                 {%- if forloop.index == 2 -%}<span class="opt__tag">Most popular</span>{%- elsif forloop.last and forloop.index > 2 -%}<span class="opt__tag opt__tag--alt">Best value</span>{%- endif -%}
               {%- endif -%}
@@ -105,6 +108,8 @@
  {"type":"textarea","id":"lead","label":"Lead","default":"Five milligrams of lithium, as orotate, and nothing else. One capsule a day for a mood that stays level and a mind that stays sharp.*"},
  {"type":"text","id":"cta","label":"Button text","default":"Add to cart"},
  {"type":"text","id":"sale_label","label":"Sale badge label","default":"Fall sale"},
+ {"type":"text","id":"perk_title","label":"3-bottle perk (shown when selected)","default":"FREE Express Shipping ($9.99 Value)"},
+ {"type":"text","id":"perk_sub","label":"3-bottle perk subtext","default":"Fast, tracked delivery to your door"},
  {"type":"text","id":"opt_1","label":"Option 1 subtitle","default":"1-month supply"},
  {"type":"text","id":"opt_2","label":"Option 2 subtitle","default":"2-month supply · save more per bottle"},
  {"type":"text","id":"opt_3","label":"Option 3 subtitle","default":"3-month supply · lowest price per capsule"}],

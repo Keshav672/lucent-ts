@@ -388,3 +388,9 @@ table.tbl{width:100%;border-collapse:collapse;font-size:14px}table.tbl th,table.
 .opt__p s{display:block;font-weight:400;font-size:12px;color:var(--muted)}
 .opt__tag--alt{background:var(--ink)}
 @media (max-width:720px){.opt--bundle{grid-template-columns:auto 1fr auto;gap:10px}.opt__thumb{width:48px;height:48px}.buy__price strong{font-size:28px}}
+
+.opt__perk{align-items:center;gap:10px;margin-top:4px;padding-top:12px}
+.opt:has(input:checked) .opt__perk{display:flex}
+.opt__perk-ck{color:var(--teal);display:inline-flex}.opt__perk-ck svg{width:16px;height:16px}
+.opt__perk-ic{display:inline-flex;color:var(--ink)}.opt__perk-ic svg{width:22px;height:22px}
+.opt__perk strong{display:block;font-size:14px;color:var(--ink)}.opt__perk small{display:block;font-size:13px;color:var(--muted)}
