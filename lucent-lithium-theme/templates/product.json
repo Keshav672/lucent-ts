@@ -32,7 +32,7 @@
      "type": "accordion",
      "settings": {
       "title": "What's inside",
-      "text": "Per capsule: lithium (as orotate) 5 mg. That is the only active ingredient. Other ingredients: vegetable cellulose, microcrystalline cellulose, silica and magnesium stearate. 60 capsules per bottle."
+      "text": "Per capsule: lithium (as orotate) 5 mg. That is the only active ingredient. Other ingredients: vegetable cellulose, microcrystalline cellulose, silica and magnesium stearate. 30 capsules per bottle."
      }
     },
     "a3": {
@@ -247,9 +247,9 @@
     "k3": {
      "type": "stat",
      "settings": {
-      "k": "60",
+      "k": "30",
       "title": "Vegan capsules",
-      "text": "One a day. Two months per bottle. No fillers, no colours."
+      "text": "One a day. One month per bottle. No fillers, no colours."
      }
     },
     "k4": {
@@ -346,14 +346,14 @@
      "type": "qa",
      "settings": {
       "q": "How much should I take, and when?",
-      "a": "One capsule a day with food. Most people take it with breakfast. Do not exceed the recommended dose."
+      "a": "One capsule a day with food. Most people take it with breakfast. One bottle is a 30-day supply. Do not exceed the recommended dose."
      }
     },
     "q3": {
      "type": "qa",
      "settings": {
       "q": "How long until I notice anything?",
-      "a": "Trace minerals build gradually. Many customers describe feeling more level somewhere between week two and week six. Give it a full bottle before you decide."
+      "a": "Trace minerals build gradually. Many customers describe feeling more level somewhere between week two and week six. Give it a full bottle, thirty days, before you decide."
      }
     },
     "q4": {

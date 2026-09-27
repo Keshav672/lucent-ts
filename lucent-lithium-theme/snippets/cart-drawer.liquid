@@ -17,7 +17,7 @@
     {%- if fp != blank and fp.available -%}
     <div class="upsell" data-upsell data-variant="{{ fp.selected_or_first_available_variant.id }}" hidden>
       {%- if fp.featured_image -%}<img src="{{ fp.featured_image | image_url: width: 104 }}" alt="" width="52" height="52">{%- endif -%}
-      <p><strong>Add another bottle</strong>Two months of steady, {{ fp.selected_or_first_available_variant.price | money }} each.</p>
+      <p><strong>Add another bottle</strong>Another month of steady, {{ fp.selected_or_first_available_variant.price | money }} each.</p>
       <button type="button" class="btn btn--sm btn--ghost">Add</button>
     </div>
     {%- endif -%}
