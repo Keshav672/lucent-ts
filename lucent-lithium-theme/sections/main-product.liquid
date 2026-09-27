@@ -65,10 +65,6 @@
             {%- assign pct = 0 -%}{%- if cmp > v.price -%}{%- assign pct = save | times: 100 | divided_by: cmp -%}{%- endif -%}
             <label class="opt opt--bundle">
               <input type="radio" name="purchase" value="v{{ v.id }}" data-variant="{{ v.id }}" data-price="{{ v.price }}" data-per="{{ per }}" data-cper="{{ cper }}" data-pct="{{ pct }}" data-label="{{ label | escape }}"{% if v.id == sel_id %} checked{% endif %}{% unless v.available %} disabled{% endunless %}>
-              <span class="opt__thumb" aria-hidden="true">
-                {%- if product.featured_image -%}<img src="{{ product.featured_image | image_url: width: 120 }}" alt="" width="56" height="56" loading="lazy">{%- else -%}<img src="{{ 'bottle-hero.jpg' | asset_url }}" alt="" width="56" height="56" loading="lazy">{%- endif -%}
-                {%- if n > 1 -%}<span class="opt__n">×{{ n }}</span>{%- endif -%}
-              </span>
               <span class="opt__main">
                 <span class="opt__t">{{ label }}{% unless v.available %} · Sold out{% endunless %}</span>
                 <span class="opt__s">{{ n }}-month supply{% if save > 0 %} · You save {{ save | money }}{% endif %}</span>
