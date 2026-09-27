@@ -15,7 +15,7 @@
             </div>
           {%- endfor -%}
           {%- if slides == 0 -%}
-            {%- assign fallback = 'bottle-hero.jpg,facts.jpg,gif-brain-poster.jpg,gif-mood-poster.jpg' | split: ',' -%}
+            {%- assign fallback = 'bottle-hero.jpg,facts.jpg,tile-morning.jpg,bottle-white.jpg' | split: ',' -%}
             {%- for f in fallback -%}<div class="gal__slide{% if forloop.first %} is-on{% endif %}" data-slide><img src="{{ f | asset_url }}" alt="{{ product.title | escape }}" width="1200" height="1200"></div>{%- endfor -%}
           {%- endif -%}
           <button type="button" class="gal__arrow gal__arrow--prev" aria-label="Previous image" data-prev>{% render 'icon', name: 'chev-l' %}</button>

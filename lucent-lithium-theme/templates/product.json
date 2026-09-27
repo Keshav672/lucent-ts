@@ -67,33 +67,41 @@
     "s1": {
      "type": "step",
      "settings": {
-      "asset": "gif-brain.gif",
+      "icon": "shield",
       "title": "Protects the wiring",
-      "text": "Supports the brain's own protective pathways so cells are less exposed to day-to-day wear.*"
+      "s1": "Brain cells take more day-to-day wear.",
+      "s2": "Supports the brain's own protective pathways.*",
+      "s3": "A mind that feels less frayed by the end of the day."
      }
     },
     "s2": {
      "type": "step",
      "settings": {
-      "asset": "gif-creative.gif",
-      "title": "More plasticity",
-      "text": "Supports the ability to form new connections: a stable mood and a flexible, creative brain.*"
+      "icon": "spark",
+      "title": "Keeps thinking flexible",
+      "s1": "Ideas feel stuck and mornings start blank.",
+      "s2": "Supports the brain's ability to form new connections.*",
+      "s3": "Thinking that moves more freely."
      }
     },
     "s3": {
      "type": "step",
      "settings": {
-      "asset": "gif-mood.gif",
-      "title": "Mood stability",
-      "text": "More balance, fewer extremes. Fewer crashes after a good day and fewer spirals after a bad one.*"
+      "icon": "balance",
+      "title": "Evens out mood",
+      "s1": "Highs and lows sit far apart. A bad hour becomes a bad day.",
+      "s2": "Supports the pathways behind emotional balance.*",
+      "s3": "Fewer spikes, fewer crashes. More level."
      }
     },
     "s4": {
      "type": "step",
      "settings": {
-      "asset": "gif-stress.gif",
-      "title": "Stress regulation",
-      "text": "Helps the stress response settle instead of staying switched on.*"
+      "icon": "wave",
+      "title": "Settles stress",
+      "s1": "The stress response stays switched on.",
+      "s2": "Helps the stress response settle after it fires.*",
+      "s3": "A hard morning stops becoming a hard week."
      }
     }
    },

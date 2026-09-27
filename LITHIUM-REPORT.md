@@ -1,6 +1,6 @@
 # Lucent Lithium Orotate — AG1-structured store, reverse-engineering report
 
-Deliverable: `lucent-lithium-theme.zip` (upload-ready Shopify theme, 7.1 MB) + `lithium-product-import.csv`.
+Deliverable: `lucent-lithium-theme.zip` (upload-ready Shopify theme) + `lithium-product-import.csv`.
 Source product: BrainMD Lithium Orotate, 60 capsules (TikTok Shop listing: 120 mg lithium orotate, magnesium 100 mg, B6 5 mg, zinc 10 mg, vegan, non-GMO, US-made, 24-month shelf life). Rebranded as **Lucent Lithium Orotate**, matching the rest of this repo.
 Structural source: `https://drinkag1.com/shop`.
 
@@ -68,6 +68,14 @@ Four ads were supplied and transcribed (Whisper): a psychiatrist in a white coat
 "If you find that you're moody, irritable, you snap, and you feel bad about it later" → benefits headline · "more level over time" → "what level feels like", review copy · "the most underused supplement for brain health" → shop hero H1 · "microdosed lithium, 5 milligrams" → eyebrow, stat tiles · "replaces what we've pulled out of our food and water" → hero body · "less neurotoxicity, more stability, plasticity, creative thinking, mood and stress regulation" → the four science panels · "you have to make sure it's lithium orotate, in the elemental form that works" → compare-table intro · "the mineral, not the drug" (7UP story) → compare-table headline and FAQ #1. Research-doc structure (headlines / hooks / objections / FAQ / phrase bank) was used for the FAQ objections and the review angles; there is no Littley/lithium research doc in Drive, only the EVOLVE V5.0 template.
 
 **Compliance:** everything is written as structure/function language with the FDA disclaimer in the footer, standards band and PDP. The ads' "depressed people are deficient in lithium" framing and any disease language were left out on purpose; the compare table also carries a note that prescription lithium is not comparable.
+
+## 3b. Revision: the whiteboard "How it works" band was removed
+
+You asked why the whiteboard panels were bad. They were phone-camera crops of another creator's whiteboard: edges cut mid-word, a bottle and a marble table in frame, text blurred and unreadable at card size, and jargon (GSK-3β, BDNF) that promises science and delivers noise. A shopper reads that as a screenshot lifted from a video, not something the brand made, and that distrust spills onto the product next to it.
+
+What the consumer research says: Baymard's testing finds low-quality imagery is a red flag that deters purchase and drives abandonment; the Stanford Web Credibility Project (2,684 participants) found the visual design of a page is the single largest factor in credibility judgments; Nielsen Norman Group finds 79% of users scan rather than read, so dense panels go unread; and Baymard's tested pattern for a "How it works" section is a three-level hierarchy of plain text with clean images, then options, then FAQ detail.
+
+What changed (home page, product page and the Science page, since all three used the block): the four whiteboard GIFs were replaced with four brand-drawn panels in the theme's own icon style, each a plain-language three-step chain (Without it → With 5 mg → You notice); the pharmacist's line is kept as a text pull-quote; the whiteboard explainer video in the reviews block became a text quote card; the whiteboard stills were dropped from the product gallery fallback. The shop grid with category chips was also removed from the home page (single product), and the hero gained an Add to cart button with the price, plus a "Choose your supply" link to the product page. The whiteboard cuts now live in `lucent-lithium-extras/whiteboard/`. Measured home page after the change: 6,445 px at 1440, 10,682 px on a phone. Checks re-run: 46/46 page audits clean, 31/31 flows.
 
 ## 4. The three checks (measured, not estimated)
 

@@ -14,6 +14,13 @@
         {%- for b in section.blocks -%}<span class="chip{% if forloop.first %} chip--sky{% endif %}" {{ b.shopify_attributes }}>{{ b.settings.text }}</span>{%- endfor -%}
       </div>
       <p class="rating" style="margin-top:22px">{% render 'stars', rating: settings.rating %} <span>{{ settings.rating | default: '4.7' }}/5 from {{ settings.review_count | default: '2,140' }} reviews</span></p>
+      <div class="shero__cta">
+        {%- if fp != blank and fp.available -%}
+        <form method="post" action="{{ routes.cart_add_url }}" data-ajax><input type="hidden" name="id" value="{{ fp.selected_or_first_available_variant.id }}"><input type="hidden" name="quantity" value="1"><button type="submit" class="btn btn--lg">{{ section.settings.cta | default: 'Add to cart' }} · {{ fp.selected_or_first_available_variant.price | money }}{% if fp.selected_or_first_available_variant.compare_at_price > fp.selected_or_first_available_variant.price %} <s style="opacity:.6;font-weight:400">{{ fp.selected_or_first_available_variant.compare_at_price | money }}</s>{% endif %}</button></form>
+        <a href="{{ fp_url }}" class="btn btn--lg btn--ghost">Choose your supply</a>
+        {%- else -%}<a href="{{ fp_url }}" class="btn btn--lg">Shop Lithium Orotate</a>{%- endif -%}
+      </div>
+      <p class="muted" style="font-size:13px;margin-top:12px">{{ section.settings.small | default: 'Free shipping over $50 · 60-day money-back guarantee' }}</p>
     </div>
     <div class="shero__media">
       {%- if section.settings.image != blank -%}<img src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.image.alt | default: 'Lucent Lithium Orotate bottle' | escape }}" width="1200" height="1200">
@@ -29,7 +36,9 @@
  {"type":"text","id":"title","label":"Heading","default":"The most underused mineral for your brain."},
  {"type":"textarea","id":"body","label":"Body","default":"Five milligrams of lithium orotate a day. The trace mineral that used to be in our water and food, put back in one small vegan capsule. For a mood that stays level, a mind that stays sharp, and stress that stops running the day."},
  {"type":"image_picker","id":"image","label":"Hero image"},
- {"type":"text","id":"tag","label":"Image tag","default":"60 capsules · 2-month supply"}],
+ {"type":"text","id":"tag","label":"Image tag","default":"60 capsules · 2-month supply"},
+ {"type":"text","id":"cta","label":"Button text","default":"Add to cart"},
+ {"type":"text","id":"small","label":"Small print under buttons","default":"Free shipping over $50 · 60-day money-back guarantee"}],
 "blocks":[{"type":"chip","name":"Chip","settings":[{"type":"text","id":"text","label":"Text","default":"5 mg elemental lithium"}]}],
 "max_blocks":6,
 "presets":[{"name":"Shop hero","blocks":[{"type":"chip","settings":{"text":"5 mg elemental lithium"}},{"type":"chip","settings":{"text":"Orotate form"}},{"type":"chip","settings":{"text":"Vegan · non-GMO"}},{"type":"chip","settings":{"text":"Made in the USA"}}]}]}

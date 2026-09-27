@@ -1,36 +1,50 @@
 <section class="sec" id="science">
   <div class="wrap">
     <div class="sec__head"><p class="eyebrow">{{ section.settings.eyebrow }}</p><h2>{{ section.settings.title }}</h2><p class="lead">{{ section.settings.body }}</p></div>
-    <div class="steps steps--4">
+    <div class="how">
       {%- for b in section.blocks -%}
-      <div class="step" {{ b.shopify_attributes }}>
-        <div class="step__media">
-          {%- if b.settings.image != blank -%}<img src="{{ b.settings.image | image_url: width: 900 }}" alt="{{ b.settings.title | escape }}" width="900" height="700" loading="lazy">
-          {%- elsif b.settings.asset != blank -%}<img src="{{ b.settings.asset | asset_url }}" alt="{{ b.settings.title | escape }}" width="440" height="342" loading="lazy">{%- endif -%}
-          <span class="step__n">{{ forloop.index }}</span>
+      <article class="how__card" {{ b.shopify_attributes }}>
+        <div class="how__ic">
+          {%- case b.settings.icon -%}
+          {%- when 'shield' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6l14 5v10c0 10-6.5 17-14 21-7.5-4-14-11-14-21V11z"/><path d="M17 24l5 5 9-10"/></svg>
+          {%- when 'spark' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="24" r="4"/><circle cx="34" cy="12" r="4"/><circle cx="34" cy="36" r="4"/><path d="M17.5 22l13-8M17.5 26l13 8"/></svg>
+          {%- when 'balance' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 8v32M12 40h24"/><path d="M8 20h32"/><path d="M8 20l-4 10h8zM40 20l-4 10h8z"/></svg>
+          {%- else -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 30c4-10 8-10 12 0s8 10 12 0 8-10 12 0"/><path d="M4 18c4-6 8-6 12 0s8 6 12 0 8-6 12 0" opacity=".45"/></svg>
+          {%- endcase -%}
         </div>
-        <div class="step__body"><h3>{{ b.settings.title }}</h3><p>{{ b.settings.text }}</p></div>
-      </div>
+        <h3>{{ b.settings.title }}</h3>
+        <ol class="how__chain">
+          <li><span class="how__k">Without it</span>{{ b.settings.s1 }}</li>
+          <li><span class="how__k">With 5 mg</span>{{ b.settings.s2 }}</li>
+          <li><span class="how__k">You notice</span>{{ b.settings.s3 }}</li>
+        </ol>
+      </article>
       {%- endfor -%}
     </div>
+    {%- if section.settings.quote != blank -%}
+    <blockquote class="how__quote"><p>“{{ section.settings.quote }}”</p><footer>{{ section.settings.quote_by }}</footer></blockquote>
+    {%- endif -%}
     <p class="muted" style="font-size:13px;margin-top:20px">{{ section.settings.note }}</p>
   </div>
 </section>
 {% schema %}
-{"name":"Science","settings":[
+{"name":"How it works","settings":[
  {"type":"text","id":"eyebrow","label":"Eyebrow","default":"How it works"},
- {"type":"text","id":"title","label":"Heading","default":"Microdosed lithium, explained on a whiteboard."},
- {"type":"textarea","id":"body","label":"Body","default":"Prescription lithium is measured in hundreds of milligrams. Lithium orotate at 5 mg sits closer to what a mineral-rich water supply used to provide. Four things it supports, in the words a pharmacist used to explain it."},
+ {"type":"text","id":"title","label":"Heading","default":"A trace mineral your brain used to get from water."},
+ {"type":"textarea","id":"body","label":"Body","default":"Prescription lithium is measured in hundreds of milligrams and needs blood tests. Lithium orotate at 5 mg sits closer to what a mineral-rich water supply used to provide. Here is what that small amount supports, in plain words."},
+ {"type":"textarea","id":"quote","label":"Pull quote","default":"Everybody's supposed to be getting it. It was supposed to be in our water and our food. We just processed it out."},
+ {"type":"text","id":"quote_by","label":"Quote attribution","default":"A pharmacist, explaining why he takes lithium orotate"},
  {"type":"text","id":"note","label":"Footnote","default":"*These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure or prevent any disease."}],
 "blocks":[{"type":"step","name":"Panel","settings":[
- {"type":"image_picker","id":"image","label":"Image (overrides asset)"},
- {"type":"text","id":"asset","label":"Theme asset filename","default":"gif-brain.gif"},
- {"type":"text","id":"title","label":"Title","default":"Less neurotoxicity"},
- {"type":"textarea","id":"text","label":"Text","default":"Supports the brain's own protective pathways."}]}],
+ {"type":"select","id":"icon","label":"Icon","options":[{"value":"shield","label":"Shield"},{"value":"spark","label":"Connections"},{"value":"balance","label":"Balance"},{"value":"wave","label":"Calm wave"}],"default":"shield"},
+ {"type":"text","id":"title","label":"Title","default":"Protects the wiring"},
+ {"type":"text","id":"s1","label":"Without it","default":"Brain cells take more day-to-day wear."},
+ {"type":"text","id":"s2","label":"With 5 mg","default":"Supports the brain's own protective pathways.*"},
+ {"type":"text","id":"s3","label":"You notice","default":"A mind that feels less frayed by the end of the day."}]}],
 "max_blocks":4,
-"presets":[{"name":"Science","blocks":[
- {"type":"step","settings":{"asset":"gif-brain.gif","title":"Protects the wiring","text":"Supports the brain's own protective pathways so cells are less exposed to day-to-day wear.*"}},
- {"type":"step","settings":{"asset":"gif-creative.gif","title":"More plasticity","text":"Supports the ability to form new connections: a stable mood and a flexible, creative brain.*"}},
- {"type":"step","settings":{"asset":"gif-mood.gif","title":"Mood stability","text":"More balance, fewer extremes. Fewer crashes after a good day and fewer spirals after a bad one.*"}},
- {"type":"step","settings":{"asset":"gif-stress.gif","title":"Stress regulation","text":"Helps the stress response settle instead of staying switched on.*"}}]}]}
+"presets":[{"name":"How it works","blocks":[
+ {"type":"step","settings":{"icon":"shield","title":"Protects the wiring","s1":"Brain cells take more day-to-day wear.","s2":"Supports the brain's own protective pathways.*","s3":"A mind that feels less frayed by the end of the day."}},
+ {"type":"step","settings":{"icon":"spark","title":"Keeps thinking flexible","s1":"Ideas feel stuck and mornings start blank.","s2":"Supports the brain's ability to form new connections.*","s3":"Thinking that moves more freely."}},
+ {"type":"step","settings":{"icon":"balance","title":"Evens out mood","s1":"Highs and lows sit far apart. A bad hour becomes a bad day.","s2":"Supports the pathways behind emotional balance.*","s3":"Fewer spikes, fewer crashes. More level."}},
+ {"type":"step","settings":{"icon":"wave","title":"Settles stress","s1":"The stress response stays switched on.","s2":"Helps the stress response settle after it fires.*","s3":"A hard morning stops becoming a hard week."}}]}]}
 {% endschema %}

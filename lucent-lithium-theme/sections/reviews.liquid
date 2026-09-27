@@ -16,21 +16,15 @@
       {%- endfor -%}
     </div>
     <div class="rcar__nav"><button type="button" aria-label="Previous reviews" data-rprev>{% render 'icon', name: 'chev-l' %}</button><button type="button" aria-label="Next reviews" data-rnext>{% render 'icon', name: 'chev-r' %}</button></div>
-    {%- if section.settings.show_video -%}
-    <div class="rvid rvid--2">
-      <div class="vid" style="aspect-ratio:9/7"><video playsinline preload="none" poster="{{ 'explainer-poster.jpg' | asset_url }}" src="{{ 'explainer.mp4' | asset_url }}"></video><button type="button" class="vid__play" aria-label="Play: a pharmacist explains lithium orotate"><span>{% render 'icon', name: 'play' %}</span></button><span class="vid__cap">A pharmacist explains lithium orotate, 30 seconds</span></div>
-      <div style="align-self:center"><p class="eyebrow">{{ section.settings.video_eyebrow }}</p><h3 style="margin:8px 0 10px">{{ section.settings.video_title }}</h3><p class="muted" style="font-size:15px">{{ section.settings.video_body }}</p></div>
-    </div>
-    {%- endif -%}
+    <div class="rquote"><p class="eyebrow">{{ section.settings.video_eyebrow }}</p><h3>{{ section.settings.video_title }}</h3><p class="muted">{{ section.settings.video_body }}</p></div>
   </div>
 </section>
 {% schema %}
 {"name":"Reviews","settings":[
  {"type":"text","id":"title","label":"Heading","default":"What level feels like"},
- {"type":"checkbox","id":"show_video","label":"Show explainer video","default":true},
- {"type":"text","id":"video_eyebrow","label":"Video eyebrow","default":"Hear it explained"},
- {"type":"text","id":"video_title","label":"Video title","default":"\"Everybody's supposed to be getting it. We just processed it out.\""},
- {"type":"textarea","id":"video_body","label":"Video body","default":"Why 5 mg is a different conversation from prescription lithium, in the words of a pharmacist. Sound on."}],
+ {"type":"text","id":"video_eyebrow","label":"Quote eyebrow","default":"Why 5 mg"},
+ {"type":"text","id":"video_title","label":"Quote","default":"“I thought lithium was a scary word. This is five milligrams. It replaces what we pulled out of our food and water.”"},
+ {"type":"textarea","id":"video_body","label":"Quote body","default":"A pharmacist, asked what the most underused supplement for brain health is. His answer was lithium orotate, at a dose most people have never heard of."}],
 "blocks":[{"type":"review","name":"Review","settings":[
  {"type":"range","id":"stars","label":"Stars","min":1,"max":5,"step":1,"default":5},
  {"type":"text","id":"title","label":"Title","default":"More level"},

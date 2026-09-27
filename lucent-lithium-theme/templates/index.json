@@ -1,11 +1,376 @@
-{"sections":{
- "hero":{"type":"shop-hero","blocks":{"c1":{"type":"chip","settings":{"text":"5 mg elemental lithium"}},"c2":{"type":"chip","settings":{"text":"Orotate form"}},"c3":{"type":"chip","settings":{"text":"Vegan · non-GMO"}},"c4":{"type":"chip","settings":{"text":"Made in the USA"}}},"block_order":["c1","c2","c3","c4"],"settings":{}},
- "grid":{"type":"shop-grid","blocks":{"i1":{"type":"item","settings":{"text":"Third-party tested for purity and label accuracy"}},"i2":{"type":"item","settings":{"text":"60-day money-back guarantee, even on an empty bottle"}},"i3":{"type":"item","settings":{"text":"Free shipping on orders over $50"}},"i4":{"type":"item","settings":{"text":"Vegan capsules, no gluten, soy, dairy or GMOs"}},"i5":{"type":"item","settings":{"text":"Made in a cGMP facility in the USA"}},"i6":{"type":"item","settings":{"text":"Subscribe and save 15%, skip or cancel anytime"}}},"block_order":["i1","i2","i3","i4","i5","i6"],"settings":{}},
- "benefits":{"type":"benefits","blocks":{"b1":{"type":"card","settings":{"icon":"mood","title":"A more level mood","text":"Supports the pathways behind emotional balance, so the highs and lows sit closer together and the snap comes less often.*"}},"b2":{"type":"card","settings":{"icon":"brain","title":"Clearer, more creative thinking","text":"Lithium supports neuroplasticity, the brain's ability to make new connections. People describe it as thinking more freely.*"}},"b3":{"type":"card","settings":{"icon":"wave","title":"Stress that stops running the day","text":"Helps regulate the stress response so a hard morning doesn't become a hard week.*"}},"b4":{"type":"card","settings":{"icon":"shield","title":"Long-term brain support","text":"Low-dose lithium is being studied for how it supports healthy brain aging and memory. This is the dose that research uses.*"}}},"block_order":["b1","b2","b3","b4"],"settings":{}},
- "science":{"type":"science","blocks":{"s1":{"type":"step","settings":{"asset":"gif-brain.gif","title":"Protects the wiring","text":"Supports the brain's own protective pathways so cells are less exposed to day-to-day wear.*"}},"s2":{"type":"step","settings":{"asset":"gif-creative.gif","title":"More plasticity","text":"Supports the ability to form new connections: a stable mood and a flexible, creative brain.*"}},"s3":{"type":"step","settings":{"asset":"gif-mood.gif","title":"Mood stability","text":"More balance, fewer extremes. Fewer crashes after a good day and fewer spirals after a bad one.*"}},"s4":{"type":"step","settings":{"asset":"gif-stress.gif","title":"Stress regulation","text":"Helps the stress response settle instead of staying switched on.*"}}},"block_order":["s1","s2","s3","s4"],"settings":{}},
- "compare":{"type":"replaces","blocks":{"r1":{"type":"row","settings":{"label":"Elemental lithium per capsule","us":"5 mg","a":"Often unlisted","b":"300–900 mg"}},"r2":{"type":"row","settings":{"label":"Orotate form","us":"yes","a":"Varies","b":"no"}},"r3":{"type":"row","settings":{"label":"Magnesium, zinc and B6 included","us":"yes","a":"no","b":"no"}},"r4":{"type":"row","settings":{"label":"Vegan, non-GMO capsule","us":"yes","a":"Varies","b":"no"}},"r5":{"type":"row","settings":{"label":"Third-party tested, made in USA","us":"yes","a":"Varies","b":"—"}},"r6":{"type":"row","settings":{"label":"Needs a prescription","us":"no","a":"no","b":"yes"}}},"block_order":["r1","r2","r3","r4","r5","r6"],"settings":{}},
- "standards":{"type":"standards","blocks":{"k1":{"type":"stat","settings":{"k":"5 mg","title":"Elemental lithium","text":"From 120 mg lithium orotate, the amount used in low-dose research. Printed on the front, not buried on the back."}},"k2":{"type":"stat","settings":{"k":"3rd","title":"Party tested","text":"Identity, potency and heavy metals verified per batch by an independent lab."}},"k3":{"type":"stat","settings":{"k":"60","title":"Vegan capsules","text":"One a day. Two months per bottle. No fillers, no colours."}},"k4":{"type":"stat","settings":{"k":"USA","title":"Made in a cGMP facility","text":"Non-GMO, gluten-free, soy-free, dairy-free."}}},"block_order":["k1","k2","k3","k4"],"settings":{}},
- "reviews":{"type":"reviews","blocks":{"v1":{"type":"review","settings":{"stars":5,"title":"I stopped snapping at my kids","text":"Three weeks in. I still get annoyed, I just don't blow up and then feel awful about it an hour later. My husband noticed before I did.","name":"Renee T."}},"v2":{"type":"review","settings":{"stars":5,"title":"Level is the right word","text":"I'd read about lithium orotate for years and was scared of the word lithium. 5 mg is nothing like what I imagined. I feel like me, with the volume turned down on the bad days.","name":"Marcus D."}},"v3":{"type":"review","settings":{"stars":4,"title":"Took about a month","text":"Nothing for the first two weeks, then I realised I'd been sleeping better and hadn't had a Sunday-night spiral in a while. Four stars only because I wanted it faster.","name":"Priya S."}},"v4":{"type":"review","settings":{"stars":5,"title":"Finally one that lists the elemental dose","text":"Every other bottle I bought said 120 mg and left me guessing. This one says 5 mg on the front. That's why I switched.","name":"Tom H."}},"v5":{"type":"review","settings":{"stars":5,"title":"Creative work got easier","text":"I write for a living. Fewer blank mornings, more ideas that connect. Could be placebo, but I've been on it for five months and I'm not stopping.","name":"Jess A."}}},"block_order":["v1","v2","v3","v4","v5"],"settings":{}},
- "faq":{"type":"faq","blocks":{"q1":{"type":"qa","settings":{"q":"Isn't lithium a prescription drug?","a":"Lithium carbonate, the medicine, is prescribed at hundreds of milligrams and monitored with blood tests. Lithium orotate is the same mineral in a trace amount: 5 mg of elemental lithium per capsule, in a form the body absorbs efficiently. It is a dietary supplement, not a medication, and it does not replace one."}},"q2":{"type":"qa","settings":{"q":"How much should I take, and when?","a":"One capsule a day with food. Most people take it with breakfast. Do not exceed the recommended dose."}},"q3":{"type":"qa","settings":{"q":"How long until I notice anything?","a":"Trace minerals build gradually. Many customers describe feeling more level somewhere between week two and week six. Give it a full bottle before you decide."}},"q4":{"type":"qa","settings":{"q":"Can I take it with other supplements or medication?","a":"It combines well with a daily multivitamin or omega-3. If you take prescription medication, especially anything for mood, or you are pregnant or nursing, talk to your healthcare provider before starting."}},"q5":{"type":"qa","settings":{"q":"Why is there magnesium, zinc and B6 in it?","a":"They are co-factors for the same pathways lithium supports: magnesium for the nervous system, zinc and B6 for neurotransmitter production. Small amounts, chosen to work alongside the lithium rather than pad the label."}},"q6":{"type":"qa","settings":{"q":"What is your guarantee?","a":"Sixty days, no questions. If you do not feel it is worth it, email us for a full refund, even on an empty bottle."}}},"block_order":["q1","q2","q3","q4","q5","q6"],"settings":{}},
- "cta":{"type":"guarantee-cta","settings":{}}
-},"order":["hero","grid","benefits","science","compare","standards","reviews","faq","cta"]}
+{
+ "sections": {
+  "hero": {
+   "type": "shop-hero",
+   "blocks": {
+    "c1": {
+     "type": "chip",
+     "settings": {
+      "text": "5 mg elemental lithium"
+     }
+    },
+    "c2": {
+     "type": "chip",
+     "settings": {
+      "text": "Orotate form"
+     }
+    },
+    "c3": {
+     "type": "chip",
+     "settings": {
+      "text": "Vegan \u00b7 non-GMO"
+     }
+    },
+    "c4": {
+     "type": "chip",
+     "settings": {
+      "text": "Made in the USA"
+     }
+    }
+   },
+   "block_order": [
+    "c1",
+    "c2",
+    "c3",
+    "c4"
+   ],
+   "settings": {}
+  },
+  "benefits": {
+   "type": "benefits",
+   "blocks": {
+    "b1": {
+     "type": "card",
+     "settings": {
+      "icon": "mood",
+      "title": "A more level mood",
+      "text": "Supports the pathways behind emotional balance, so the highs and lows sit closer together and the snap comes less often.*"
+     }
+    },
+    "b2": {
+     "type": "card",
+     "settings": {
+      "icon": "brain",
+      "title": "Clearer, more creative thinking",
+      "text": "Lithium supports neuroplasticity, the brain's ability to make new connections. People describe it as thinking more freely.*"
+     }
+    },
+    "b3": {
+     "type": "card",
+     "settings": {
+      "icon": "wave",
+      "title": "Stress that stops running the day",
+      "text": "Helps regulate the stress response so a hard morning doesn't become a hard week.*"
+     }
+    },
+    "b4": {
+     "type": "card",
+     "settings": {
+      "icon": "shield",
+      "title": "Long-term brain support",
+      "text": "Low-dose lithium is being studied for how it supports healthy brain aging and memory. This is the dose that research uses.*"
+     }
+    }
+   },
+   "block_order": [
+    "b1",
+    "b2",
+    "b3",
+    "b4"
+   ],
+   "settings": {}
+  },
+  "science": {
+   "type": "science",
+   "blocks": {
+    "s1": {
+     "type": "step",
+     "settings": {
+      "icon": "shield",
+      "title": "Protects the wiring",
+      "s1": "Brain cells take more day-to-day wear.",
+      "s2": "Supports the brain's own protective pathways.*",
+      "s3": "A mind that feels less frayed by the end of the day."
+     }
+    },
+    "s2": {
+     "type": "step",
+     "settings": {
+      "icon": "spark",
+      "title": "Keeps thinking flexible",
+      "s1": "Ideas feel stuck and mornings start blank.",
+      "s2": "Supports the brain's ability to form new connections.*",
+      "s3": "Thinking that moves more freely."
+     }
+    },
+    "s3": {
+     "type": "step",
+     "settings": {
+      "icon": "balance",
+      "title": "Evens out mood",
+      "s1": "Highs and lows sit far apart. A bad hour becomes a bad day.",
+      "s2": "Supports the pathways behind emotional balance.*",
+      "s3": "Fewer spikes, fewer crashes. More level."
+     }
+    },
+    "s4": {
+     "type": "step",
+     "settings": {
+      "icon": "wave",
+      "title": "Settles stress",
+      "s1": "The stress response stays switched on.",
+      "s2": "Helps the stress response settle after it fires.*",
+      "s3": "A hard morning stops becoming a hard week."
+     }
+    }
+   },
+   "block_order": [
+    "s1",
+    "s2",
+    "s3",
+    "s4"
+   ],
+   "settings": {}
+  },
+  "compare": {
+   "type": "replaces",
+   "blocks": {
+    "r1": {
+     "type": "row",
+     "settings": {
+      "label": "Elemental lithium per capsule",
+      "us": "5 mg",
+      "a": "Often unlisted",
+      "b": "300\u2013900 mg"
+     }
+    },
+    "r2": {
+     "type": "row",
+     "settings": {
+      "label": "Orotate form",
+      "us": "yes",
+      "a": "Varies",
+      "b": "no"
+     }
+    },
+    "r3": {
+     "type": "row",
+     "settings": {
+      "label": "Magnesium, zinc and B6 included",
+      "us": "yes",
+      "a": "no",
+      "b": "no"
+     }
+    },
+    "r4": {
+     "type": "row",
+     "settings": {
+      "label": "Vegan, non-GMO capsule",
+      "us": "yes",
+      "a": "Varies",
+      "b": "no"
+     }
+    },
+    "r5": {
+     "type": "row",
+     "settings": {
+      "label": "Third-party tested, made in USA",
+      "us": "yes",
+      "a": "Varies",
+      "b": "\u2014"
+     }
+    },
+    "r6": {
+     "type": "row",
+     "settings": {
+      "label": "Needs a prescription",
+      "us": "no",
+      "a": "no",
+      "b": "yes"
+     }
+    }
+   },
+   "block_order": [
+    "r1",
+    "r2",
+    "r3",
+    "r4",
+    "r5",
+    "r6"
+   ],
+   "settings": {}
+  },
+  "standards": {
+   "type": "standards",
+   "blocks": {
+    "k1": {
+     "type": "stat",
+     "settings": {
+      "k": "5 mg",
+      "title": "Elemental lithium",
+      "text": "From 120 mg lithium orotate, the amount used in low-dose research. Printed on the front, not buried on the back."
+     }
+    },
+    "k2": {
+     "type": "stat",
+     "settings": {
+      "k": "3rd",
+      "title": "Party tested",
+      "text": "Identity, potency and heavy metals verified per batch by an independent lab."
+     }
+    },
+    "k3": {
+     "type": "stat",
+     "settings": {
+      "k": "60",
+      "title": "Vegan capsules",
+      "text": "One a day. Two months per bottle. No fillers, no colours."
+     }
+    },
+    "k4": {
+     "type": "stat",
+     "settings": {
+      "k": "USA",
+      "title": "Made in a cGMP facility",
+      "text": "Non-GMO, gluten-free, soy-free, dairy-free."
+     }
+    }
+   },
+   "block_order": [
+    "k1",
+    "k2",
+    "k3",
+    "k4"
+   ],
+   "settings": {}
+  },
+  "reviews": {
+   "type": "reviews",
+   "blocks": {
+    "v1": {
+     "type": "review",
+     "settings": {
+      "stars": 5,
+      "title": "I stopped snapping at my kids",
+      "text": "Three weeks in. I still get annoyed, I just don't blow up and then feel awful about it an hour later. My husband noticed before I did.",
+      "name": "Renee T."
+     }
+    },
+    "v2": {
+     "type": "review",
+     "settings": {
+      "stars": 5,
+      "title": "Level is the right word",
+      "text": "I'd read about lithium orotate for years and was scared of the word lithium. 5 mg is nothing like what I imagined. I feel like me, with the volume turned down on the bad days.",
+      "name": "Marcus D."
+     }
+    },
+    "v3": {
+     "type": "review",
+     "settings": {
+      "stars": 4,
+      "title": "Took about a month",
+      "text": "Nothing for the first two weeks, then I realised I'd been sleeping better and hadn't had a Sunday-night spiral in a while. Four stars only because I wanted it faster.",
+      "name": "Priya S."
+     }
+    },
+    "v4": {
+     "type": "review",
+     "settings": {
+      "stars": 5,
+      "title": "Finally one that lists the elemental dose",
+      "text": "Every other bottle I bought said 120 mg and left me guessing. This one says 5 mg on the front. That's why I switched.",
+      "name": "Tom H."
+     }
+    },
+    "v5": {
+     "type": "review",
+     "settings": {
+      "stars": 5,
+      "title": "Creative work got easier",
+      "text": "I write for a living. Fewer blank mornings, more ideas that connect. Could be placebo, but I've been on it for five months and I'm not stopping.",
+      "name": "Jess A."
+     }
+    }
+   },
+   "block_order": [
+    "v1",
+    "v2",
+    "v3",
+    "v4",
+    "v5"
+   ],
+   "settings": {}
+  },
+  "faq": {
+   "type": "faq",
+   "blocks": {
+    "q1": {
+     "type": "qa",
+     "settings": {
+      "q": "Isn't lithium a prescription drug?",
+      "a": "Lithium carbonate, the medicine, is prescribed at hundreds of milligrams and monitored with blood tests. Lithium orotate is the same mineral in a trace amount: 5 mg of elemental lithium per capsule, in a form the body absorbs efficiently. It is a dietary supplement, not a medication, and it does not replace one."
+     }
+    },
+    "q2": {
+     "type": "qa",
+     "settings": {
+      "q": "How much should I take, and when?",
+      "a": "One capsule a day with food. Most people take it with breakfast. Do not exceed the recommended dose."
+     }
+    },
+    "q3": {
+     "type": "qa",
+     "settings": {
+      "q": "How long until I notice anything?",
+      "a": "Trace minerals build gradually. Many customers describe feeling more level somewhere between week two and week six. Give it a full bottle before you decide."
+     }
+    },
+    "q4": {
+     "type": "qa",
+     "settings": {
+      "q": "Can I take it with other supplements or medication?",
+      "a": "It combines well with a daily multivitamin or omega-3. If you take prescription medication, especially anything for mood, or you are pregnant or nursing, talk to your healthcare provider before starting."
+     }
+    },
+    "q5": {
+     "type": "qa",
+     "settings": {
+      "q": "Why is there magnesium, zinc and B6 in it?",
+      "a": "They are co-factors for the same pathways lithium supports: magnesium for the nervous system, zinc and B6 for neurotransmitter production. Small amounts, chosen to work alongside the lithium rather than pad the label."
+     }
+    },
+    "q6": {
+     "type": "qa",
+     "settings": {
+      "q": "What is your guarantee?",
+      "a": "Sixty days, no questions. If you do not feel it is worth it, email us for a full refund, even on an empty bottle."
+     }
+    }
+   },
+   "block_order": [
+    "q1",
+    "q2",
+    "q3",
+    "q4",
+    "q5",
+    "q6"
+   ],
+   "settings": {}
+  },
+  "cta": {
+   "type": "guarantee-cta",
+   "settings": {}
+  }
+ },
+ "order": [
+  "hero",
+  "benefits",
+  "science",
+  "compare",
+  "standards",
+  "reviews",
+  "faq",
+  "cta"
+ ]
+}
