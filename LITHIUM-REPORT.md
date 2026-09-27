@@ -118,6 +118,12 @@ Scored 0–3 on: obvious what it is at a glance; purpose toward purchase evident
 | **Total** | | **65 / 66 = 98.5%** |
 Removed during the check: the second pharmacist quote card in the reviews block (redundant with the pull-quote), the storefront "Placeholder reviews" subheading (moved to editor help text), and the empty-start frames of both GIFs.
 
+## 3d. Revision: ingredient claims corrected to the real label
+
+The supplied Supplement Facts panel reads: Lithium (as Orotate) 5 mg, Daily Value not established. Other ingredients: vegetable cellulose, microcrystalline cellulose, silica and magnesium stearate. 1 capsule, 60 servings.
+
+The earlier copy carried magnesium 100 mg, zinc 10 mg, vitamin B6 5 mg, "120 mg lithium orotate", rice flour and "gluten/soy/dairy-free", taken from the TikTok listing's attribute fields, which were wrong. All of it was removed from the theme, the templates, the rendered bottle, the facts panel, the directions panel and the product CSV. Also removed because nothing on the label or listing substantiates them: "third-party tested per batch", "independent lab" and "cGMP facility". The positioning shifted to what the label actually proves: one active ingredient, the real lithium amount printed on the front. Claims still in use that come from the listing rather than the label: vegan capsule, non-GMO, made in the USA. Mentions of "120 mg" in the comment and review placeholders refer to other brands' bottles and were kept. Re-verified: 0 remaining hits for magnesium (other than magnesium stearate), zinc, B6, gluten, soy, dairy, third-party, cGMP; 23/23 templates render; 46/46 page audits; 31/31 flows.
+
 ## 4. The three checks (measured, not estimated)
 
 **Check 1 — software engineer.** All 23 templates rendered through a Liquid harness with a mocked store and Shopify cart endpoints, driven in Chromium at 1440 and 390 px: every link resolves, every in-page anchor exists, every image loads, every button is wired, no horizontal scroll, no console errors. Result **46/46 page×viewport runs clean** (the only flag is a favicon 404 from the mock server). Liquid tag balance: 0 errors; all JSON valid. Bugs found and fixed on the way: `render` snippets cannot set caller variables (featured-product resolver inlined), filters inside `render` arguments, price output sharing a `data-price` attribute with the option radios, inline grid styles overriding the phone media queries, grid children without `min-width:0`.

@@ -76,7 +76,7 @@
     "r3": {
      "type": "row",
      "settings": {
-      "label": "Magnesium, zinc and B6 included",
+      "label": "One ingredient, no proprietary blend",
       "us": "yes",
       "a": "no",
       "b": "no"
@@ -94,7 +94,7 @@
     "r5": {
      "type": "row",
      "settings": {
-      "label": "Third-party tested, made in USA",
+      "label": "Made in the USA",
       "us": "yes",
       "a": "Varies",
       "b": "\u2014"
@@ -128,15 +128,15 @@
      "settings": {
       "k": "5 mg",
       "title": "Elemental lithium",
-      "text": "From 120 mg lithium orotate, the amount used in low-dose research. Printed on the front, not buried on the back."
+      "text": "Lithium as orotate, the amount used in low-dose research. Printed on the front, not buried on the back."
      }
     },
     "k2": {
      "type": "stat",
      "settings": {
-      "k": "3rd",
-      "title": "Party tested",
-      "text": "Identity, potency and heavy metals verified per batch by an independent lab."
+      "k": "1",
+      "title": "Active ingredient",
+      "text": "Lithium (as orotate) 5 mg. No blend, no proprietary formula, nothing else to decode."
      }
     },
     "k3": {
@@ -151,8 +151,8 @@
      "type": "stat",
      "settings": {
       "k": "USA",
-      "title": "Made in a cGMP facility",
-      "text": "Non-GMO, gluten-free, soy-free, dairy-free."
+      "title": "Made in the USA",
+      "text": "Non-GMO. Vegan capsule."
      }
     }
    },
@@ -198,8 +198,8 @@
     "q5": {
      "type": "qa",
      "settings": {
-      "q": "Why is there magnesium, zinc and B6 in it?",
-      "a": "They are co-factors for the same pathways lithium supports: magnesium for the nervous system, zinc and B6 for neurotransmitter production. Small amounts, chosen to work alongside the lithium rather than pad the label."
+      "q": "What else is in the capsule?",
+      "a": "Nothing else active. Lithium (as orotate) 5 mg is the only ingredient. The rest is the vegetable cellulose capsule and the standard flow agents: microcrystalline cellulose, silica and magnesium stearate."
      }
     },
     "q6": {
