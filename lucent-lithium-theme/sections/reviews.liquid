@@ -3,37 +3,49 @@
     <div class="rsum">
       <span class="rsum__big">{{ settings.rating | default: '4.7' }}</span>
       <div>{% render 'stars', rating: settings.rating %}<p class="muted" style="font-size:14px;margin-top:4px">Based on {{ settings.review_count | default: '2,140' }} verified reviews</p></div>
-      <div style="margin-left:auto"><h2 style="font-size:28px">{{ section.settings.title }}</h2></div>
+      <ul class="rbars" aria-label="Rating breakdown">
+        <li><span>5</span><i><b style="width:{{ section.settings.p5 }}%"></b></i><small>{{ section.settings.p5 }}%</small></li>
+        <li><span>4</span><i><b style="width:{{ section.settings.p4 }}%"></b></i><small>{{ section.settings.p4 }}%</small></li>
+        <li><span>3</span><i><b style="width:{{ section.settings.p3 }}%"></b></i><small>{{ section.settings.p3 }}%</small></li>
+        <li><span>2</span><i><b style="width:{{ section.settings.p2 }}%"></b></i><small>{{ section.settings.p2 }}%</small></li>
+        <li><span>1</span><i><b style="width:{{ section.settings.p1 }}%"></b></i><small>{{ section.settings.p1 }}%</small></li>
+      </ul>
+      <div class="rsum__t"><h2 style="font-size:28px">{{ section.settings.title }}</h2><p class="muted" style="font-size:14px;margin-top:6px">{{ section.settings.sub }}</p></div>
     </div>
     <div class="rcar">
       {%- for b in section.blocks -%}
       <article class="rev" {{ b.shopify_attributes }}>
-        {% render 'stars', rating: b.settings.stars %}
+        {%- if b.settings.photo != blank -%}<img class="rev__photo" src="{{ b.settings.photo | image_url: width: 600 }}" alt="Photo from {{ b.settings.name | escape }}" width="300" height="200" loading="lazy">{%- endif -%}
+        <div class="rev__top">{% render 'stars', rating: b.settings.stars %}<span class="rev__ver">{% render 'icon', name: 'check' %} Verified purchase</span></div>
         <h3 style="font-size:17px">{{ b.settings.title }}</h3>
         <q>{{ b.settings.text }}</q>
-        <div class="rev__who"><strong>{{ b.settings.name }}</strong><span>Verified buyer</span></div>
+        <div class="rev__who"><strong>{{ b.settings.name }}</strong><span>{{ b.settings.bought }}</span></div>
       </article>
       {%- endfor -%}
     </div>
     <div class="rcar__nav"><button type="button" aria-label="Previous reviews" data-rprev>{% render 'icon', name: 'chev-l' %}</button><button type="button" aria-label="Next reviews" data-rnext>{% render 'icon', name: 'chev-r' %}</button></div>
-    <div class="rquote"><p class="eyebrow">{{ section.settings.video_eyebrow }}</p><h3>{{ section.settings.video_title }}</h3><p class="muted">{{ section.settings.video_body }}</p></div>
   </div>
 </section>
 {% schema %}
 {"name":"Reviews","settings":[
  {"type":"text","id":"title","label":"Heading","default":"What level feels like"},
- {"type":"text","id":"video_eyebrow","label":"Quote eyebrow","default":"Why 5 mg"},
- {"type":"text","id":"video_title","label":"Quote","default":"“I thought lithium was a scary word. This is five milligrams. It replaces what we pulled out of our food and water.”"},
- {"type":"textarea","id":"video_body","label":"Quote body","default":"A pharmacist, asked what the most underused supplement for brain health is. His answer was lithium orotate, at a dose most people have never heard of."}],
+ {"type":"text","id":"sub","label":"Subheading","default":"Collected after the first bottle. Names shortened for privacy.","info":"The review cards below are placeholder content. Replace them with your verified reviews, or connect a reviews app, before launch."},
+ {"type":"range","id":"p5","label":"5-star %","min":0,"max":100,"step":1,"default":81},
+ {"type":"range","id":"p4","label":"4-star %","min":0,"max":100,"step":1,"default":12},
+ {"type":"range","id":"p3","label":"3-star %","min":0,"max":100,"step":1,"default":4},
+ {"type":"range","id":"p2","label":"2-star %","min":0,"max":100,"step":1,"default":2},
+ {"type":"range","id":"p1","label":"1-star %","min":0,"max":100,"step":1,"default":1},
 "blocks":[{"type":"review","name":"Review","settings":[
  {"type":"range","id":"stars","label":"Stars","min":1,"max":5,"step":1,"default":5},
  {"type":"text","id":"title","label":"Title","default":"More level"},
  {"type":"textarea","id":"text","label":"Text","default":"Review text"},
- {"type":"text","id":"name","label":"Name","default":"A. Customer"}]}],
+ {"type":"text","id":"name","label":"Name","default":"A. Customer"},
+ {"type":"text","id":"bought","label":"What they bought","default":"Bought 1 bottle"},
+ {"type":"image_picker","id":"photo","label":"Customer photo (optional)"}]}],
 "presets":[{"name":"Reviews","blocks":[
- {"type":"review","settings":{"stars":5,"title":"I stopped snapping at my kids","text":"Three weeks in. I still get annoyed, I just don't blow up and then feel awful about it an hour later. My husband noticed before I did.","name":"Renee T."}},
- {"type":"review","settings":{"stars":5,"title":"Level is the right word","text":"I'd read about lithium orotate for years and was scared of the word lithium. 5 mg is nothing like what I imagined. I feel like me, with the volume turned down on the bad days.","name":"Marcus D."}},
- {"type":"review","settings":{"stars":4,"title":"Took about a month","text":"Nothing for the first two weeks, then I realised I'd been sleeping better and hadn't had a Sunday-night spiral in a while. Four stars only because I wanted it faster.","name":"Priya S."}},
- {"type":"review","settings":{"stars":5,"title":"Finally one that lists the elemental dose","text":"Every other bottle I bought said 120 mg and left me guessing. This one says 5 mg on the front. That's why I switched.","name":"Tom H."}},
- {"type":"review","settings":{"stars":5,"title":"Creative work got easier","text":"I write for a living. Fewer blank mornings, more ideas that connect. Could be placebo, but I've been on it for five months and I'm not stopping.","name":"Jess A."}}]}]}
+ {"type":"review","settings":{"stars":5,"title":"I stopped snapping at my kids","text":"Three weeks in. I still get annoyed, I just don't blow up and then feel awful about it an hour later. My husband noticed before I did.","name":"Renee T.","bought":"Bought 2 bottles · 3 weeks in"}},
+ {"type":"review","settings":{"stars":5,"title":"Level is the right word","text":"I'd read about lithium orotate for years and was scared of the word lithium. 5 mg is nothing like what I imagined. I feel like me, with the volume turned down on the bad days.","name":"Marcus D.","bought":"Bought 3 bottles · 4 months in"}},
+ {"type":"review","settings":{"stars":4,"title":"Took about a month","text":"Nothing for the first two weeks, then I realised I'd been sleeping better and hadn't had a Sunday-night spiral in a while. Four stars only because I wanted it faster.","name":"Priya S.","bought":"Bought 1 bottle · 5 weeks in"}},
+ {"type":"review","settings":{"stars":5,"title":"Finally one that lists the elemental dose","text":"Every other bottle I bought said 120 mg and left me guessing. This one says 5 mg on the front. That's why I switched.","name":"Tom H.","bought":"Bought 2 bottles · 2 months in"}},
+ {"type":"review","settings":{"stars":5,"title":"Creative work got easier","text":"I write for a living. Fewer blank mornings, more ideas that connect. Could be placebo, but I've been on it for five months and I'm not stopping.","name":"Jess A.","bought":"Bought 3 bottles · 5 months in"}}]}]}
 {% endschema %}

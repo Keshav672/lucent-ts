@@ -1,0 +1,31 @@
+{%- assign has_video = false -%}
+{%- for b in section.blocks -%}{%- if b.settings.video != blank or b.settings.video_url != blank -%}{%- assign has_video = true -%}{%- endif -%}{%- endfor -%}
+{%- if has_video -%}
+<section class="sec" id="watch">
+  <div class="wrap">
+    <div class="sec__head sec__head--center"><p class="eyebrow">{{ section.settings.eyebrow }}</p><h2>{{ section.settings.title }}</h2><p class="lead" style="margin-inline:auto">{{ section.settings.body }}</p></div>
+    <div class="rvid">
+      {%- for b in section.blocks -%}
+        {%- if b.settings.video != blank or b.settings.video_url != blank -%}
+        <div class="vid" {{ b.shopify_attributes }}>
+          {%- if b.settings.video != blank -%}{{ b.settings.video | video_tag: playsinline: true, controls: false, preload: 'metadata', image_size: '540x' }}
+          {%- else -%}<video playsinline preload="metadata" src="{{ b.settings.video_url }}"{% if b.settings.poster != blank %} poster="{{ b.settings.poster | image_url: width: 540 }}"{% endif %}></video>{%- endif -%}
+          <button type="button" class="vid__play" aria-label="Play: {{ b.settings.caption | escape }}"><span>{% render 'icon', name: 'play' %}</span></button>
+          {%- if b.settings.caption != blank -%}<span class="vid__cap">{{ b.settings.caption }}</span>{%- endif -%}
+        </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+{% schema %}
+{"name":"Customer video wall","settings":[
+ {"type":"paragraph","content":"Shows only once at least one block has a video. Drop in customer or creator clips (vertical, under 60 s). Each tile plays with sound on tap; one plays at a time."},
+ {"type":"text","id":"eyebrow","label":"Eyebrow","default":"In their words"},
+ {"type":"text","id":"title","label":"Heading","default":"Watch what level looks like."},
+ {"type":"textarea","id":"body","label":"Body","default":"Unscripted clips from customers, sent in after their first bottle."}],
+"blocks":[{"type":"clip","name":"Clip","settings":[{"type":"video","id":"video","label":"Video"},{"type":"url","id":"video_url","label":"Or hosted MP4 URL"},{"type":"image_picker","id":"poster","label":"Poster (for URL videos)"},{"type":"text","id":"caption","label":"Caption","default":"“Week three: my husband noticed first.” · Renee T."}]}],
+"max_blocks":3,
+"presets":[{"name":"Customer video wall","blocks":[{"type":"clip","settings":{"caption":"“Week three: my husband noticed first.” · Renee T."}},{"type":"clip","settings":{"caption":"“5 mg is not the lithium I was scared of.” · Marcus D."}},{"type":"clip","settings":{"caption":"“Finally a label that says the real dose.” · Tom H."}}]}]}
+{% endschema %}

@@ -1,0 +1,47 @@
+{%- comment -%}Featured product resolver (inline: render tags can't set parent variables){%- endcomment -%}
+{%- assign fp = settings.featured_product -%}
+{%- if fp == blank -%}{%- assign fp = all_products['lucent-lithium-orotate'] -%}{%- endif -%}
+{%- if fp == blank -%}{%- for p in collections['all'].products -%}{%- if p.title contains 'ithium' -%}{%- assign fp = p -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if fp == blank and collections['all'].products.size > 0 -%}{%- assign fp = collections['all'].products.first -%}{%- endif -%}
+{%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.root_url -%}{%- endif -%}
+<section class="sec{% if section.settings.dark %} sec--ink{% endif %}" id="{{ section.settings.anchor | default: 'expect' }}">
+  <div class="wrap band{% if section.settings.flip %} band--flip{% endif %}">
+    <figure class="phone">
+      <div class="phone__screen">
+        {%- if section.settings.image != blank -%}<img src="{{ section.settings.image | image_url: width: 960 }}" alt="{{ section.settings.alt | escape }}" width="480" height="600" loading="lazy">
+        {%- else -%}<img src="{{ section.settings.asset | asset_url }}" alt="{{ section.settings.alt | escape }}" width="480" height="600" loading="lazy">{%- endif -%}
+      </div>
+      <figcaption class="phone__tag">{{ section.settings.tag }}</figcaption>
+    </figure>
+    <div class="band__copy">
+      <p class="eyebrow"{% if section.settings.dark %} style="color:var(--sky-2)"{% endif %}>{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.title }}</h2>
+      <p class="lead"{% if section.settings.dark %} style="color:rgba(255,255,255,.78)"{% endif %}>{{ section.settings.body }}</p>
+      <ul class="band__list">
+        {%- for b in section.blocks -%}<li {{ b.shopify_attributes }}><strong>{{ b.settings.k }}</strong><span>{{ b.settings.v }}</span></li>{%- endfor -%}
+      </ul>
+      {%- if section.settings.cta != blank -%}
+        {%- if fp != blank and fp.available -%}
+        <form method="post" action="{{ routes.cart_add_url }}" data-ajax><input type="hidden" name="id" value="{{ fp.selected_or_first_available_variant.id }}"><input type="hidden" name="quantity" value="1"><button type="submit" class="btn btn--lg{% if section.settings.dark %} btn--light{% endif %}">{{ section.settings.cta }}</button></form>
+        {%- else -%}<a href="{{ fp_url }}" class="btn btn--lg">{{ section.settings.cta }}</a>{%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Proof band (GIF)","settings":[
+ {"type":"text","id":"anchor","label":"Anchor id","default":"expect"},
+ {"type":"checkbox","id":"dark","label":"Dark background","default":false},
+ {"type":"checkbox","id":"flip","label":"Copy on the left","default":false},
+ {"type":"image_picker","id":"image","label":"GIF or image (overrides asset)"},
+ {"type":"text","id":"asset","label":"Theme asset filename","default":"gif-timeline.gif"},
+ {"type":"text","id":"alt","label":"Alt text","default":"28-day calendar filling in while a jagged mood line settles"},
+ {"type":"text","id":"tag","label":"Tag under the phone","default":"Day 1 to day 28"},
+ {"type":"text","id":"eyebrow","label":"Eyebrow","default":"What to expect"},
+ {"type":"text","id":"title","label":"Heading","default":"It isn't a switch. It's a floor."},
+ {"type":"textarea","id":"body","label":"Body","default":"Trace minerals build. Most people feel nothing in week one, sleep a little better in week two, and somewhere in week three notice the snap didn't come. By week four the word they use is level."},
+ {"type":"text","id":"cta","label":"Button (blank hides)","default":"Start your 28 days"}],
+"blocks":[{"type":"row","name":"Row","settings":[{"type":"text","id":"k","label":"Label","default":"Week 1"},{"type":"text","id":"v","label":"Text","default":"Nothing yet. Keep going."}]}],
+"max_blocks":4,
+"presets":[{"name":"Proof band (GIF)","blocks":[{"type":"row","settings":{"k":"Week 1","v":"Nothing yet. Keep going."}},{"type":"row","settings":{"k":"Week 2","v":"Sleeping a little better."}},{"type":"row","settings":{"k":"Week 3","v":"Fewer snaps, shorter spirals."}},{"type":"row","settings":{"k":"Week 4","v":"Level. The word every review uses."}}]}]}
+{% endschema %}

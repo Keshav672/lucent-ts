@@ -253,7 +253,8 @@
       "stars": 5,
       "title": "I stopped snapping at my kids",
       "text": "Three weeks in. I still get annoyed, I just don't blow up and then feel awful about it an hour later. My husband noticed before I did.",
-      "name": "Renee T."
+      "name": "Renee T.",
+      "bought": "Bought 2 bottles \u00b7 3 weeks in"
      }
     },
     "v2": {
@@ -262,7 +263,8 @@
       "stars": 5,
       "title": "Level is the right word",
       "text": "I'd read about lithium orotate for years and was scared of the word lithium. 5 mg is nothing like what I imagined. I feel like me, with the volume turned down on the bad days.",
-      "name": "Marcus D."
+      "name": "Marcus D.",
+      "bought": "Bought 3 bottles \u00b7 4 months in"
      }
     },
     "v3": {
@@ -271,7 +273,8 @@
       "stars": 4,
       "title": "Took about a month",
       "text": "Nothing for the first two weeks, then I realised I'd been sleeping better and hadn't had a Sunday-night spiral in a while. Four stars only because I wanted it faster.",
-      "name": "Priya S."
+      "name": "Priya S.",
+      "bought": "Bought 1 bottle \u00b7 5 weeks in"
      }
     },
     "v4": {
@@ -280,7 +283,8 @@
       "stars": 5,
       "title": "Finally one that lists the elemental dose",
       "text": "Every other bottle I bought said 120 mg and left me guessing. This one says 5 mg on the front. That's why I switched.",
-      "name": "Tom H."
+      "name": "Tom H.",
+      "bought": "Bought 2 bottles \u00b7 2 months in"
      }
     },
     "v5": {
@@ -289,7 +293,8 @@
       "stars": 5,
       "title": "Creative work got easier",
       "text": "I write for a living. Fewer blank mornings, more ideas that connect. Could be placebo, but I've been on it for five months and I'm not stopping.",
-      "name": "Jess A."
+      "name": "Jess A.",
+      "bought": "Bought 3 bottles \u00b7 5 months in"
      }
     }
    },
@@ -361,15 +366,189 @@
   "cta": {
    "type": "guarantee-cta",
    "settings": {}
+  },
+  "comments": {
+   "type": "comments",
+   "blocks": {
+    "c1": {
+     "type": "thread",
+     "settings": {
+      "q_name": "Dana K.",
+      "q_text": "Isn't lithium the thing they give people in hospitals?? How is this safe to just buy online",
+      "q_when": "3w",
+      "a_name": "Marcus D.",
+      "a_text": "Different thing. The hospital drug is lithium carbonate at 300 to 900 mg with blood tests. This is 5 mg of the mineral as orotate. I was nervous too, read up on it for a month before ordering. Two bottles in now.",
+      "a_when": "3w",
+      "a_likes": "41",
+      "f_text": "ok update: ordered after this. week 3 and my husband asked what changed. nothing changed, I just stopped snapping.",
+      "f_when": "1w"
+     }
+    },
+    "c2": {
+     "type": "thread",
+     "settings": {
+      "q_name": "Priya S.",
+      "q_text": "Does this actually do anything or is it placebo? Honest answers pls",
+      "q_when": "2w",
+      "a_name": "Renee T.",
+      "a_text": "Honest answer: nothing for the first two weeks. Around week three I noticed I hadn't had a Sunday night spiral in a while. It's not a switch, it's a floor.",
+      "a_when": "2w",
+      "a_likes": "27",
+      "f_text": "",
+      "f_when": ""
+     }
+    },
+    "c3": {
+     "type": "thread",
+     "settings": {
+      "q_name": "Tom H.",
+      "q_text": "Why this one and not the $9 bottle on Amazon?",
+      "q_when": "1w",
+      "a_name": "Jess A.",
+      "a_text": "Because the $9 one says 120 mg and never tells you how much is actually lithium. This one prints 5 mg on the front and has the lab test. That's the whole reason I switched.",
+      "a_when": "1w",
+      "a_likes": "19",
+      "f_text": "",
+      "f_when": ""
+     }
+    }
+   },
+   "block_order": [
+    "c1",
+    "c2",
+    "c3"
+   ],
+   "settings": {}
+  },
+  "expect": {
+   "type": "proof-band",
+   "blocks": {
+    "w1": {
+     "type": "row",
+     "settings": {
+      "k": "Week 1",
+      "v": "Nothing yet. Keep going."
+     }
+    },
+    "w2": {
+     "type": "row",
+     "settings": {
+      "k": "Week 2",
+      "v": "Sleeping a little better."
+     }
+    },
+    "w3": {
+     "type": "row",
+     "settings": {
+      "k": "Week 3",
+      "v": "Fewer snaps, shorter spirals."
+     }
+    },
+    "w4": {
+     "type": "row",
+     "settings": {
+      "k": "Week 4",
+      "v": "Level. The word every review uses."
+     }
+    }
+   },
+   "block_order": [
+    "w1",
+    "w2",
+    "w3",
+    "w4"
+   ],
+   "settings": {}
+  },
+  "dose": {
+   "type": "proof-band",
+   "blocks": {
+    "d1": {
+     "type": "row",
+     "settings": {
+      "k": "300 mg+",
+      "v": "Prescription lithium carbonate. A medicine, with blood tests."
+     }
+    },
+    "d2": {
+     "type": "row",
+     "settings": {
+      "k": "5 mg",
+      "v": "Lucent. A trace mineral, in the orotate form."
+     }
+    },
+    "d3": {
+     "type": "row",
+     "settings": {
+      "k": "0 mg",
+      "v": "What most modern diets and water supplies now provide."
+     }
+    }
+   },
+   "block_order": [
+    "d1",
+    "d2",
+    "d3"
+   ],
+   "settings": {
+    "anchor": "dose",
+    "dark": true,
+    "flip": true,
+    "asset": "gif-dose.gif",
+    "alt": "Bar chart animating 300 mg of prescription lithium next to 5 mg of Lucent",
+    "tag": "Drawn to scale",
+    "eyebrow": "The scary word",
+    "title": "Same mineral. Sixty times smaller.",
+    "body": "Lithium the medicine is measured in hundreds of milligrams. Lithium the mineral, at 5 mg, is the amount a good water supply used to give you. That gap is the whole reason this is a supplement and not a prescription.",
+    "cta": "Add to cart"
+   }
+  },
+  "watch": {
+   "type": "video-wall",
+   "blocks": {
+    "v1": {
+     "type": "clip",
+     "settings": {
+      "caption": "\u201cWeek three: my husband noticed first.\u201d \u2014 Renee T."
+     }
+    },
+    "v2": {
+     "type": "clip",
+     "settings": {
+      "caption": "\u201c5 mg is not the lithium I was scared of.\u201d \u2014 Marcus D."
+     }
+    },
+    "v3": {
+     "type": "clip",
+     "settings": {
+      "caption": "\u201cFinally a label that says the real dose.\u201d \u2014 Tom H."
+     }
+    }
+   },
+   "block_order": [
+    "v1",
+    "v2",
+    "v3"
+   ],
+   "settings": {}
+  },
+  "note": {
+   "type": "brand-note",
+   "settings": {}
   }
  },
  "order": [
   "hero",
   "benefits",
+  "expect",
+  "comments",
   "science",
+  "dose",
   "compare",
   "standards",
+  "watch",
   "reviews",
+  "note",
   "faq",
   "cta"
  ]

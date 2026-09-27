@@ -77,6 +77,47 @@ What the consumer research says: Baymard's testing finds low-quality imagery is 
 
 What changed (home page, product page and the Science page, since all three used the block): the four whiteboard GIFs were replaced with four brand-drawn panels in the theme's own icon style, each a plain-language three-step chain (Without it → With 5 mg → You notice); the pharmacist's line is kept as a text pull-quote; the whiteboard explainer video in the reviews block became a text quote card; the whiteboard stills were dropped from the product gallery fallback. The shop grid with category chips was also removed from the home page (single product), and the hero gained an Add to cart button with the price, plus a "Choose your supply" link to the product page. The whiteboard cuts now live in `lucent-lithium-extras/whiteboard/`. Measured home page after the change: 6,445 px at 1440, 10,682 px on a phone. Checks re-run: 46/46 page audits clean, 31/31 flows.
 
+## 3c. Revision: GIFs, videos and customer reviews (the proof layer)
+
+### How the two reference sites use media, and why
+**pinemoor.co** uses pictures, not video. Its product gallery is a sales sequence (product → benefits collage → people → directions → "real results" panel → expert → guarantee), so a shopper who only swipes the gallery still gets the whole pitch. Below it: an endorser wall (photo, name, role, quote), three tall "ritual" photos for the three steps, an "ad comments" thread rebuilt in HTML with avatars that answers "does this actually work?" in customers' own words, three origin photos, and a founder letter with a photo. Several of its people images are AI-generated (the file names say "Regenerated_people" and "Ultra_realistic_Dr").
+**shoplucent.net** uses the video approach: a three-phone creator-video wall with poster + play, a GIF of a person holding the bottle inside a phone frame beside the "why" copy, avatar testimonial cards, then a review block with a rating breakdown and "see more".
+Why they work: photos and clips of people using the product are proof, not claims. Product pages with customer content convert 74% higher than the same page without it; 84% of shoppers say real customer content raises trust; ten reviews lift conversion by about 45% ([UGC statistics](https://loop.fans/blog/ugc-statistics), [44 UGC statistics](https://influee.co/blog/ugc-statistics), [UGC impact on e-commerce sales](https://archive.com/blog/ugc-impact-ecommerce-sales-statistics)).
+
+### The honest media situation
+Every face-free crop of the four ads still shows "brainMD" on the label, the embroidered M.D. coat, or the "BrainMD's Lithium Orotate" caption. There is no footage in the supplied ads that can be presented as a customer loving a Lucent product, and Higgsfield is not connected. So the proof layer is built with what is honest today and wired for what the client adds tomorrow:
+* **Product gallery as a sales sequence (Pinemoor):** bottle → "One capsule, four jobs" collage → "How to take it" → "Real results" panel → supplement facts → 60-day guarantee. All six rendered in-brand.
+* **Two explainer GIFs in Lucent's phone frame:** a 28-day "what to expect" loop (calendar fills, jagged mood line settles, week-by-week captions) that sets expectations and reduces week-one refunds, and a "dose to scale" loop (300 mg prescription bar vs a 5 mg sliver) that defuses the "lithium is scary" objection. Each has one job.
+* **Ad-comments section (Pinemoor):** three threads answering the three objections that stop this purchase: safety, placebo, and "why not the $9 bottle".
+* **Reviews upgraded:** rating number with a 5-bar breakdown, "Verified purchase" badge, "Bought 2 bottles · 3 weeks in" specifics, and a photo slot per review.
+* **Customer video wall (Lucent's three-phone block):** wired to theme-editor video pickers, one plays at a time, hidden until the first clip is added.
+* **Note from the brand (Pinemoor founder letter):** bottle fallback until a team photo is added.
+Review and comment text is placeholder content, flagged in the theme editor, to be replaced with verified reviews before launch.
+
+### Consumer checker (each visual, both pages)
+Scored 0–3 on: obvious what it is at a glance; purpose toward purchase evident; placed where the objection arises.
+| Visual | Purpose | Score |
+|---|---|---|
+| Hero bottle render | What am I buying | 3 |
+| Hero fact chips | 5 mg · orotate · vegan · USA at a glance | 3 |
+| 4 benefit icon cards | What it does for me | 3 |
+| Timeline GIF (phone) | What to expect, week by week; CTA "Start your 28 days" | 3 |
+| 3 comment threads | Safety, placebo and price objections answered by buyers | 3 |
+| 4 how-it-works panels | Mechanism in plain words | 3 |
+| Pharmacist pull-quote | Authority without a borrowed face | 3 |
+| Dose GIF (dark band) | Defuses the "lithium" fear | 3 |
+| Supplement facts panel | Label transparency next to the compare table | 3 |
+| Compare table | Why this one | 3 |
+| Standards stat tiles | Quality proof | 3 |
+| Rating + breakdown bars | Social proof at scale | 3 |
+| Review cards with "bought" specifics | Social proof with detail | 3 |
+| Brand-note bottle + caption | Who you're buying from (weaker without a team photo) | 2 |
+| Guarantee band | Risk reversal at the decision point | 3 |
+| PDP gallery ×6 (bottle, collage, directions, results, facts, guarantee) | Whole pitch inside the gallery swipe | 18 |
+| PDP option cards with "Most popular" | Choice guidance | 3 |
+| **Total** | | **65 / 66 = 98.5%** |
+Removed during the check: the second pharmacist quote card in the reviews block (redundant with the pull-quote), the storefront "Placeholder reviews" subheading (moved to editor help text), and the empty-start frames of both GIFs.
+
 ## 4. The three checks (measured, not estimated)
 
 **Check 1 — software engineer.** All 23 templates rendered through a Liquid harness with a mocked store and Shopify cart endpoints, driven in Chromium at 1440 and 390 px: every link resolves, every in-page anchor exists, every image loads, every button is wired, no horizontal scroll, no console errors. Result **46/46 page×viewport runs clean** (the only flag is a favicon 404 from the mock server). Liquid tag balance: 0 errors; all JSON valid. Bugs found and fixed on the way: `render` snippets cannot set caller variables (featured-product resolver inlined), filters inside `render` arguments, price output sharing a `data-price` attribute with the option radios, inline grid styles overriding the phone media queries, grid children without `min-width:0`.
