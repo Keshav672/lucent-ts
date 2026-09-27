@@ -9,8 +9,9 @@
     {"type": "text", "id": "review_count", "label": "Review count shown", "default": "2,140"}
   ]},
   {"name": "Announcement bar", "settings": [
+    {"type": "paragraph", "content": "Messages scroll continuously across the top of every page. Leave a message blank to drop it."},
     {"type": "text", "id": "bar_1", "label": "Message 1", "default": "Fall sale: up to 44% off, no code needed"},
     {"type": "text", "id": "bar_2", "label": "Message 2", "default": "60-day money-back guarantee on every bottle"},
-    {"type": "text", "id": "bar_3", "label": "Message 3 (optional)"}
+    {"type": "text", "id": "bar_3", "label": "Message 3", "default": "Free shipping on orders over $50"}
   ]}
 ]

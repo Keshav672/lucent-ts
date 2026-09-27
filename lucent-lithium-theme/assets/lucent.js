@@ -11,18 +11,6 @@
   var toastEl = $('[data-toast]'); var toastT;
   function toast(msg) { if (!toastEl) return; toastEl.textContent = msg; toastEl.classList.add('is-on'); clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove('is-on'); }, 2400); }
 
-  /* Announcement rotator */
-  (function () {
-    var bar = $('[data-bar]'); if (!bar) return;
-    var msgs = $$('.bar__msg', bar); if (msgs.length < 2) return;
-    var i = 0, t;
-    function show(n) { msgs[i].classList.remove('is-on'); i = (n + msgs.length) % msgs.length; msgs[i].classList.add('is-on'); }
-    function auto() { clearInterval(t); t = setInterval(function () { show(i + 1); }, 4500); }
-    $('[data-bar-prev]', bar).addEventListener('click', function () { show(i - 1); auto(); });
-    $('[data-bar-next]', bar).addEventListener('click', function () { show(i + 1); auto(); });
-    auto();
-  })();
-
   /* Drawers (menu + cart) */
   var scrim = $('[data-scrim]');
   var openDrawer = null;

@@ -1,11 +1,18 @@
-{%- if settings.bar_1 != blank or settings.bar_2 != blank or settings.bar_3 != blank -%}
-<div class="bar" data-bar>
-  <div class="wrap bar__inner">
-    <button type="button" class="bar__btn" aria-label="Previous message" data-bar-prev>{% render 'icon', name: 'chev-l' %}</button>
-    {%- if settings.bar_1 != blank -%}<p class="bar__msg is-on">{{ settings.bar_1 }}</p>{%- endif -%}
-    {%- if settings.bar_2 != blank -%}<p class="bar__msg{% if settings.bar_1 == blank %} is-on{% endif %}">{{ settings.bar_2 }}</p>{%- endif -%}
-    {%- if settings.bar_3 != blank -%}<p class="bar__msg{% if settings.bar_1 == blank and settings.bar_2 == blank %} is-on{% endif %}">{{ settings.bar_3 }}</p>{%- endif -%}
-    <button type="button" class="bar__btn" aria-label="Next message" data-bar-next>{% render 'icon', name: 'chev-r' %}</button>
+{%- comment -%}Scrolling announcement ticker. Messages come from Theme settings → Announcement bar; the list is repeated so the loop is seamless at any screen width.{%- endcomment -%}
+{%- assign bar_msgs = '' -%}
+{%- if settings.bar_1 != blank -%}{%- assign bar_msgs = bar_msgs | append: settings.bar_1 | append: '|' -%}{%- endif -%}
+{%- if settings.bar_2 != blank -%}{%- assign bar_msgs = bar_msgs | append: settings.bar_2 | append: '|' -%}{%- endif -%}
+{%- if settings.bar_3 != blank -%}{%- assign bar_msgs = bar_msgs | append: settings.bar_3 | append: '|' -%}{%- endif -%}
+{%- assign bar_list = bar_msgs | split: '|' -%}
+{%- if bar_msgs != blank -%}
+<div class="bar" role="region" aria-label="Store announcements">
+  <p class="vh">{%- for m in bar_list -%}{%- if m != blank -%}{{ m }}. {% endif -%}{%- endfor -%}</p>
+  <div class="bar__track" aria-hidden="true">
+    {%- for half in (1..2) -%}
+    <ul class="bar__list">
+      {%- for rep in (1..3) -%}{%- for m in bar_list -%}{%- if m != blank -%}<li>{{ m }}</li>{%- endif -%}{%- endfor -%}{%- endfor -%}
+    </ul>
+    {%- endfor -%}
   </div>
 </div>
 {%- endif -%}
