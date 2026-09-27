@@ -1,0 +1,21 @@
+<section class="page"><div class="wrap page__narrow"><h1>Addresses</h1>
+<nav class="acct-nav"><a href="{{ routes.account_url }}" class="link">Orders</a><a href="{{ routes.account_addresses_url }}" class="link">Addresses</a><a href="{{ routes.account_logout_url }}" class="link">Log out</a></nav>
+{%- for address in customer.addresses -%}<div class="addr">{{ address | format_address }}{%- if address == customer.default_address -%}<p class="muted" style="font-size:13px">Default</p>{%- endif -%}
+<p style="margin-top:10px;font-size:14px"><a href="#edit-{{ address.id }}" class="link">Edit</a> · <a href="{{ address.url }}" class="link" data-confirm="Delete this address?" onclick="return confirm(this.dataset.confirm)">Delete</a></p>
+<details id="edit-{{ address.id }}" style="margin-top:12px"><summary class="link" style="cursor:pointer">Edit address</summary>{%- form 'customer_address', address, class: 'form', style: 'margin-top:12px' -%}
+<div class="form__two"><label class="field">First name<input type="text" name="address[first_name]" value="{{ form.first_name }}"></label><label class="field">Last name<input type="text" name="address[last_name]" value="{{ form.last_name }}"></label></div>
+<label class="field">Address<input type="text" name="address[address1]" value="{{ form.address1 }}"></label><label class="field">Apt, suite<input type="text" name="address[address2]" value="{{ form.address2 }}"></label>
+<div class="form__two"><label class="field">City<input type="text" name="address[city]" value="{{ form.city }}"></label><label class="field">ZIP<input type="text" name="address[zip]" value="{{ form.zip }}"></label></div>
+<div class="form__two"><label class="field">Country<select name="address[country]" data-default="{{ form.country }}">{{ all_country_option_tags }}</select></label><label class="field">Province<input type="text" name="address[province]" value="{{ form.province }}"></label></div>
+<label class="field">Phone<input type="tel" name="address[phone]" value="{{ form.phone }}"></label>
+<label style="font-size:14px"><input type="checkbox" name="address[default]"{% if address == customer.default_address %} checked{% endif %}> Set as default</label>
+<button type="submit" class="btn">Save</button>{%- endform -%}</details></div>{%- else -%}<p class="muted">No saved addresses.</p>{%- endfor -%}
+<details style="margin-top:24px"><summary class="btn btn--ghost" style="display:inline-flex">Add a new address</summary>{%- form 'customer_address', customer.new_address, class: 'form', style: 'margin-top:16px' -%}
+<div class="form__two"><label class="field">First name<input type="text" name="address[first_name]"></label><label class="field">Last name<input type="text" name="address[last_name]"></label></div>
+<label class="field">Address<input type="text" name="address[address1]"></label><label class="field">Apt, suite<input type="text" name="address[address2]"></label>
+<div class="form__two"><label class="field">City<input type="text" name="address[city]"></label><label class="field">ZIP<input type="text" name="address[zip]"></label></div>
+<div class="form__two"><label class="field">Country<select name="address[country]">{{ all_country_option_tags }}</select></label><label class="field">Province<input type="text" name="address[province]"></label></div>
+<label class="field">Phone<input type="tel" name="address[phone]"></label>
+<label style="font-size:14px"><input type="checkbox" name="address[default]"> Set as default</label>
+<button type="submit" class="btn">Add address</button>{%- endform -%}</details>
+</div></section>

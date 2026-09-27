@@ -1,0 +1,34 @@
+{%- comment -%}Featured product resolver (inline: render tags can't set parent variables){%- endcomment -%}
+{%- assign fp = settings.featured_product -%}
+{%- if fp == blank -%}{%- assign fp = all_products['lucent-lithium-orotate'] -%}{%- endif -%}
+{%- if fp == blank -%}{%- for p in collections['all'].products -%}{%- if p.title contains 'ithium' -%}{%- assign fp = p -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if fp == blank and collections['all'].products.size > 0 -%}{%- assign fp = collections['all'].products.first -%}{%- endif -%}
+{%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.root_url -%}{%- endif -%}
+<aside class="drawer drawer--right" id="cart" aria-label="Your cart" aria-hidden="true" data-cart>
+  <div class="drawer__top"><h2>Your cart</h2><button type="button" class="drawer__close" aria-label="Close cart" data-drawer-close>{% render 'icon', name: 'close' %}</button></div>
+  <div class="cart__body">
+    <div class="ship" data-ship hidden><p></p><div class="ship__bar"><div class="ship__fill"></div></div></div>
+    <div class="cart__empty" data-empty{% if cart.item_count > 0 %} hidden{% endif %}>
+      <h3>Your cart is empty</h3>
+      <p>Add Lithium Orotate to get started.</p>
+      <a href="{{ fp_url }}" class="btn" data-drawer-close>Shop Lithium Orotate</a>
+    </div>
+    <ul data-lines></ul>
+    {%- if fp != blank and fp.available -%}
+    <div class="upsell" data-upsell data-variant="{{ fp.selected_or_first_available_variant.id }}" hidden>
+      {%- if fp.featured_image -%}<img src="{{ fp.featured_image | image_url: width: 104 }}" alt="" width="52" height="52">{%- endif -%}
+      <p><strong>Add another bottle</strong>Two months of steady, {{ fp.selected_or_first_available_variant.price | money }} each.</p>
+      <button type="button" class="btn btn--sm btn--ghost">Add</button>
+    </div>
+    {%- endif -%}
+  </div>
+  <div class="cart__foot" data-foot{% if cart.item_count == 0 %} hidden{% endif %}>
+    <p class="status" data-status role="status" aria-live="polite"></p>
+    <div class="cart__row"><span>Subtotal</span><span data-total>{{ cart.total_price | money }}</span></div>
+    <p class="cart__note">Shipping and taxes calculated at checkout.</p>
+    <form action="{{ routes.cart_url }}" method="post">
+      <button type="submit" name="checkout" class="btn btn--block btn--lg">{% render 'icon', name: 'lock' %} Checkout</button>
+    </form>
+    <ul class="pays" aria-label="Payment methods"><li>Visa</li><li>Mastercard</li><li>Amex</li><li>PayPal</li><li>Apple Pay</li><li>Google Pay</li><li>Shop Pay</li></ul>
+  </div>
+</aside>

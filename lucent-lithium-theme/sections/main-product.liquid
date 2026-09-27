@@ -1,0 +1,110 @@
+{%- assign cur = product.selected_or_first_available_variant -%}
+{%- assign plan_group = product.selling_plan_groups.first -%}
+<section class="pdp" data-pdp>
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Shop</a> / <span>{{ product.title }}</span></nav>
+    <div class="pdp__grid">
+      <div class="gal">
+        <div class="gal__main">
+          {%- assign slides = 0 -%}
+          {%- for m in product.media -%}
+            {%- assign slides = slides | plus: 1 -%}
+            <div class="gal__slide{% if forloop.first %} is-on{% endif %}" data-slide>
+              {%- if m.media_type == 'video' -%}{{ m | video_tag: playsinline: true, muted: true, loop: true, controls: false }}
+              {%- else -%}<img src="{{ m | image_url: width: 1200 }}" alt="{{ m.alt | default: product.title | escape }}" width="1200" height="1200"{% unless forloop.first %} loading="lazy"{% endunless %}>{%- endif -%}
+            </div>
+          {%- endfor -%}
+          {%- if slides == 0 -%}
+            {%- assign fallback = 'bottle-hero.jpg,facts.jpg,gif-brain-poster.jpg,gif-mood-poster.jpg' | split: ',' -%}
+            {%- for f in fallback -%}<div class="gal__slide{% if forloop.first %} is-on{% endif %}" data-slide><img src="{{ f | asset_url }}" alt="{{ product.title | escape }}" width="1200" height="1200"></div>{%- endfor -%}
+          {%- endif -%}
+          <button type="button" class="gal__arrow gal__arrow--prev" aria-label="Previous image" data-prev>{% render 'icon', name: 'chev-l' %}</button>
+          <button type="button" class="gal__arrow gal__arrow--next" aria-label="Next image" data-next>{% render 'icon', name: 'chev-r' %}</button>
+        </div>
+        <div class="gal__thumbs">
+          {%- if slides > 0 -%}
+            {%- for m in product.media -%}<button type="button" aria-label="Image {{ forloop.index }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" data-thumb><img src="{{ m.preview_image | image_url: width: 160 }}" alt="" width="72" height="72" loading="lazy"></button>{%- endfor -%}
+          {%- else -%}
+            {%- for f in fallback -%}<button type="button" aria-label="Image {{ forloop.index }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" data-thumb><img src="{{ f | asset_url }}" alt="" width="72" height="72"></button>{%- endfor -%}
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="buy" data-buy>
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+        <h1>{{ product.title }}</h1>
+        <p class="rating">{% render 'stars', rating: settings.rating %} <span>{{ settings.rating | default: '4.7' }} · {{ settings.review_count | default: '2,140' }} reviews</span></p>
+        <p class="buy__lead" style="margin-top:12px">{{ section.settings.lead }}</p>
+        <ul class="buy__bul">
+          {%- for b in section.blocks -%}{%- if b.type == 'bullet' -%}<li {{ b.shopify_attributes }}><span class="check">{% render 'icon', name: 'check' %}</span><span>{{ b.settings.text }}</span></li>{%- endif -%}{%- endfor -%}
+        </ul>
+
+        {%- form 'product', product, id: 'pdp-form', data-product-form: true, data-ajax: true -%}
+          <input type="hidden" name="id" value="{{ cur.id }}">
+          <input type="hidden" name="selling_plan" value="">
+          <p class="buy__grp">Choose your supply</p>
+          {%- for v in product.variants -%}
+            {%- assign label = v.title -%}{%- if product.has_only_default_variant -%}{%- assign label = '1 bottle' -%}{%- endif -%}
+            <label class="opt">
+              <input type="radio" name="purchase" value="v{{ v.id }}" data-variant="{{ v.id }}" data-price="{{ v.price }}" data-compare="{{ v.compare_at_price | default: 0 }}" data-label="{{ label | escape }}"{% if v.id == cur.id %} checked{% endif %}{% unless v.available %} disabled{% endunless %}>
+              <span><span class="opt__t">{{ label }}{% unless v.available %} · Sold out{% endunless %}</span><br><span class="opt__s">{% if forloop.index == 1 %}{{ section.settings.opt_1 }}{% elsif forloop.index == 2 %}{{ section.settings.opt_2 }}{% else %}{{ section.settings.opt_3 }}{% endif %}</span></span>
+              <span class="opt__p">{{ v.price | money }}{% if v.compare_at_price > v.price %}<s>{{ v.compare_at_price | money }}</s>{% endif %}</span>
+              {%- if forloop.index == 2 and product.variants.size > 1 -%}<span class="opt__tag">Most popular</span>{%- endif -%}
+            </label>
+          {%- endfor -%}
+          {%- if plan_group != blank -%}
+            <p class="buy__grp">Or subscribe</p>
+            {%- for plan in plan_group.selling_plans -%}
+              {%- assign alloc = cur.selling_plan_allocations | where: 'selling_plan_id', plan.id | first -%}
+              <label class="opt">
+                <input type="radio" name="purchase" value="p{{ plan.id }}" data-variant="{{ cur.id }}" data-plan="{{ plan.id }}" data-price="{{ alloc.price | default: cur.price }}" data-compare="{{ alloc.compare_at_price | default: cur.price }}" data-label="{{ plan.name | escape }}">
+                <span><span class="opt__t">{{ plan.name }}</span><br><span class="opt__s">{{ plan.description | default: 'Skip or cancel anytime' }}</span></span>
+                <span class="opt__p">{{ alloc.price | default: cur.price | money }}</span>
+                <span class="opt__more">Delivered on your schedule. Pause, skip or cancel from your account in two clicks.</span>
+              </label>
+            {%- endfor -%}
+          {%- endif -%}
+          <div class="buy__row">
+            <div class="qty"><button type="button" data-minus aria-label="Decrease quantity">&minus;</button><input type="number" name="quantity" value="1" min="1" max="20" aria-label="Quantity" data-qinput><button type="button" data-plus aria-label="Increase quantity">+</button></div>
+            {%- if product.available -%}
+            <button type="submit" class="btn btn--lg">{{ section.settings.cta }} · <span data-price-out>{{ cur.price | money }}</span> <s data-compare-out hidden style="opacity:.6;font-weight:400"></s></button>
+            {%- else -%}<button type="button" class="btn btn--lg" disabled>Sold out</button>{%- endif -%}
+          </div>
+          <p class="buy__sub"><span>{% render 'icon', name: 'truck' %} Free shipping over $50</span><span>{% render 'icon', name: 'lock' %} Secure checkout</span><span><strong data-save hidden></strong> 60-day guarantee</span></p>
+        {%- endform -%}
+
+        <div class="buy__acc">
+          {%- for b in section.blocks -%}{%- if b.type == 'accordion' -%}<details {{ b.shopify_attributes }}{% if forloop.first %} open{% endif %}><summary>{{ b.settings.title }}</summary><div class="ans">{{ b.settings.text }}</div></details>{%- endif -%}{%- endfor -%}
+          {%- if product.description != blank -%}<details><summary>Full description</summary><div class="ans rte">{{ product.description }}</div></details>{%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="sticky" data-sticky>
+  <div class="wrap sticky__inner">
+    <span class="sticky__t" data-sticky-title data-base="{{ product.title | escape }}">{{ product.title }}</span>
+    <span class="sticky__p" data-sticky-price>{{ cur.price | money }}</span>
+    {%- if product.available -%}<button type="button" class="btn">Add to cart</button>{%- endif -%}
+  </div>
+</div>
+{% schema %}
+{"name":"Product page","settings":[
+ {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Low-dose lithium orotate · 60 vegan capsules"},
+ {"type":"textarea","id":"lead","label":"Lead","default":"Five milligrams of elemental lithium with magnesium, zinc and B6. One capsule a day for a mood that stays level and a mind that stays sharp.*"},
+ {"type":"text","id":"cta","label":"Button text","default":"Add to cart"},
+ {"type":"text","id":"opt_1","label":"Option 1 subtitle","default":"2-month supply"},
+ {"type":"text","id":"opt_2","label":"Option 2 subtitle","default":"4-month supply · save more per bottle"},
+ {"type":"text","id":"opt_3","label":"Option 3 subtitle","default":"6-month supply · lowest price per capsule"}],
+"blocks":[
+ {"type":"bullet","name":"Bullet","settings":[{"type":"text","id":"text","label":"Text","default":"5 mg elemental lithium, printed on the front"}]},
+ {"type":"accordion","name":"Accordion","settings":[{"type":"text","id":"title","label":"Title","default":"What's inside"},{"type":"textarea","id":"text","label":"Text","default":"Text"}]}],
+"presets":[{"name":"Product page","blocks":[
+ {"type":"bullet","settings":{"text":"5 mg elemental lithium from 120 mg lithium orotate, printed on the front"}},
+ {"type":"bullet","settings":{"text":"With magnesium 100 mg, zinc 10 mg and vitamin B6 5 mg"}},
+ {"type":"bullet","settings":{"text":"Vegan, non-GMO, third-party tested, made in the USA"}},
+ {"type":"accordion","settings":{"title":"How to take it","text":"One capsule daily with food, ideally breakfast. Trace minerals build slowly: give it a full bottle before deciding. Do not exceed the recommended dose."}},
+ {"type":"accordion","settings":{"title":"What's inside","text":"Per capsule: lithium 5 mg (as lithium orotate 120 mg), magnesium 100 mg (citrate), zinc 10 mg (citrate), vitamin B6 5 mg (P-5-P). Other: vegetable cellulose capsule, rice flour. Free of gluten, soy, dairy, GMOs, colours and flavours."}},
+ {"type":"accordion","settings":{"title":"Shipping and returns","text":"Ships within one business day from the USA. Free shipping on orders over $50. 60-day money-back guarantee: email us and we refund the bottle, even if it is empty."}},
+ {"type":"accordion","settings":{"title":"Who should not take it","text":"Not for use if you are pregnant or nursing, under 18, have kidney or thyroid conditions, or take prescription lithium or other mood medication without speaking to your doctor first."}}]}]}
+{% endschema %}

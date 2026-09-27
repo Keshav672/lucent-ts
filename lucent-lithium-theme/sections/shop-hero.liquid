@@ -1,0 +1,36 @@
+{%- comment -%}Featured product resolver (inline: render tags can't set parent variables){%- endcomment -%}
+{%- assign fp = settings.featured_product -%}
+{%- if fp == blank -%}{%- assign fp = all_products['lucent-lithium-orotate'] -%}{%- endif -%}
+{%- if fp == blank -%}{%- for p in collections['all'].products -%}{%- if p.title contains 'ithium' -%}{%- assign fp = p -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if fp == blank and collections['all'].products.size > 0 -%}{%- assign fp = collections['all'].products.first -%}{%- endif -%}
+{%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.root_url -%}{%- endif -%}
+<section class="shero">
+  <div class="wrap shero__grid">
+    <div>
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1>{{ section.settings.title }}</h1>
+      <p class="lead">{{ section.settings.body }}</p>
+      <div class="shero__bul">
+        {%- for b in section.blocks -%}<span class="chip{% if forloop.first %} chip--sky{% endif %}" {{ b.shopify_attributes }}>{{ b.settings.text }}</span>{%- endfor -%}
+      </div>
+      <p class="rating" style="margin-top:22px">{% render 'stars', rating: settings.rating %} <span>{{ settings.rating | default: '4.7' }}/5 from {{ settings.review_count | default: '2,140' }} reviews</span></p>
+    </div>
+    <div class="shero__media">
+      {%- if section.settings.image != blank -%}<img src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.image.alt | default: 'Lucent Lithium Orotate bottle' | escape }}" width="1200" height="1200">
+      {%- elsif fp != blank and fp.featured_image -%}<img src="{{ fp.featured_image | image_url: width: 1200 }}" alt="{{ fp.title | escape }}" width="1200" height="1200">
+      {%- else -%}<img src="{{ 'bottle-hero.jpg' | asset_url }}" alt="Lucent Lithium Orotate bottle" width="1200" height="1200">{%- endif -%}
+      <span class="shero__tag">{{ section.settings.tag }}</span>
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Shop hero","settings":[
+ {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Shop Lucent"},
+ {"type":"text","id":"title","label":"Heading","default":"The most underused mineral for your brain."},
+ {"type":"textarea","id":"body","label":"Body","default":"Five milligrams of lithium orotate a day. The trace mineral that used to be in our water and food, put back in one small vegan capsule. For a mood that stays level, a mind that stays sharp, and stress that stops running the day."},
+ {"type":"image_picker","id":"image","label":"Hero image"},
+ {"type":"text","id":"tag","label":"Image tag","default":"60 capsules · 2-month supply"}],
+"blocks":[{"type":"chip","name":"Chip","settings":[{"type":"text","id":"text","label":"Text","default":"5 mg elemental lithium"}]}],
+"max_blocks":6,
+"presets":[{"name":"Shop hero","blocks":[{"type":"chip","settings":{"text":"5 mg elemental lithium"}},{"type":"chip","settings":{"text":"Orotate form"}},{"type":"chip","settings":{"text":"Vegan · non-GMO"}},{"type":"chip","settings":{"text":"Made in the USA"}}]}]}
+{% endschema %}

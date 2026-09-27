@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#141D26">
+  <link rel="canonical" href="{{ canonical_url }}">
+  {%- if settings.favicon != blank -%}<link rel="icon" href="{{ settings.favicon | image_url: width: 64 }}">{%- endif -%}
+  <title>{{ page_title }}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+  {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
+  {{ content_for_header }}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  {{ 'lucent.css' | asset_url | stylesheet_tag }}
+  <script>window.LucentRoutes={cart:{{ routes.cart_url | json }},cartJs:{{ routes.cart_url | append: '.js' | json }},add:{{ routes.cart_add_url | append: '.js' | json }},change:{{ routes.cart_change_url | append: '.js' | json }}};</script>
+</head>
+<body class="template-{{ template.name | handle }}" data-free-ship="{{ settings.free_ship_threshold | default: 0 | times: 100 }}">
+  <a href="#main" class="skip">Skip to content</a>
+  {% render 'announcement' %}
+  {% render 'header' %}
+  <main id="main" tabindex="-1">{{ content_for_layout }}</main>
+  {% render 'footer' %}
+  {% render 'cart-drawer' %}
+  <div class="scrim" data-scrim></div>
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  <script src="{{ 'lucent.js' | asset_url }}" defer></script>
+</body>
+</html>

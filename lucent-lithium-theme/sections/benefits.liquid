@@ -1,0 +1,25 @@
+<section class="sec sec--cream" id="benefits">
+  <div class="wrap">
+    <div class="sec__head"><p class="eyebrow">{{ section.settings.eyebrow }}</p><h2>{{ section.settings.title }}</h2><p class="lead">{{ section.settings.body }}</p></div>
+    <div class="grid grid--4">
+      {%- for b in section.blocks -%}
+      <div class="bcard" {{ b.shopify_attributes }}><div class="bcard__ic">{% render 'icon', name: b.settings.icon %}</div><h3>{{ b.settings.title }}</h3><p>{{ b.settings.text }}</p></div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Benefits","settings":[
+ {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Why lithium orotate"},
+ {"type":"text","id":"title","label":"Heading","default":"If you're moody, irritable, and you snap, then feel bad about it later."},
+ {"type":"textarea","id":"body","label":"Body","default":"That was the line a psychiatrist used to describe who should think about lithium orotate. Not a drug dose. A trace amount, the kind that used to come from the ground, that patients describe as simply being more level over time.*"}],
+"blocks":[{"type":"card","name":"Benefit","settings":[
+ {"type":"select","id":"icon","label":"Icon","options":[{"value":"mood","label":"Mood"},{"value":"brain","label":"Brain"},{"value":"wave","label":"Calm"},{"value":"shield","label":"Shield"},{"value":"leaf","label":"Leaf"}],"default":"mood"},
+ {"type":"text","id":"title","label":"Title","default":"A more level mood"},
+ {"type":"textarea","id":"text","label":"Text","default":"Fewer spikes, fewer crashes."}]}],
+"presets":[{"name":"Benefits","blocks":[
+ {"type":"card","settings":{"icon":"mood","title":"A more level mood","text":"Supports the pathways behind emotional balance, so the highs and lows sit closer together and the snap comes less often.*"}},
+ {"type":"card","settings":{"icon":"brain","title":"Clearer, more creative thinking","text":"Lithium supports neuroplasticity, the brain's ability to make new connections. People describe it as thinking more freely.*"}},
+ {"type":"card","settings":{"icon":"wave","title":"Stress that stops running the day","text":"Helps regulate the stress response so a hard morning doesn't become a hard week.*"}},
+ {"type":"card","settings":{"icon":"shield","title":"Long-term brain support","text":"Low-dose lithium is being studied for how it supports healthy brain aging and memory. This is the dose that research uses.*"}}]}]}
+{% endschema %}

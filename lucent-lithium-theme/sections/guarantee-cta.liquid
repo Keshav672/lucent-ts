@@ -1,0 +1,28 @@
+{%- comment -%}Featured product resolver (inline: render tags can't set parent variables){%- endcomment -%}
+{%- assign fp = settings.featured_product -%}
+{%- if fp == blank -%}{%- assign fp = all_products['lucent-lithium-orotate'] -%}{%- endif -%}
+{%- if fp == blank -%}{%- for p in collections['all'].products -%}{%- if p.title contains 'ithium' -%}{%- assign fp = p -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if fp == blank and collections['all'].products.size > 0 -%}{%- assign fp = collections['all'].products.first -%}{%- endif -%}
+{%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.root_url -%}{%- endif -%}
+<section class="sec">
+  <div class="wrap">
+    <div class="gcta">
+      <div><p class="eyebrow" style="color:var(--teal)">{{ section.settings.eyebrow }}</p><h2>{{ section.settings.title }}</h2><p>{{ section.settings.body }}</p></div>
+      <div class="gcta__act">
+        {%- if fp != blank and fp.available -%}
+        <form method="post" action="{{ routes.cart_add_url }}" data-ajax><input type="hidden" name="id" value="{{ fp.selected_or_first_available_variant.id }}"><input type="hidden" name="quantity" value="1"><button type="submit" class="btn btn--lg">{{ section.settings.cta }} · {{ fp.selected_or_first_available_variant.price | money }}</button></form>
+        {%- else -%}<a href="{{ fp_url }}" class="btn btn--lg">{{ section.settings.cta }}</a>{%- endif -%}
+        <small>{{ section.settings.small }}</small>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Guarantee CTA","settings":[
+ {"type":"text","id":"eyebrow","label":"Eyebrow","default":"60-day guarantee"},
+ {"type":"text","id":"title","label":"Heading","default":"Try two months. Keep the change if it isn't you."},
+ {"type":"textarea","id":"body","label":"Body","default":"One capsule a day, with breakfast. If by day sixty you don't feel more level, email us and we refund the bottle. No return label, no questions."},
+ {"type":"text","id":"cta","label":"Button","default":"Add to cart"},
+ {"type":"text","id":"small","label":"Small print","default":"Free shipping over $50 · Ships within 1 business day"}],
+"presets":[{"name":"Guarantee CTA"}]}
+{% endschema %}

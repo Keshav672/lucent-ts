@@ -1,0 +1,45 @@
+<section class="sec" id="reviews">
+  <div class="wrap" data-rcar>
+    <div class="rsum">
+      <span class="rsum__big">{{ settings.rating | default: '4.7' }}</span>
+      <div>{% render 'stars', rating: settings.rating %}<p class="muted" style="font-size:14px;margin-top:4px">Based on {{ settings.review_count | default: '2,140' }} verified reviews</p></div>
+      <div style="margin-left:auto"><h2 style="font-size:28px">{{ section.settings.title }}</h2></div>
+    </div>
+    <div class="rcar">
+      {%- for b in section.blocks -%}
+      <article class="rev" {{ b.shopify_attributes }}>
+        {% render 'stars', rating: b.settings.stars %}
+        <h3 style="font-size:17px">{{ b.settings.title }}</h3>
+        <q>{{ b.settings.text }}</q>
+        <div class="rev__who"><strong>{{ b.settings.name }}</strong><span>Verified buyer</span></div>
+      </article>
+      {%- endfor -%}
+    </div>
+    <div class="rcar__nav"><button type="button" aria-label="Previous reviews" data-rprev>{% render 'icon', name: 'chev-l' %}</button><button type="button" aria-label="Next reviews" data-rnext>{% render 'icon', name: 'chev-r' %}</button></div>
+    {%- if section.settings.show_video -%}
+    <div class="rvid rvid--2">
+      <div class="vid" style="aspect-ratio:9/7"><video playsinline preload="none" poster="{{ 'explainer-poster.jpg' | asset_url }}" src="{{ 'explainer.mp4' | asset_url }}"></video><button type="button" class="vid__play" aria-label="Play: a pharmacist explains lithium orotate"><span>{% render 'icon', name: 'play' %}</span></button><span class="vid__cap">A pharmacist explains lithium orotate, 30 seconds</span></div>
+      <div style="align-self:center"><p class="eyebrow">{{ section.settings.video_eyebrow }}</p><h3 style="margin:8px 0 10px">{{ section.settings.video_title }}</h3><p class="muted" style="font-size:15px">{{ section.settings.video_body }}</p></div>
+    </div>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{"name":"Reviews","settings":[
+ {"type":"text","id":"title","label":"Heading","default":"What level feels like"},
+ {"type":"checkbox","id":"show_video","label":"Show explainer video","default":true},
+ {"type":"text","id":"video_eyebrow","label":"Video eyebrow","default":"Hear it explained"},
+ {"type":"text","id":"video_title","label":"Video title","default":"\"Everybody's supposed to be getting it. We just processed it out.\""},
+ {"type":"textarea","id":"video_body","label":"Video body","default":"Why 5 mg is a different conversation from prescription lithium, in the words of a pharmacist. Sound on."}],
+"blocks":[{"type":"review","name":"Review","settings":[
+ {"type":"range","id":"stars","label":"Stars","min":1,"max":5,"step":1,"default":5},
+ {"type":"text","id":"title","label":"Title","default":"More level"},
+ {"type":"textarea","id":"text","label":"Text","default":"Review text"},
+ {"type":"text","id":"name","label":"Name","default":"A. Customer"}]}],
+"presets":[{"name":"Reviews","blocks":[
+ {"type":"review","settings":{"stars":5,"title":"I stopped snapping at my kids","text":"Three weeks in. I still get annoyed, I just don't blow up and then feel awful about it an hour later. My husband noticed before I did.","name":"Renee T."}},
+ {"type":"review","settings":{"stars":5,"title":"Level is the right word","text":"I'd read about lithium orotate for years and was scared of the word lithium. 5 mg is nothing like what I imagined. I feel like me, with the volume turned down on the bad days.","name":"Marcus D."}},
+ {"type":"review","settings":{"stars":4,"title":"Took about a month","text":"Nothing for the first two weeks, then I realised I'd been sleeping better and hadn't had a Sunday-night spiral in a while. Four stars only because I wanted it faster.","name":"Priya S."}},
+ {"type":"review","settings":{"stars":5,"title":"Finally one that lists the elemental dose","text":"Every other bottle I bought said 120 mg and left me guessing. This one says 5 mg on the front. That's why I switched.","name":"Tom H."}},
+ {"type":"review","settings":{"stars":5,"title":"Creative work got easier","text":"I write for a living. Fewer blank mornings, more ideas that connect. Could be placebo, but I've been on it for five months and I'm not stopping.","name":"Jess A."}}]}]}
+{% endschema %}

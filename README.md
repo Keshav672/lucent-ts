@@ -1,3 +1,12 @@
+# Lucent — Shopify themes
+
+Two themes live here:
+
+* **`lucent-lithium-theme.zip`** — Lucent Lithium Orotate, built on the structure of drinkag1.com/shop. Read `LITHIUM-REPORT.md`. Product CSV: `lithium-product-import.csv`. Optional ad cuts in `lucent-lithium-extras/`.
+* **`lucent-nattokinase-theme.zip`** — the earlier Nattokinase rebuild of shoplucent.net, documented below and in `REPORT.md`.
+
+---
+
 # Lucent Nattokinase 4-in-1 — Shopify theme
 
 A full rebuild of the live `shoplucent.net` Marine Collagen theme (`lucent-marine-collagen-theme-7`),

@@ -1,0 +1,45 @@
+{%- comment -%}Featured product resolver (inline: render tags can't set parent variables){%- endcomment -%}
+{%- assign fp = settings.featured_product -%}
+{%- if fp == blank -%}{%- assign fp = all_products['lucent-lithium-orotate'] -%}{%- endif -%}
+{%- if fp == blank -%}{%- for p in collections['all'].products -%}{%- if p.title contains 'ithium' -%}{%- assign fp = p -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if fp == blank and collections['all'].products.size > 0 -%}{%- assign fp = collections['all'].products.first -%}{%- endif -%}
+{%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.root_url -%}{%- endif -%}
+<section class="cpage" data-cart-page>
+  <div class="wrap">
+    <h1 style="margin-bottom:24px">Your cart</h1>
+    {%- if cart.item_count == 0 -%}
+      <div class="cart__empty" style="text-align:left;padding:0"><p class="lead">Your cart is empty.</p><a href="{{ fp_url }}" class="btn btn--lg" style="margin-top:20px">Shop Lithium Orotate</a></div>
+    {%- else -%}
+    <div class="cpage__grid">
+      <form action="{{ routes.cart_url }}" method="post" id="cart-form">
+        <ul>
+          {%- for item in cart.items -%}
+          <li class="line" data-line="{{ forloop.index }}">
+            {%- if item.image -%}<img class="line__img" src="{{ item.image | image_url: width: 220 }}" alt="" width="110" height="110">{%- else -%}<span class="line__img"></span>{%- endif -%}
+            <div>
+              <a class="line__t" href="{{ item.url }}">{{ item.product.title }}</a>
+              {%- unless item.product.has_only_default_variant -%}<div class="line__v">{{ item.variant.title }}</div>{%- endunless -%}
+              {%- if item.selling_plan_allocation -%}<div class="line__v">{{ item.selling_plan_allocation.selling_plan.name }}</div>{%- endif -%}
+              <div class="qty"><button type="button" data-minus aria-label="Decrease quantity">&minus;</button><input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Quantity" data-qinput><button type="button" data-plus aria-label="Increase quantity">+</button></div>
+              <div><button type="button" class="line__rm" data-remove>Remove</button></div>
+            </div>
+            <div class="line__p">{{ item.final_line_price | money }}</div>
+          </li>
+          {%- endfor -%}
+        </ul>
+        <div class="summary" style="margin-top:24px;position:static">
+          <div class="cart__row"><span>Subtotal</span><span>{{ cart.total_price | money }}</span></div>
+          <p class="cart__note">Shipping and taxes calculated at checkout.</p>
+          <button type="submit" name="checkout" class="btn btn--block btn--lg">{% render 'icon', name: 'lock' %} Checkout</button>
+          <button type="submit" name="update" class="btn btn--ghost btn--block" style="margin-top:10px">Update cart</button>
+        </div>
+      </form>
+      <aside class="summary">
+        <h3 style="margin-bottom:12px">Good to know</h3>
+        <ul class="included"><li><span class="check">{% render 'icon', name: 'check' %}</span><span>Free shipping over $50</span></li><li><span class="check">{% render 'icon', name: 'check' %}</span><span>60-day money-back guarantee</span></li><li><span class="check">{% render 'icon', name: 'check' %}</span><span>Ships within 1 business day</span></li></ul>
+        <a href="{{ fp_url }}" class="link" style="display:inline-block;margin-top:16px">Continue shopping</a>
+      </aside>
+    </div>
+    {%- endif -%}
+  </div>
+</section>

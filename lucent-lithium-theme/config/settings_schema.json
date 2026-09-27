@@ -1,0 +1,16 @@
+[
+  {"name": "theme_info", "theme_name": "Lucent Lithium Orotate", "theme_version": "1.0.0", "theme_author": "Lucent", "theme_documentation_url": "https://shoplucent.net", "theme_support_url": "https://shoplucent.net/pages/contact"},
+  {"name": "Store", "settings": [
+    {"type": "product", "id": "featured_product", "label": "Featured product", "info": "Every Shop link, the home page cards and the cart upsell point here. Defaults to the product with handle lucent-lithium-orotate."},
+    {"type": "image_picker", "id": "favicon", "label": "Favicon"},
+    {"type": "text", "id": "support_email", "label": "Support email", "default": "hello@shoplucent.com"},
+    {"type": "number", "id": "free_ship_threshold", "label": "Free shipping threshold ($)", "default": 50, "info": "Drives the progress bar in the cart drawer. 0 hides it."},
+    {"type": "text", "id": "rating", "label": "Star rating shown", "default": "4.7"},
+    {"type": "text", "id": "review_count", "label": "Review count shown", "default": "2,140"}
+  ]},
+  {"name": "Announcement bar", "settings": [
+    {"type": "text", "id": "bar_1", "label": "Message 1", "default": "Free shipping on orders over $50"},
+    {"type": "text", "id": "bar_2", "label": "Message 2", "default": "Subscribe & save 15% on every bottle"},
+    {"type": "text", "id": "bar_3", "label": "Message 3", "default": "60-day money-back guarantee"}
+  ]}
+]

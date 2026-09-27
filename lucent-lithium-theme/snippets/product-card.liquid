@@ -1,0 +1,37 @@
+{%- comment -%} One card per variant of the featured product (AG1 shows its formats as separate cards), or a plain card for any other product. Params: product, variant (optional), badge, tags, blurb {%- endcomment -%}
+{%- if variant -%}
+  {%- assign v = variant -%}
+  {%- assign img = v.image | default: product.featured_image -%}
+  {%- assign title = product.title | append: ' · ' | append: v.title -%}
+  {%- assign url = product.url | append: '?variant=' | append: v.id -%}
+{%- else -%}
+  {%- assign v = product.selected_or_first_available_variant -%}
+  {%- assign img = product.featured_image -%}
+  {%- assign title = product.title -%}
+  {%- assign url = product.url -%}
+{%- endif -%}
+<article class="card" data-card data-tags="{{ tags | default: 'all' }}">
+  <a class="card__media" href="{{ url }}" aria-label="View {{ title | escape }}">
+    {%- if img -%}<img src="{{ img | image_url: width: 800 }}" alt="{{ img.alt | default: title | escape }}" width="800" height="800" loading="lazy">{%- endif -%}
+    {%- if badge != blank -%}<span class="card__badge{% if badge_style == 'sky' %} card__badge--sky{% endif %}">{{ badge }}</span>{%- endif -%}
+  </a>
+  <div class="card__body">
+    <a class="card__title" href="{{ url }}">{{ title }}</a>
+    <span class="rating">{% render 'stars', rating: settings.rating %} <span>{{ settings.rating | default: '4.7' }} ({{ settings.review_count | default: '2,140' }})</span></span>
+    {%- if blurb != blank -%}<p class="card__desc">{{ blurb }}</p>{%- endif -%}
+    <div class="card__price">
+      <strong>{{ v.price | money }}</strong>
+      {%- if v.compare_at_price > v.price -%}<s>{{ v.compare_at_price | money }}</s><em>Save {{ v.compare_at_price | minus: v.price | times: 100 | divided_by: v.compare_at_price }}%</em>{%- endif -%}
+    </div>
+    {%- if per != blank -%}<span class="card__per">{{ per }}</span>{%- endif -%}
+    <div class="card__cta">
+      {%- if v.available -%}
+      <form method="post" action="{{ routes.cart_add_url }}" data-ajax>
+        <input type="hidden" name="id" value="{{ v.id }}"><input type="hidden" name="quantity" value="1">
+        <button type="submit" class="btn btn--block">Add to cart</button>
+      </form>
+      {%- else -%}<button type="button" class="btn btn--block" disabled>Sold out</button>{%- endif -%}
+      <a href="{{ url }}" class="btn btn--ghost">Details</a>
+    </div>
+  </div>
+</article>

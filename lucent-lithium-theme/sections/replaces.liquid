@@ -1,0 +1,42 @@
+<section class="sec sec--cream" id="compare">
+  <div class="wrap rep">
+    <div>
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 style="margin:10px 0 14px">{{ section.settings.title }}</h2>
+      <p class="lead" style="margin-bottom:28px">{{ section.settings.body }}</p>
+      <div class="rtable-wrap"><table class="rtable">
+        <thead><tr><th>Look for</th><th class="col-us">Lucent</th><th>Drugstore lithium</th><th>Prescription lithium</th></tr></thead>
+        <tbody>
+          {%- for b in section.blocks -%}
+          <tr {{ b.shopify_attributes }}><td>{{ b.settings.label }}</td>
+            <td class="col-us">{% if b.settings.us == 'yes' %}<span class="yes">{% render 'icon', name: 'check' %}</span>{% elsif b.settings.us == 'no' %}<span class="no">{% render 'icon', name: 'x' %}</span>{% else %}{{ b.settings.us }}{% endif %}</td>
+            <td>{% if b.settings.a == 'yes' %}<span class="yes">{% render 'icon', name: 'check' %}</span>{% elsif b.settings.a == 'no' %}<span class="no">{% render 'icon', name: 'x' %}</span>{% else %}{{ b.settings.a }}{% endif %}</td>
+            <td>{% if b.settings.b == 'yes' %}<span class="yes">{% render 'icon', name: 'check' %}</span>{% elsif b.settings.b == 'no' %}<span class="no">{% render 'icon', name: 'x' %}</span>{% else %}{{ b.settings.b }}{% endif %}</td></tr>
+          {%- endfor -%}
+        </tbody>
+      </table></div>
+      <p class="muted" style="font-size:13px;margin-top:14px">{{ section.settings.note }}</p>
+    </div>
+    <div class="rep__media">{%- if section.settings.image != blank -%}<img src="{{ section.settings.image | image_url: width: 1000 }}" alt="" width="1000" height="1000" loading="lazy">{%- else -%}<img src="{{ 'facts.jpg' | asset_url }}" alt="Supplement facts panel" width="1200" height="1200" loading="lazy">{%- endif -%}</div>
+  </div>
+</section>
+{% schema %}
+{"name":"Compare table","settings":[
+ {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Make sure it's lithium orotate"},
+ {"type":"text","id":"title","label":"Heading","default":"The mineral, not the drug."},
+ {"type":"textarea","id":"body","label":"Body","default":"The pharmacist's warning: you have to make sure it's lithium orotate, in the elemental amount that actually works. Most bottles list the compound weight and hide the elemental dose. Ours is on the front."},
+ {"type":"text","id":"note","label":"Footnote","default":"Prescription lithium carbonate is a medicine for diagnosed conditions and is not comparable in dose or purpose. Do not replace prescribed medication with a supplement."},
+ {"type":"image_picker","id":"image","label":"Side image"}],
+"blocks":[{"type":"row","name":"Row","settings":[
+ {"type":"text","id":"label","label":"Row label","default":"Orotate form"},
+ {"type":"text","id":"us","label":"Lucent (yes / no / text)","default":"yes"},
+ {"type":"text","id":"a","label":"Drugstore (yes / no / text)","default":"no"},
+ {"type":"text","id":"b","label":"Prescription (yes / no / text)","default":"no"}]}],
+"presets":[{"name":"Compare table","blocks":[
+ {"type":"row","settings":{"label":"Elemental lithium per capsule","us":"5 mg","a":"Often unlisted","b":"300–900 mg"}},
+ {"type":"row","settings":{"label":"Orotate form","us":"yes","a":"Varies","b":"no"}},
+ {"type":"row","settings":{"label":"Magnesium, zinc and B6 included","us":"yes","a":"no","b":"no"}},
+ {"type":"row","settings":{"label":"Vegan, non-GMO capsule","us":"yes","a":"Varies","b":"no"}},
+ {"type":"row","settings":{"label":"Third-party tested, made in USA","us":"yes","a":"Varies","b":"—"}},
+ {"type":"row","settings":{"label":"Needs a prescription","us":"no","a":"no","b":"yes"}}]}]}
+{% endschema %}

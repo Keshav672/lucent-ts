@@ -1,0 +1,11 @@
+{%- if settings.bar_1 != blank or settings.bar_2 != blank or settings.bar_3 != blank -%}
+<div class="bar" data-bar>
+  <div class="wrap bar__inner">
+    <button type="button" class="bar__btn" aria-label="Previous message" data-bar-prev>{% render 'icon', name: 'chev-l' %}</button>
+    {%- if settings.bar_1 != blank -%}<p class="bar__msg is-on">{{ settings.bar_1 }}</p>{%- endif -%}
+    {%- if settings.bar_2 != blank -%}<p class="bar__msg{% if settings.bar_1 == blank %} is-on{% endif %}">{{ settings.bar_2 }}</p>{%- endif -%}
+    {%- if settings.bar_3 != blank -%}<p class="bar__msg{% if settings.bar_1 == blank and settings.bar_2 == blank %} is-on{% endif %}">{{ settings.bar_3 }}</p>{%- endif -%}
+    <button type="button" class="bar__btn" aria-label="Next message" data-bar-next>{% render 'icon', name: 'chev-r' %}</button>
+  </div>
+</div>
+{%- endif -%}

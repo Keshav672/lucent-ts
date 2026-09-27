@@ -1,0 +1,19 @@
+{%- assign support_email = settings.support_email | default: shop.email -%}
+<section class="page"><div class="wrap cgrid">
+  <div><p class="eyebrow">Contact</p><h1 style="margin:8px 0 14px">{{ page.title | default: 'Contact us' }}</h1><p class="lead">Questions about lithium orotate, your order, or the label? Send a note. We answer within one business day.</p>
+    {%- if page.content != blank -%}<div class="rte" style="margin-top:16px">{{ page.content }}</div>{%- endif -%}
+    <p style="margin-top:20px"><strong>Email</strong><br><a href="mailto:{{ support_email }}">{{ support_email }}</a></p></div>
+  <div class="ccard">
+    {%- form 'contact', id: 'contact-form', class: 'form' -%}
+      {%- if form.posted_successfully? -%}<div class="alert" tabindex="-1" autofocus>Thanks. Your message was sent.</div>{%- endif -%}
+      {%- if form.errors -%}<div class="alert alert--err" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+      <div class="form__two">
+        <label class="field">Name<input type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}"></label>
+        <label class="field">Email *<input type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}"></label>
+      </div>
+      <label class="field">Order number (optional)<input type="text" name="contact[order]" value="{{ form.order }}"></label>
+      <label class="field">Message *<textarea name="contact[body]" required>{{ form.body }}</textarea></label>
+      <button type="submit" class="btn btn--lg">Send message</button>
+    {%- endform -%}
+  </div>
+</div></section>

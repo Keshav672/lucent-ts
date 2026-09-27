@@ -1,0 +1,8 @@
+<section class="page"><div class="wrap page__narrow"><h1>Create account</h1>
+{%- form 'create_customer', class: 'form', style: 'margin-top:24px' -%}{{ form.errors | default_errors }}
+<div class="form__two"><label class="field">First name<input type="text" name="customer[first_name]" autocomplete="given-name"></label><label class="field">Last name<input type="text" name="customer[last_name]" autocomplete="family-name"></label></div>
+<label class="field">Email<input type="email" name="customer[email]" autocomplete="email" required></label>
+<label class="field">Password<input type="password" name="customer[password]" autocomplete="new-password" required></label>
+<button type="submit" class="btn">Create account</button>
+<p class="muted" style="font-size:14px">Already have one? <a href="{{ routes.account_login_url }}" class="link">Log in</a></p>
+{%- endform -%}</div></section>

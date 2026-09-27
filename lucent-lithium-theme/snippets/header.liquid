@@ -1,0 +1,38 @@
+{%- comment -%}Featured product resolver (inline: render tags can't set parent variables){%- endcomment -%}
+{%- assign fp = settings.featured_product -%}
+{%- if fp == blank -%}{%- assign fp = all_products['lucent-lithium-orotate'] -%}{%- endif -%}
+{%- if fp == blank -%}{%- for p in collections['all'].products -%}{%- if p.title contains 'ithium' -%}{%- assign fp = p -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if fp == blank and collections['all'].products.size > 0 -%}{%- assign fp = collections['all'].products.first -%}{%- endif -%}
+{%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.root_url -%}{%- endif -%}
+{%- assign faq_page = pages['faq'] -%}{%- assign science_page = pages['science'] -%}{%- assign contact_page = pages['contact'] -%}
+{%- if faq_page != blank -%}{%- assign faq_url = faq_page.url -%}{%- else -%}{%- assign faq_url = routes.root_url | append: '#faq' -%}{%- endif -%}
+{%- if science_page != blank -%}{%- assign science_url = science_page.url -%}{%- else -%}{%- assign science_url = routes.root_url | append: '#science' -%}{%- endif -%}
+{%- if contact_page != blank -%}{%- assign contact_url = contact_page.url -%}{%- else -%}{%- assign contact_url = 'mailto:' | append: shop.email -%}{%- endif -%}
+<header class="head">
+  <div class="wrap head__inner">
+    <button type="button" class="ibtn burger" aria-label="Open menu" aria-controls="menu" data-menu-open>{% render 'icon', name: 'menu' %}</button>
+    <nav class="head__nav" aria-label="Main">
+      <a href="{{ routes.root_url }}"{% if template.name == 'index' %} aria-current="page"{% endif %}>Shop</a>
+      <a href="{{ fp_url }}"{% if template.name == 'product' %} aria-current="page"{% endif %}>Lithium Orotate</a>
+      <a href="{{ science_url }}">Science</a>
+      <a href="{{ faq_url }}">FAQ</a>
+    </nav>
+    <a href="{{ routes.root_url }}" class="logo" aria-label="{{ shop.name }} home"><span class="logo__dot"></span>Lucent</a>
+    <div class="head__tools">
+      <a href="{{ routes.account_url }}" class="ibtn" aria-label="Account">{% render 'icon', name: 'user' %}</a>
+      <a href="{{ routes.cart_url }}" class="ibtn" aria-label="Open cart" data-cart-open>{% render 'icon', name: 'cart' %}<span class="ibtn__count" data-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span></a>
+    </div>
+  </div>
+</header>
+<aside class="drawer drawer--left" id="menu" aria-label="Menu" aria-hidden="true" data-menu>
+  <div class="drawer__top"><span class="logo"><span class="logo__dot"></span>Lucent</span><button type="button" class="drawer__close" aria-label="Close menu" data-drawer-close>{% render 'icon', name: 'close' %}</button></div>
+  <nav class="mnav" aria-label="Mobile">
+    <a href="{{ routes.root_url }}">Shop</a>
+    <a href="{{ fp_url }}">Lithium Orotate</a>
+    <a href="{{ science_url }}">Science</a>
+    <a href="{{ faq_url }}">FAQ</a>
+    <a href="{{ contact_url }}">Contact</a>
+    <a href="{{ routes.account_url }}">Account</a>
+  </nav>
+  <div class="mnav__foot"><a href="{{ fp_url }}" class="btn btn--block">Shop Lithium Orotate</a></div>
+</aside>

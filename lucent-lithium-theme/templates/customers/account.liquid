@@ -1,0 +1,5 @@
+<section class="page"><div class="wrap page__narrow"><h1>Your account</h1>
+<nav class="acct-nav"><a href="{{ routes.account_url }}" class="link">Orders</a><a href="{{ routes.account_addresses_url }}" class="link">Addresses</a><a href="{{ routes.account_logout_url }}" class="link">Log out</a></nav>
+<p style="margin-bottom:24px">{{ customer.name }} · {{ customer.email }}</p>
+{%- if customer.orders.size > 0 -%}<table class="tbl"><thead><tr><th>Order</th><th>Date</th><th>Status</th><th>Total</th></tr></thead><tbody>{%- for order in customer.orders -%}<tr><td><a href="{{ order.customer_url }}" class="link">{{ order.name }}</a></td><td>{{ order.created_at | date: '%b %d, %Y' }}</td><td>{{ order.fulfillment_status_label }}</td><td>{{ order.total_price | money }}</td></tr>{%- endfor -%}</tbody></table>{%- else -%}<p class="muted">No orders yet.</p>{%- endif -%}
+</div></section>

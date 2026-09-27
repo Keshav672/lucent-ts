@@ -1,0 +1,36 @@
+<section class="sec" id="science">
+  <div class="wrap">
+    <div class="sec__head"><p class="eyebrow">{{ section.settings.eyebrow }}</p><h2>{{ section.settings.title }}</h2><p class="lead">{{ section.settings.body }}</p></div>
+    <div class="steps steps--4">
+      {%- for b in section.blocks -%}
+      <div class="step" {{ b.shopify_attributes }}>
+        <div class="step__media">
+          {%- if b.settings.image != blank -%}<img src="{{ b.settings.image | image_url: width: 900 }}" alt="{{ b.settings.title | escape }}" width="900" height="700" loading="lazy">
+          {%- elsif b.settings.asset != blank -%}<img src="{{ b.settings.asset | asset_url }}" alt="{{ b.settings.title | escape }}" width="440" height="342" loading="lazy">{%- endif -%}
+          <span class="step__n">{{ forloop.index }}</span>
+        </div>
+        <div class="step__body"><h3>{{ b.settings.title }}</h3><p>{{ b.settings.text }}</p></div>
+      </div>
+      {%- endfor -%}
+    </div>
+    <p class="muted" style="font-size:13px;margin-top:20px">{{ section.settings.note }}</p>
+  </div>
+</section>
+{% schema %}
+{"name":"Science","settings":[
+ {"type":"text","id":"eyebrow","label":"Eyebrow","default":"How it works"},
+ {"type":"text","id":"title","label":"Heading","default":"Microdosed lithium, explained on a whiteboard."},
+ {"type":"textarea","id":"body","label":"Body","default":"Prescription lithium is measured in hundreds of milligrams. Lithium orotate at 5 mg sits closer to what a mineral-rich water supply used to provide. Four things it supports, in the words a pharmacist used to explain it."},
+ {"type":"text","id":"note","label":"Footnote","default":"*These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure or prevent any disease."}],
+"blocks":[{"type":"step","name":"Panel","settings":[
+ {"type":"image_picker","id":"image","label":"Image (overrides asset)"},
+ {"type":"text","id":"asset","label":"Theme asset filename","default":"gif-brain.gif"},
+ {"type":"text","id":"title","label":"Title","default":"Less neurotoxicity"},
+ {"type":"textarea","id":"text","label":"Text","default":"Supports the brain's own protective pathways."}]}],
+"max_blocks":4,
+"presets":[{"name":"Science","blocks":[
+ {"type":"step","settings":{"asset":"gif-brain.gif","title":"Protects the wiring","text":"Supports the brain's own protective pathways so cells are less exposed to day-to-day wear.*"}},
+ {"type":"step","settings":{"asset":"gif-creative.gif","title":"More plasticity","text":"Supports the ability to form new connections: a stable mood and a flexible, creative brain.*"}},
+ {"type":"step","settings":{"asset":"gif-mood.gif","title":"Mood stability","text":"More balance, fewer extremes. Fewer crashes after a good day and fewer spirals after a bad one.*"}},
+ {"type":"step","settings":{"asset":"gif-stress.gif","title":"Stress regulation","text":"Helps the stress response settle instead of staying switched on.*"}}]}]}
+{% endschema %}

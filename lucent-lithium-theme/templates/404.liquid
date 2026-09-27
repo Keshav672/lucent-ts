@@ -1,0 +1,8 @@
+{%- comment -%}Featured product resolver (inline: render tags can't set parent variables){%- endcomment -%}
+{%- assign fp = settings.featured_product -%}
+{%- if fp == blank -%}{%- assign fp = all_products['lucent-lithium-orotate'] -%}{%- endif -%}
+{%- if fp == blank -%}{%- for p in collections['all'].products -%}{%- if p.title contains 'ithium' -%}{%- assign fp = p -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if fp == blank and collections['all'].products.size > 0 -%}{%- assign fp = collections['all'].products.first -%}{%- endif -%}
+{%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.root_url -%}{%- endif -%}
+<section class="page"><div class="wrap page__narrow page__center"><p class="eyebrow">404</p><h1 style="margin:8px 0 12px">That page doesn't exist.</h1><p class="lead" style="margin-inline:auto">The link may be old. Everything we sell is one click away.</p><p style="margin-top:24px"><a href="{{ fp_url }}" class="btn btn--lg">Shop Lithium Orotate</a></p></div></section>
+<script>(function(){if(/^\/(products|collections)\//.test(location.pathname)){location.replace({{ fp_url | json }});}})();</script>

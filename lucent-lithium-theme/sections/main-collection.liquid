@@ -1,0 +1,10 @@
+<section class="page">
+  <div class="wrap">
+    <p class="eyebrow">Shop</p><h1>{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}<div class="rte lead" style="margin-top:12px">{{ collection.description }}</div>{%- endif -%}
+    <div class="pgrid" style="margin-top:32px">
+      {%- for p in collection.products -%}{%- assign p_blurb = p.description | strip_html | truncate: 110 -%}{% render 'product-card', product: p, blurb: p_blurb %}{%- else -%}<p>No products in this collection yet.</p>{%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}{"name":"Collection","settings":[],"presets":[{"name":"Collection"}]}{% endschema %}

@@ -1,0 +1,53 @@
+{%- comment -%}Featured product resolver (inline: render tags can't set parent variables){%- endcomment -%}
+{%- assign fp = settings.featured_product -%}
+{%- if fp == blank -%}{%- assign fp = all_products['lucent-lithium-orotate'] -%}{%- endif -%}
+{%- if fp == blank -%}{%- for p in collections['all'].products -%}{%- if p.title contains 'ithium' -%}{%- assign fp = p -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if fp == blank and collections['all'].products.size > 0 -%}{%- assign fp = collections['all'].products.first -%}{%- endif -%}
+{%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.root_url -%}{%- endif -%}
+<div class="tabs" id="shop">
+  <div class="wrap tabs__inner" role="tablist" aria-label="Filter products">
+    <button type="button" class="tab" role="tab" aria-selected="true" data-tab="all">All</button>
+    <button type="button" class="tab" role="tab" aria-selected="false" data-tab="single">Single bottle</button>
+    <button type="button" class="tab" role="tab" aria-selected="false" data-tab="bundle">Bundles</button>
+    <button type="button" class="tab" role="tab" aria-selected="false" data-tab="more">More from Lucent</button>
+  </div>
+</div>
+<section class="cards">
+  <div class="wrap">
+    <div class="pgrid">
+      {%- if fp != blank -%}
+        {%- for v in fp.variants -%}
+          {%- assign blurb = section.settings.blurb_1 -%}{%- assign badge = section.settings.badge_1 -%}{%- assign tags = 'single' -%}{%- assign bstyle = '' -%}
+          {%- if forloop.index == 2 -%}{%- assign blurb = section.settings.blurb_2 -%}{%- assign badge = section.settings.badge_2 -%}{%- assign tags = 'bundle' -%}{%- assign bstyle = 'sky' -%}{%- endif -%}
+          {%- if forloop.index >= 3 -%}{%- assign blurb = section.settings.blurb_3 -%}{%- assign badge = section.settings.badge_3 -%}{%- assign tags = 'bundle' -%}{%- assign bstyle = 'sky' -%}{%- endif -%}
+          {%- assign per = '' -%}
+          {%- if fp.variants.size > 1 -%}{%- assign months = forloop.index | times: 2 -%}{%- assign per_month = v.price | divided_by: months -%}{%- assign per = per_month | money | append: ' per month' -%}{%- endif -%}
+          {% render 'product-card', product: fp, variant: v, badge: badge, badge_style: bstyle, tags: tags, blurb: blurb, per: per %}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- for p in collections['all'].products -%}
+        {%- if fp == blank or p.id != fp.id -%}{%- assign p_blurb = p.description | strip_html | truncate: 110 -%}{% render 'product-card', product: p, tags: 'more', blurb: p_blurb %}{%- endif -%}
+      {%- endfor -%}
+      {%- if fp == blank and collections['all'].products.size == 0 -%}<p>No products yet. Add a product in Shopify admin and pick it under Theme settings → Store.</p>{%- endif -%}
+    </div>
+    <p data-none hidden style="padding:24px 0" class="muted">Nothing in this category yet.</p>
+    <div class="value" id="included">
+      <div><p class="eyebrow">With every order</p><h3 style="margin-top:8px">What's in the box</h3><p class="muted" style="margin-top:8px;font-size:15px">{{ section.settings.value_body }}</p></div>
+      <ul>
+        {%- for b in section.blocks -%}<li {{ b.shopify_attributes }}><span class="check">{% render 'icon', name: 'check' %}</span><span>{{ b.settings.text }}</span></li>{%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Shop grid","settings":[
+ {"type":"text","id":"badge_1","label":"Badge, first variant","default":"Start here"},
+ {"type":"text","id":"blurb_1","label":"Blurb, first variant","default":"One bottle, sixty capsules, two months. The right way to find out what level feels like."},
+ {"type":"text","id":"badge_2","label":"Badge, second variant","default":"Most popular"},
+ {"type":"text","id":"blurb_2","label":"Blurb, second variant","default":"Four months. Long enough for the habit to stick and the difference to be obvious."},
+ {"type":"text","id":"badge_3","label":"Badge, third variant","default":"Best value"},
+ {"type":"text","id":"blurb_3","label":"Blurb, third variant","default":"Six months at the lowest price per capsule. For people who already know."},
+ {"type":"text","id":"value_body","label":"Value box text","default":"No welcome kit to fake. Just the things that make a supplement worth trusting."}],
+"blocks":[{"type":"item","name":"Included item","settings":[{"type":"text","id":"text","label":"Text","default":"Free shipping over $50"}]}],
+"presets":[{"name":"Shop grid","blocks":[{"type":"item","settings":{"text":"Third-party tested for purity and label accuracy"}},{"type":"item","settings":{"text":"60-day money-back guarantee, even on an empty bottle"}},{"type":"item","settings":{"text":"Free shipping on orders over $50"}},{"type":"item","settings":{"text":"Vegan capsules, no gluten, soy, dairy or GMOs"}},{"type":"item","settings":{"text":"Made in a cGMP facility in the USA"}},{"type":"item","settings":{"text":"Subscribe and save 15%, skip or cancel anytime"}}]}]}
+{% endschema %}
