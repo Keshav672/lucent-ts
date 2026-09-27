@@ -4,7 +4,7 @@
 {%- if fp == blank -%}{%- for p in collections['all'].products -%}{%- if p.title contains 'ithium' -%}{%- assign fp = p -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- endif -%}
 {%- if fp == blank and collections['all'].products.size > 0 -%}{%- assign fp = collections['all'].products.first -%}{%- endif -%}
 {%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.root_url -%}{%- endif -%}
-{%- assign faq_page = pages['faq'] -%}{%- assign science_page = pages['science'] -%}{%- assign contact_page = pages['contact'] -%}
+{%- assign faq_page = pages['faq'] -%}{%- assign about_page = pages['about'] -%}{%- if about_page != blank -%}{%- assign about_url = about_page.url -%}{%- else -%}{%- assign about_url = routes.root_url | append: '#note' -%}{%- endif -%}{%- assign science_page = pages['science'] -%}{%- assign contact_page = pages['contact'] -%}
 {%- if faq_page != blank -%}{%- assign faq_url = faq_page.url -%}{%- else -%}{%- assign faq_url = routes.root_url | append: '#faq' -%}{%- endif -%}
 {%- if science_page != blank -%}{%- assign science_url = science_page.url -%}{%- else -%}{%- assign science_url = routes.root_url | append: '#science' -%}{%- endif -%}
 {%- if contact_page != blank -%}{%- assign contact_url = contact_page.url -%}{%- else -%}{%- assign contact_url = 'mailto:' | append: shop.email -%}{%- endif -%}
@@ -15,6 +15,7 @@
       <a href="{{ routes.root_url }}"{% if template.name == 'index' %} aria-current="page"{% endif %}>Shop</a>
       <a href="{{ fp_url }}"{% if template.name == 'product' %} aria-current="page"{% endif %}>Lithium Orotate</a>
       <a href="{{ science_url }}">Science</a>
+      <a href="{{ about_url }}"{% if template.suffix == 'about' %} aria-current="page"{% endif %}>About</a>
       <a href="{{ faq_url }}">FAQ</a>
     </nav>
     <a href="{{ routes.root_url }}" class="logo" aria-label="{{ shop.name }} home"><span class="logo__dot"></span>Lucent</a>
@@ -30,6 +31,7 @@
     <a href="{{ routes.root_url }}">Shop</a>
     <a href="{{ fp_url }}">Lithium Orotate</a>
     <a href="{{ science_url }}">Science</a>
+    <a href="{{ about_url }}">About</a>
     <a href="{{ faq_url }}">FAQ</a>
     <a href="{{ contact_url }}">Contact</a>
     <a href="{{ routes.account_url }}">Account</a>

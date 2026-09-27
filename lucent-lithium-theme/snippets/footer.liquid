@@ -8,6 +8,7 @@
 {%- assign ship_page = pages['shipping-returns'] -%}{%- if ship_page != blank -%}{%- assign ship_url = ship_page.url -%}{%- else -%}{%- assign ship_url = contact_url -%}{%- endif -%}
 {%- assign faq_page = pages['faq'] -%}{%- if faq_page != blank -%}{%- assign faq_url = faq_page.url -%}{%- else -%}{%- assign faq_url = routes.root_url | append: '#faq' -%}{%- endif -%}
 {%- assign science_page = pages['science'] -%}{%- if science_page != blank -%}{%- assign science_url = science_page.url -%}{%- else -%}{%- assign science_url = routes.root_url | append: '#science' -%}{%- endif -%}
+{%- assign about_page = pages['about'] -%}{%- if about_page != blank -%}{%- assign about_url = about_page.url -%}{%- else -%}{%- assign about_url = routes.root_url -%}{%- endif -%}
 {%- assign support_email = settings.support_email | default: shop.email -%}
 <footer class="foot">
   <div class="wrap">
@@ -24,7 +25,7 @@
         <p class="muted" style="font-size:13px;margin-top:8px" data-news-msg hidden>Thanks, you're on the list.</p>
       </div>
       <div class="foot__col"><h4>Shop</h4><a href="{{ fp_url }}">Lithium Orotate</a><a href="{{ routes.root_url }}">All products</a><a href="{{ routes.cart_url }}">Cart</a></div>
-      <div class="foot__col"><h4>Learn</h4><a href="{{ science_url }}">Science</a><a href="{{ fp_url }}#ingredients">Supplement facts</a><a href="{{ faq_url }}">FAQ</a></div>
+      <div class="foot__col"><h4>Learn</h4><a href="{{ science_url }}">Science</a><a href="{{ fp_url }}#ingredients">Supplement facts</a><a href="{{ faq_url }}">FAQ</a><a href="{{ about_url }}">About Lucent</a></div>
       <div class="foot__col"><h4>Support</h4><a href="{{ contact_url }}">Contact</a><a href="{{ ship_url }}">Shipping &amp; returns</a><a href="{{ routes.account_url }}">Account</a><a href="mailto:{{ support_email }}">{{ support_email }}</a></div>
     </div>
     <div class="foot__legal">

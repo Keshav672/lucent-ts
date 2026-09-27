@@ -1,0 +1,117 @@
+{
+ "sections": {
+  "note": {
+   "type": "brand-note",
+   "settings": {
+    "eyebrow": "Who you're buying from",
+    "title": "We put the dose on the front because we were tired of guessing too."
+   }
+  },
+  "standards": {
+   "type": "standards",
+   "blocks": {
+    "k1": {
+     "type": "stat",
+     "settings": {
+      "k": "5 mg",
+      "title": "Elemental lithium",
+      "text": "Lithium as orotate, the amount used in low-dose research. Printed on the front, not buried on the back."
+     }
+    },
+    "k2": {
+     "type": "stat",
+     "settings": {
+      "k": "1",
+      "title": "Active ingredient",
+      "text": "Lithium (as orotate) 5 mg. No blend, no proprietary formula, nothing else to decode."
+     }
+    },
+    "k3": {
+     "type": "stat",
+     "settings": {
+      "k": "30",
+      "title": "Vegan capsules",
+      "text": "One a day. One month per bottle. No fillers, no colours."
+     }
+    },
+    "k4": {
+     "type": "stat",
+     "settings": {
+      "k": "USA",
+      "title": "Made in the USA",
+      "text": "Non-GMO. Vegan capsule."
+     }
+    }
+   },
+   "block_order": [
+    "k1",
+    "k2",
+    "k3",
+    "k4"
+   ],
+   "settings": {}
+  },
+  "comments": {
+   "type": "comments",
+   "blocks": {
+    "c1": {
+     "type": "thread",
+     "settings": {
+      "q_name": "Dana K.",
+      "q_text": "Isn't lithium the thing they give people in hospitals?? How is this safe to just buy online",
+      "q_when": "3w",
+      "a_name": "Marcus D.",
+      "a_text": "Different thing. The hospital drug is lithium carbonate at 300 to 900 mg with blood tests. This is 5 mg of the mineral as orotate. I was nervous too, read up on it for a month before ordering. Two bottles in now.",
+      "a_when": "3w",
+      "a_likes": "41",
+      "f_text": "ok update: ordered after this. week 3 and my husband asked what changed. nothing changed, I just stopped snapping.",
+      "f_when": "1w"
+     }
+    },
+    "c2": {
+     "type": "thread",
+     "settings": {
+      "q_name": "Priya S.",
+      "q_text": "Does this actually do anything or is it placebo? Honest answers pls",
+      "q_when": "2w",
+      "a_name": "Renee T.",
+      "a_text": "Honest answer: nothing for the first two weeks. Around week three I noticed I hadn't had a Sunday night spiral in a while. It's not a switch, it's a floor.",
+      "a_when": "2w",
+      "a_likes": "27"
+     }
+    },
+    "c3": {
+     "type": "thread",
+     "settings": {
+      "q_name": "Tom H.",
+      "q_text": "Why this one and not the $9 bottle on Amazon?",
+      "q_when": "1w",
+      "a_name": "Jess A.",
+      "a_text": "Because the $9 one says 120 mg and never tells you how much is actually lithium. This one prints the actual lithium amount, 5 mg, on the front. That's the whole reason I switched.",
+      "a_when": "1w",
+      "a_likes": "19"
+     }
+    }
+   },
+   "block_order": [
+    "c1",
+    "c2",
+    "c3"
+   ],
+   "settings": {}
+  },
+  "cta": {
+   "type": "guarantee-cta",
+   "settings": {
+    "eyebrow": "60-day guarantee",
+    "title": "Try a full bottle. Keep the change if it isn't you."
+   }
+  }
+ },
+ "order": [
+  "note",
+  "standards",
+  "comments",
+  "cta"
+ ]
+}
