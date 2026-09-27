@@ -1,5 +1,4 @@
 {%- assign cur = product.selected_or_first_available_variant -%}
-{%- assign plan_group = product.selling_plan_groups.first -%}
 <section class="pdp" data-pdp>
   <div class="wrap">
     <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Shop</a> / <span>{{ product.title }}</span></nav>
@@ -39,38 +38,54 @@
           {%- for b in section.blocks -%}{%- if b.type == 'bullet' -%}<li {{ b.shopify_attributes }}><span class="check">{% render 'icon', name: 'check' %}</span><span>{{ b.settings.text }}</span></li>{%- endif -%}{%- endfor -%}
         </ul>
 
+        {%- comment -%}Default selection: the variant in the URL, else the middle bundle, else the first.{%- endcomment -%}
+        {%- assign sel_id = cur.id -%}
+        {%- unless product.selected_variant -%}{%- if product.variants.size > 1 and product.variants[1].available -%}{%- assign sel_id = product.variants[1].id -%}{%- endif -%}{%- endunless -%}
         {%- form 'product', product, id: 'pdp-form', data-product-form: true, data-ajax: true -%}
-          <input type="hidden" name="id" value="{{ cur.id }}">
+          <input type="hidden" name="id" value="{{ sel_id }}">
           <input type="hidden" name="selling_plan" value="">
+          <input type="hidden" name="quantity" value="1">
+          {%- for v in product.variants -%}{%- if v.id == sel_id -%}
+            {%- assign n = v.title | split: ' ' | first | plus: 0 -%}{%- if n < 1 -%}{%- assign n = 1 -%}{%- endif -%}
+            {%- assign cmp = v.compare_at_price | default: 0 -%}
+            <div class="buy__price">
+              <strong data-price-out>{{ v.price | divided_by: n | money }}</strong><span class="buy__per">/bottle</span>
+              <s data-compare-out{% unless cmp > v.price %} hidden{% endunless %}>{{ cmp | divided_by: n | money }}</s>
+              <span class="buy__badge" data-save{% unless cmp > v.price %} hidden{% endunless %}>{{ section.settings.sale_label | default: 'Fall sale' }} · Save {{ cmp | minus: v.price | times: 100 | divided_by: cmp }}%</span>
+            </div>
+          {%- endif -%}{%- endfor -%}
           <p class="buy__grp">Choose your supply</p>
           {%- for v in product.variants -%}
             {%- assign label = v.title -%}{%- if product.has_only_default_variant -%}{%- assign label = '1 bottle' -%}{%- endif -%}
-            <label class="opt">
-              <input type="radio" name="purchase" value="v{{ v.id }}" data-variant="{{ v.id }}" data-price="{{ v.price }}" data-compare="{{ v.compare_at_price | default: 0 }}" data-label="{{ label | escape }}"{% if v.id == cur.id %} checked{% endif %}{% unless v.available %} disabled{% endunless %}>
-              <span><span class="opt__t">{{ label }}{% unless v.available %} · Sold out{% endunless %}</span><br><span class="opt__s">{% if forloop.index == 1 %}{{ section.settings.opt_1 }}{% elsif forloop.index == 2 %}{{ section.settings.opt_2 }}{% else %}{{ section.settings.opt_3 }}{% endif %}</span></span>
-              <span class="opt__p">{{ v.price | money }}{% if v.compare_at_price > v.price %}<s>{{ v.compare_at_price | money }}</s>{% endif %}</span>
-              {%- if forloop.index == 2 and product.variants.size > 1 -%}<span class="opt__tag">Most popular</span>{%- endif -%}
+            {%- assign n = v.title | split: ' ' | first | plus: 0 -%}{%- if n < 1 -%}{%- assign n = 1 -%}{%- endif -%}
+            {%- assign cmp = v.compare_at_price | default: 0 -%}
+            {%- assign per = v.price | divided_by: n -%}
+            {%- assign cper = cmp | divided_by: n -%}
+            {%- assign save = cmp | minus: v.price -%}
+            {%- assign pct = 0 -%}{%- if cmp > v.price -%}{%- assign pct = save | times: 100 | divided_by: cmp -%}{%- endif -%}
+            <label class="opt opt--bundle">
+              <input type="radio" name="purchase" value="v{{ v.id }}" data-variant="{{ v.id }}" data-price="{{ v.price }}" data-per="{{ per }}" data-cper="{{ cper }}" data-pct="{{ pct }}" data-label="{{ label | escape }}"{% if v.id == sel_id %} checked{% endif %}{% unless v.available %} disabled{% endunless %}>
+              <span class="opt__thumb" aria-hidden="true">
+                {%- if product.featured_image -%}<img src="{{ product.featured_image | image_url: width: 120 }}" alt="" width="56" height="56" loading="lazy">{%- else -%}<img src="{{ 'bottle-hero.jpg' | asset_url }}" alt="" width="56" height="56" loading="lazy">{%- endif -%}
+                {%- if n > 1 -%}<span class="opt__n">×{{ n }}</span>{%- endif -%}
+              </span>
+              <span class="opt__main">
+                <span class="opt__t">{{ label }}{% unless v.available %} · Sold out{% endunless %}</span>
+                <span class="opt__s">{{ n }}-month supply{% if save > 0 %} · You save {{ save | money }}{% endif %}</span>
+                {%- if pct > 0 -%}<span class="opt__sale">{{ section.settings.sale_label | default: 'Fall sale' }} · {{ pct }}% off</span>{%- endif -%}
+              </span>
+              <span class="opt__p"><span class="opt__pp"><strong>{{ per | money }}</strong><small>/bottle</small></span>{% if cper > per %}<s>{{ cper | money }}</s>{% endif %}</span>
+              {%- if product.variants.size > 1 -%}
+                {%- if forloop.index == 2 -%}<span class="opt__tag">Most popular</span>{%- elsif forloop.last and forloop.index > 2 -%}<span class="opt__tag opt__tag--alt">Best value</span>{%- endif -%}
+              {%- endif -%}
             </label>
           {%- endfor -%}
-          {%- if plan_group != blank -%}
-            <p class="buy__grp">Or subscribe</p>
-            {%- for plan in plan_group.selling_plans -%}
-              {%- assign alloc = cur.selling_plan_allocations | where: 'selling_plan_id', plan.id | first -%}
-              <label class="opt">
-                <input type="radio" name="purchase" value="p{{ plan.id }}" data-variant="{{ cur.id }}" data-plan="{{ plan.id }}" data-price="{{ alloc.price | default: cur.price }}" data-compare="{{ alloc.compare_at_price | default: cur.price }}" data-label="{{ plan.name | escape }}">
-                <span><span class="opt__t">{{ plan.name }}</span><br><span class="opt__s">{{ plan.description | default: 'Skip or cancel anytime' }}</span></span>
-                <span class="opt__p">{{ alloc.price | default: cur.price | money }}</span>
-                <span class="opt__more">Delivered on your schedule. Pause, skip or cancel from your account in two clicks.</span>
-              </label>
-            {%- endfor -%}
-          {%- endif -%}
           <div class="buy__row">
-            <div class="qty"><button type="button" data-minus aria-label="Decrease quantity">&minus;</button><input type="number" name="quantity" value="1" min="1" max="20" aria-label="Quantity" data-qinput><button type="button" data-plus aria-label="Increase quantity">+</button></div>
             {%- if product.available -%}
-            <button type="submit" class="btn btn--lg">{{ section.settings.cta }} · <span data-price-out>{{ cur.price | money }}</span> <s data-compare-out hidden style="opacity:.6;font-weight:400"></s></button>
-            {%- else -%}<button type="button" class="btn btn--lg" disabled>Sold out</button>{%- endif -%}
+            <button type="submit" class="btn btn--lg btn--block">{{ section.settings.cta }}</button>
+            {%- else -%}<button type="button" class="btn btn--lg btn--block" disabled>Sold out</button>{%- endif -%}
           </div>
-          <p class="buy__sub"><span>{% render 'icon', name: 'truck' %} Free shipping over $50</span><span>{% render 'icon', name: 'lock' %} Secure checkout</span><span><strong data-save hidden></strong> 60-day guarantee</span></p>
+          <p class="buy__sub"><span>{% render 'icon', name: 'truck' %} Free shipping over $50</span><span>{% render 'icon', name: 'lock' %} Secure checkout</span><span>{% render 'icon', name: 'shield' %} 60-day guarantee</span></p>
         {%- endform -%}
 
         <div class="buy__acc">
@@ -84,7 +99,7 @@
 <div class="sticky" data-sticky>
   <div class="wrap sticky__inner">
     <span class="sticky__t" data-sticky-title data-base="{{ product.title | escape }}">{{ product.title }}</span>
-    <span class="sticky__p" data-sticky-price>{{ cur.price | money }}</span>
+    <span class="sticky__p" data-sticky-price>{{ cur.price | money }}/bottle</span>
     {%- if product.available -%}<button type="button" class="btn">Add to cart</button>{%- endif -%}
   </div>
 </div>
@@ -93,6 +108,7 @@
  {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Low-dose lithium orotate · 30 vegan capsules"},
  {"type":"textarea","id":"lead","label":"Lead","default":"Five milligrams of lithium, as orotate, and nothing else. One capsule a day for a mood that stays level and a mind that stays sharp.*"},
  {"type":"text","id":"cta","label":"Button text","default":"Add to cart"},
+ {"type":"text","id":"sale_label","label":"Sale badge label","default":"Fall sale"},
  {"type":"text","id":"opt_1","label":"Option 1 subtitle","default":"1-month supply"},
  {"type":"text","id":"opt_2","label":"Option 2 subtitle","default":"2-month supply · save more per bottle"},
  {"type":"text","id":"opt_3","label":"Option 3 subtitle","default":"3-month supply · lowest price per capsule"}],

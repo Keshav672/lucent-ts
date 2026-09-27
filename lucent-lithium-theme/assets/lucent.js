@@ -158,16 +158,16 @@
     var form = $('form[data-product-form]', pdp), idInput = form && $('[name=id]', form), planInput = form && $('[name=selling_plan]', form);
     var priceEl = $('[data-price-out]', pdp), cmpEl = $('[data-compare-out]', pdp), saveEl = $('[data-save]', pdp), stickyP = $('[data-sticky-price]');
     var qtyInput = $('[data-qinput]', pdp), qtyMinus = $('[data-minus]', pdp), qtyPlus = $('[data-plus]', pdp);
-    function variantPrice(opt) { return { p: parseInt(opt.getAttribute('data-price'), 10), c: parseInt(opt.getAttribute('data-compare') || '0', 10) }; }
+    function num(el, k) { return parseInt(el.getAttribute(k) || '0', 10) || 0; }
     function sync() {
       var sel = $('input[name=purchase]:checked', pdp); if (!sel) return;
-      var vp = variantPrice(sel), q = parseInt(qtyInput && qtyInput.value || '1', 10) || 1;
+      var per = num(sel, 'data-per') || num(sel, 'data-price'), cper = num(sel, 'data-cper'), pct = num(sel, 'data-pct');
       if (idInput) idInput.value = sel.getAttribute('data-variant');
       if (planInput) planInput.value = sel.getAttribute('data-plan') || '';
-      if (priceEl) priceEl.textContent = money(vp.p * q);
-      if (cmpEl) { cmpEl.hidden = !(vp.c > vp.p); cmpEl.textContent = vp.c > vp.p ? money(vp.c * q) : ''; }
-      if (saveEl) { saveEl.hidden = !(vp.c > vp.p); if (vp.c > vp.p) saveEl.textContent = 'Save ' + Math.round((1 - vp.p / vp.c) * 100) + '%'; }
-      if (stickyP) stickyP.textContent = money(vp.p * q);
+      if (priceEl) priceEl.textContent = money(per);
+      if (cmpEl) { cmpEl.hidden = !(cper > per); cmpEl.textContent = cper > per ? money(cper) : ''; }
+      if (saveEl) { saveEl.hidden = !(pct > 0); if (pct > 0) saveEl.textContent = saveEl.textContent.split('\u00b7')[0].trim() + ' \u00b7 Save ' + pct + '%'; }
+      if (stickyP) stickyP.textContent = money(per) + '/bottle';
       var st = $('[data-sticky-title]'); if (st) st.textContent = st.getAttribute('data-base') + ' · ' + sel.getAttribute('data-label');
     }
     $$('input[name=purchase]', pdp).forEach(function (r) { r.addEventListener('change', sync); });
