@@ -1,47 +1,66 @@
+{%- comment -%}Facebook-style ad comment threads (layout modelled on pinemoor.co). Avatars are initials unless a photo is picked per person.{%- endcomment -%}
+{%- capture fb_like -%}<span class="fbr fbr--like" aria-hidden="true"><svg viewBox="0 0 16 16"><path fill="#fff" d="M4 7h2v6H4zm3 6V7.4l2.2-3.6c.3-.5 1-.4 1.1.2l.1.4-.5 2.6h2.7c.7 0 1.2.7 1 1.4l-1 3.6c-.1.6-.6 1-1.2 1z"/></svg></span>{%- endcapture -%}
+{%- capture fb_love -%}<span class="fbr fbr--love" aria-hidden="true"><svg viewBox="0 0 16 16"><path fill="#fff" d="M8 13.2 3.6 9C2.3 7.7 2.4 5.6 3.9 4.6c1.2-.8 2.8-.5 3.6.6l.5.6.5-.6c.8-1.1 2.4-1.4 3.6-.6 1.5 1 1.6 3.1.3 4.4z"/></svg></span>{%- endcapture -%}
 <section class="sec sec--cream" id="comments">
   <div class="wrap">
-    <div class="sec__head"><p class="eyebrow">{{ section.settings.eyebrow }}</p><h2>{{ section.settings.title }}</h2><p class="lead">{{ section.settings.body }}</p></div>
-    <div class="threads">
+    <div class="sec__head sec__head--center">
+      <p class="fbhead"><span class="fbhead__logo" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M13.4 19.5v-6.1h2l.3-2.4h-2.3V9.5c0-.7.2-1.2 1.2-1.2h1.2V6.2c-.2 0-1-.1-1.8-.1-1.8 0-3 1.1-3 3.1V11H9v2.4h2v6.1z"/></svg></span>{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.title }}</h2>
+      <p class="lead" style="margin-inline:auto">{{ section.settings.body }}</p>
+    </div>
+    <div class="fbwall">
       {%- for b in section.blocks -%}
-      <article class="thread" {{ b.shopify_attributes }}>
-        <div class="cmt">
-          <span class="avatar" aria-hidden="true">{{ b.settings.q_name | slice: 0, 1 }}</span>
-          <div><p class="cmt__who">{{ b.settings.q_name }}</p><p class="cmt__t">{{ b.settings.q_text }}</p><p class="cmt__meta">{{ b.settings.q_when }} · Reply</p></div>
+      {%- assign s = b.settings -%}
+      <article class="fbthread" {{ b.shopify_attributes }}>
+        <div class="fbc">
+          {%- if s.q_img != blank -%}<img class="fbav" src="{{ s.q_img | image_url: width: 80 }}" alt="" width="40" height="40" loading="lazy">{%- else -%}<span class="fbav fbav--c{{ forloop.index | modulo: 4 }}" aria-hidden="true">{{ s.q_name | slice: 0, 1 }}</span>{%- endif -%}
+          <div class="fbc__body">
+            <div class="fbbub"><p class="fbname">{{ s.q_name }} <span class="fbfollow">· Follow</span></p><p class="fbtext">{{ s.q_text }}</p></div>
+            <div class="fbmeta"><span>{{ s.q_when }}</span><span>Like</span><span>Reply</span><span class="fbreact">{{ fb_like }}{{ s.q_likes }}</span></div>
+          </div>
         </div>
-        <div class="cmt cmt--reply">
-          <span class="avatar avatar--sm" aria-hidden="true">{{ b.settings.a_name | slice: 0, 1 }}</span>
-          <div><p class="cmt__who">{{ b.settings.a_name }} <span class="cmt__badge">Bought it</span></p><p class="cmt__t">{{ b.settings.a_text }}</p><p class="cmt__meta">{{ b.settings.a_when }} · {{ b.settings.a_likes }} likes</p></div>
+        <div class="fbc fbc--reply">
+          {%- if s.a_img != blank -%}<img class="fbav fbav--sm" src="{{ s.a_img | image_url: width: 64 }}" alt="" width="32" height="32" loading="lazy">{%- else -%}<span class="fbav fbav--sm fbav--c{{ forloop.index | plus: 1 | modulo: 4 }}" aria-hidden="true">{{ s.a_name | slice: 0, 1 }}</span>{%- endif -%}
+          <div class="fbc__body">
+            <div class="fbbub"><p class="fbname">{{ s.a_name }}</p><p class="fbtext"><strong>{{ s.q_name }}</strong> {{ s.a_text }}</p></div>
+            <div class="fbmeta"><span>{{ s.a_when }}</span><span>Like</span><span>Reply</span><span class="fbreact">{{ fb_like }}{{ fb_love }}{{ s.a_likes }}</span></div>
+          </div>
         </div>
-        {%- if b.settings.f_text != blank -%}
-        <div class="cmt cmt--reply">
-          <span class="avatar avatar--sm" aria-hidden="true">{{ b.settings.q_name | slice: 0, 1 }}</span>
-          <div><p class="cmt__who">{{ b.settings.q_name }}</p><p class="cmt__t">{{ b.settings.f_text }}</p><p class="cmt__meta">{{ b.settings.f_when }}</p></div>
+        {%- if s.f_text != blank -%}
+        <div class="fbc fbc--reply fbc--reply2">
+          {%- if s.q_img != blank -%}<img class="fbav fbav--sm" src="{{ s.q_img | image_url: width: 64 }}" alt="" width="32" height="32" loading="lazy">{%- else -%}<span class="fbav fbav--sm fbav--c{{ forloop.index | modulo: 4 }}" aria-hidden="true">{{ s.q_name | slice: 0, 1 }}</span>{%- endif -%}
+          <div class="fbc__body">
+            <div class="fbbub"><p class="fbname">{{ s.q_name }} <span class="fbfollow">· Follow</span></p><p class="fbtext"><strong>{{ s.a_name }}</strong> {{ s.f_text }}</p></div>
+            <div class="fbmeta"><span>{{ s.f_when }}</span><span class="fbliked">Like</span><span>Reply</span><span class="fbreact">{{ fb_like }}{{ fb_love }}{{ s.f_likes }}</span></div>
+          </div>
         </div>
         {%- endif -%}
       </article>
       {%- endfor -%}
     </div>
-    <p class="muted" style="font-size:13px;margin-top:20px">{{ section.settings.note }}</p>
+    <p class="muted" style="font-size:13px;margin-top:20px;text-align:center">{{ section.settings.note }}</p>
   </div>
 </section>
 {% schema %}
 {"name":"Ad comments","settings":[
- {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Straight from the ad comments"},
+ {"type":"text","id":"eyebrow","label":"Eyebrow","default":"From our Facebook ad comments"},
  {"type":"text","id":"title","label":"Heading","default":"Don't take our word for it. Ask the comments."},
  {"type":"textarea","id":"body","label":"Body","default":"Every time someone asks “isn't lithium dangerous?” or “does this actually do anything?” under our ads, the answers come from people who already tried it."},
  {"type":"text","id":"note","label":"Footnote","default":"Comments are lightly edited for length. Individual results vary."}],
 "blocks":[{"type":"thread","name":"Thread","settings":[
+ {"type":"paragraph","content":"Use real comments from your ads, with the commenter's permission. Initials show when no photo is set."},
  {"type":"text","id":"q_name","label":"Asker name","default":"Dana K."},
+ {"type":"image_picker","id":"q_img","label":"Asker photo"},
  {"type":"textarea","id":"q_text","label":"Question","default":"Does this actually work?"},
  {"type":"text","id":"q_when","label":"Question time","default":"2w"},
+ {"type":"text","id":"q_likes","label":"Question reactions","default":"3"},
  {"type":"text","id":"a_name","label":"Answerer name","default":"Marcus D."},
+ {"type":"image_picker","id":"a_img","label":"Answerer photo"},
  {"type":"textarea","id":"a_text","label":"Answer","default":"It does."},
  {"type":"text","id":"a_when","label":"Answer time","default":"2w"},
- {"type":"text","id":"a_likes","label":"Likes","default":"14"},
+ {"type":"text","id":"a_likes","label":"Answer reactions","default":"14"},
  {"type":"textarea","id":"f_text","label":"Follow-up from asker (optional)"},
- {"type":"text","id":"f_when","label":"Follow-up time"}]}],
-"presets":[{"name":"Ad comments","blocks":[
- {"type":"thread","settings":{"q_name":"Dana K.","q_text":"Isn't lithium the thing they give people in hospitals?? How is this safe to just buy online","q_when":"3w","a_name":"Marcus D.","a_text":"Different thing. The hospital drug is lithium carbonate at 300 to 900 mg with blood tests. This is 5 mg of the mineral as orotate. I was nervous too, read up on it for a month before ordering. Two bottles in now.","a_when":"3w","a_likes":"41","f_text":"ok update: ordered after this. week 3 and my husband asked what changed. nothing changed, I just stopped snapping.","f_when":"1w"}},
- {"type":"thread","settings":{"q_name":"Priya S.","q_text":"Does this actually do anything or is it placebo? Honest answers pls","q_when":"2w","a_name":"Renee T.","a_text":"Honest answer: nothing for the first two weeks. Around week three I noticed I hadn't had a Sunday night spiral in a while. It's not a switch, it's a floor.","a_when":"2w","a_likes":"27"}},
- {"type":"thread","settings":{"q_name":"Tom H.","q_text":"Why this one and not the $9 bottle on Amazon?","q_when":"1w","a_name":"Jess A.","a_text":"Because the $9 one says 120 mg and never tells you how much is actually lithium. This one prints the actual lithium amount, 5 mg, on the front. That's the whole reason I switched.","a_when":"1w","a_likes":"19"}}]}]}
+ {"type":"text","id":"f_when","label":"Follow-up time","default":"5d"},
+ {"type":"text","id":"f_likes","label":"Follow-up reactions","default":"6"}]}],
+"presets":[{"name":"Ad comments"}]}
 {% endschema %}

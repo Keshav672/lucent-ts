@@ -156,6 +156,7 @@
       if (cmpEl) { cmpEl.hidden = !(cper > per); cmpEl.textContent = cper > per ? money(cper) : ''; }
       if (saveEl) { saveEl.hidden = !(pct > 0); if (pct > 0) saveEl.textContent = saveEl.textContent.split('\u00b7')[0].trim() + ' \u00b7 Save ' + pct + '%'; }
       if (stickyP) stickyP.textContent = money(per) + '/bottle';
+      var atc = $('[data-atc-total]', pdp); if (atc) atc.textContent = money(num(sel, 'data-price'));
       var st = $('[data-sticky-title]'); if (st) st.textContent = st.getAttribute('data-base') + ' · ' + sel.getAttribute('data-label');
     }
     $$('input[name=purchase]', pdp).forEach(function (r) { r.addEventListener('change', sync); });
