@@ -84,7 +84,7 @@
           <div class="buy__row">
             {%- if product.available -%}
             {%- for v in product.variants -%}{%- if v.id == sel_id -%}{%- assign sel_n = v.title | split: ' ' | first | plus: 0 -%}{%- if sel_n < 1 -%}{%- assign sel_n = 1 -%}{%- endif -%}{%- assign sel_total = v.price | divided_by: sel_n -%}{%- endif -%}{%- endfor -%}
-            <button type="submit" class="btn btn--lg btn--block">{{ section.settings.cta }} · <span data-atc-total>{{ sel_total | money }}</span><span class="atc__per">/bottle</span></button>
+            <button type="submit" class="btn btn--lg btn--block">{{ section.settings.cta }} · <span class="atc__price"><span data-atc-total>{{ sel_total | money }}</span><span class="atc__per">/bottle</span></span></button>
             {%- else -%}<button type="button" class="btn btn--lg btn--block" disabled>Sold out</button>{%- endif -%}
           </div>
           <p class="buy__sub"><span>{% render 'icon', name: 'truck' %} Free shipping over $50</span><span>{% render 'icon', name: 'lock' %} Secure checkout</span><span>{% render 'icon', name: 'shield' %} 60-day guarantee</span></p>
