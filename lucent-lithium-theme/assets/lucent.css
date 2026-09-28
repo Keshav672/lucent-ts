@@ -432,3 +432,4 @@ table.tbl{width:100%;border-collapse:collapse;font-size:14px}table.tbl th,table.
 .fbhead{flex-wrap:nowrap;text-align:left}
 .sticky__t{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:720px){.fbhead{font-size:12px;letter-spacing:.04em}.sticky__t{display:none}.sticky__inner{justify-content:space-between}}
+.atc__per{font-weight:500;opacity:.8;margin-left:1px}
