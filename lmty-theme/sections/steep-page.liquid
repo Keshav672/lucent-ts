@@ -24,6 +24,8 @@
         <img src="{{ section.settings.hero_image | image_url: width: 1100 }}" alt="{{ section.settings.hero_image.alt | default: 'LMTY Honey Citrus Mint Ball green tea concentrate' | escape }}" width="1100" height="1100" fetchpriority="high">
       {%- elsif p.featured_image -%}
         <img src="{{ p.featured_image | image_url: width: 1100 }}" alt="{{ p.featured_image.alt | default: p.title | escape }}" width="1100" height="1100" fetchpriority="high">
+      {%- else -%}
+        <img src="{{ 'lmty-carton.jpg' | asset_url }}" alt="LMTY Honey Citrus Mint Ball green tea concentrate" width="1024" height="1024" fetchpriority="high">
       {%- endif -%}
     </div>
   </div>
@@ -47,8 +49,10 @@
           <img src="{{ m | image_url: width: 1100 }}" alt="{{ m.alt | default: p.title | escape }}" width="1100" height="1100" data-slide{% unless forloop.first %} hidden loading="lazy"{% endunless %}>
           {%- endif -%}{%- endfor -%}
         {%- else -%}
-          <img src="{{ 'gif-glass.gif' | asset_url }}" alt="A glass of honey citrus mint tea" width="300" height="400" data-slide>
-          <img src="{{ 'gif-cozy.gif' | asset_url }}" alt="Sipping a warm cup under a blanket" width="300" height="400" data-slide hidden loading="lazy">
+          <img src="{{ 'lmty-carton.jpg' | asset_url }}" alt="LMTY Honey Citrus Mint Ball 32 oz green tea concentrate carton" width="1024" height="1024" data-slide>
+          <img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="Ingredients: lemon verbena, lemongrass, peach flavor, citrus flavor, spearmint and honey" width="1024" height="1024" data-slide hidden loading="lazy">
+          <img src="{{ 'lmty-iced.jpg' | asset_url }}" alt="LMTY over ice with orange and mint" width="1024" height="1024" data-slide hidden loading="lazy">
+          <img src="{{ 'gif-glass.gif' | asset_url }}" alt="A warm glass of honey citrus mint tea" width="300" height="400" data-slide hidden loading="lazy">
         {%- endif -%}
         <button type="button" class="gal__nav gal__nav--p" aria-label="Previous image" data-prev>&lsaquo;</button>
         <button type="button" class="gal__nav gal__nav--n" aria-label="Next image" data-next>&rsaquo;</button>
@@ -59,9 +63,11 @@
           <button type="button" aria-label="Show image {{ forloop.index }}"{% if forloop.first %} aria-current="true"{% endif %}><img src="{{ m | image_url: width: 160 }}" alt="" width="72" height="72" loading="lazy"></button>
           {%- endif -%}{%- endfor -%}
         {%- else -%}
-          <button type="button" aria-label="Show image 1" aria-current="true"><img src="{{ 'gif-glass.gif' | asset_url }}" alt="" width="72" height="72"></button>
-          <button type="button" aria-label="Show image 2"><img src="{{ 'gif-cozy.gif' | asset_url }}" alt="" width="72" height="72"></button>
-        {%- endif -%}
+          <button type="button" aria-label="Show image 1" aria-current="true"><img src="{{ 'lmty-carton.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 2"><img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 3"><img src="{{ 'lmty-iced.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 4"><img src="{{ 'gif-glass.gif' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          {%- endif -%}
       </div>
     </div>
 
@@ -202,7 +208,7 @@
 
 <section class="sec" id="inside">
   <div class="wrap inside">
-    <div class="inside__m">{%- if section.settings.hero_image != blank -%}<img src="{{ section.settings.hero_image | image_url: width: 900 }}" alt="LMTY Honey Citrus Mint Ball carton with orange, peach and mint" width="900" height="900" loading="lazy">{%- elsif p.featured_image -%}<img src="{{ p.featured_image | image_url: width: 900 }}" alt="{{ p.title | escape }}" width="900" height="900" loading="lazy">{%- else -%}<img src="{{ 'gif-overhead.gif' | asset_url }}" alt="Concentrate pouring into a mug" width="300" height="375" loading="lazy">{%- endif -%}</div>
+    <div class="inside__m">{%- if section.settings.hero_image != blank -%}<img src="{{ section.settings.hero_image | image_url: width: 900 }}" alt="LMTY Honey Citrus Mint Ball carton with orange, peach and mint" width="900" height="900" loading="lazy">{%- else -%}<img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="Ingredients: lemon verbena, lemongrass, peach flavor, citrus flavor, spearmint and honey" width="1024" height="1024" loading="lazy">{%- endif -%}</div>
     <div>
       
       <h2 class="sec__h">Real tea. Real honey. Nothing weird.</h2>
