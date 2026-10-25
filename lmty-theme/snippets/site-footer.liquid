@@ -1,0 +1,28 @@
+{%- assign fp = settings.featured_product -%}
+{%- if fp == blank -%}{%- assign fp = all_products['lmty-honey-citrus-mint-ball'] -%}{%- endif -%}
+{%- if fp == blank and collections['all'].products.size > 0 -%}{%- assign fp = collections['all'].products.first -%}{%- endif -%}
+{%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.all_products_collection_url -%}{%- endif -%}
+{%- if pages['contact'] != blank -%}{%- assign contact_url = pages['contact'].url -%}{%- else -%}{%- assign contact_url = 'mailto:' | append: shop.email -%}{%- endif -%}
+{%- if pages['shipping-returns'] != blank -%}{%- assign ship_url = pages['shipping-returns'].url -%}{%- else -%}{%- assign ship_url = contact_url -%}{%- endif -%}
+<section class="news">
+  <div class="wrap news__in">
+    <div><h2 class="news__h">First pour's on us.</h2><p>Brewing tips, restock alerts and the occasional deal. No spam, unsubscribe anytime.</p></div>
+    {%- form 'customer', class: 'news__form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      {%- if form.posted_successfully? -%}<p class="news__ok" role="status">You're on the list. Check your inbox.</p>{%- else -%}
+      <label class="sr" for="news-email">Email</label>
+      <input id="news-email" type="email" name="contact[email]" placeholder="Email address" required autocomplete="email">
+      <button class="btn" type="submit">Sign up</button>
+      {%- if form.errors -%}<p class="news__err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}{%- endif -%}
+    {%- endform -%}
+  </div>
+</section>
+<footer class="foot">
+  <div class="wrap foot__grid">
+    <div class="foot__brand"><span class="wordmark">{{ shop.name }}</span><p>The honey citrus mint tea you line up for, made in your own kitchen.</p></div>
+    <div class="foot__col"><h3>Shop</h3><a href="{{ fp_url }}">Honey Citrus Mint</a><a href="{{ routes.all_products_collection_url }}">All products</a><a href="{{ routes.cart_url }}">Cart</a></div>
+    <div class="foot__col"><h3>Learn</h3><a href="{{ routes.root_url }}#how">How to make it</a><a href="{{ routes.root_url }}#inside">What's inside</a><a href="{{ routes.root_url }}#faq">FAQ</a></div>
+    <div class="foot__col"><h3>Help</h3><a href="{{ contact_url }}">Contact</a><a href="{{ ship_url }}">Shipping &amp; returns</a><a href="{{ routes.account_url }}">Account</a><a href="{{ routes.search_url }}">Search</a></div>
+  </div>
+  <div class="wrap foot__legal"><p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}.</p><p>Contains green tea (caffeine). Not intended to diagnose, treat, cure or prevent any disease.</p></div>
+</footer>

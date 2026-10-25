@@ -1,0 +1,10 @@
+{%- case name -%}
+{%- when 'green-tea' -%}
+<svg viewBox="0 0 120 120" aria-hidden="true"><defs><clipPath id="tea-c"><circle cx="60" cy="60" r="44"/></clipPath></defs><circle cx="60" cy="60" r="44" fill="#2f3b22"/><g clip-path="url(#tea-c)">{%- for i in (1..26) -%}{%- assign a = i | times: 47 | modulo: 360 -%}{%- assign r = i | times: 13 | modulo: 34 | plus: 4 -%}<rect x="{{ 60 | plus: r }}" y="58" width="{{ i | modulo: 3 | plus: 9 }}" height="3" rx="1.5" fill="{% cycle '#4d5e33','#6b7a43','#3a4a28','#7d8a4e' %}" transform="rotate({{ a }} 60 60)"/>{%- endfor -%}</g></svg>
+{%- when 'lemon-verbena' -%}
+<svg viewBox="0 0 120 120" aria-hidden="true"><g class="sway"><path d="M46 104C40 70 58 32 86 14c4 30-8 70-40 90z" fill="#8fae3a"/><path d="M46 104C56 74 72 42 86 14" stroke="#6d8a24" stroke-width="2" fill="none"/><path d="M38 100C28 72 38 40 60 22c6 26 0 58-22 78z" fill="#a4c04a"/><path d="M38 100C44 74 52 46 60 22" stroke="#7c9a2c" stroke-width="2" fill="none"/></g></svg>
+{%- when 'spearmint' -%}
+<svg viewBox="0 0 120 120" aria-hidden="true"><g class="sway"><path d="M58 102C30 92 18 60 30 22c26 10 40 44 28 80z" fill="#4f8a3a"/><path d="M58 102C50 76 42 48 30 22" stroke="#3a6e2a" stroke-width="2" fill="none"/><path d="M60 102c4-34 22-62 46-70 6 34-12 62-46 70z" fill="#5f9c45"/><path d="M60 102c12-26 26-48 46-70" stroke="#447a30" stroke-width="2" fill="none"/></g></svg>
+{%- else -%}
+<svg viewBox="0 0 120 120" aria-hidden="true"><g transform="translate(16 40)"><path d="M10 50h70l8 14H2z" fill="#e3a13a" opacity=".55"/>{%- for c in (0..2) -%}{%- for rr in (0..1) -%}<path transform="translate({{ c | times: 22 | plus: rr | times: 1 | plus: 6 }} {{ rr | times: 19 }})" d="M11 0l11 6v13l-11 6L0 19V6z" fill="{% cycle '#f0b648','#e8a630','#f4c25c' %}" stroke="#c9862a" stroke-width="1.5"/>{%- endfor -%}{%- endfor -%}</g><g class="sway"><rect x="64" y="10" width="6" height="52" rx="3" fill="#c9a36b" transform="rotate(32 67 36)"/><ellipse cx="84" cy="62" rx="9" ry="12" fill="#d9b47a" transform="rotate(32 84 62)"/></g></svg>
+{%- endcase -%}

@@ -1,0 +1,9 @@
+[
+  {"name":"theme_info","theme_name":"LMTY","theme_version":"1.0.0","theme_author":"Store","theme_documentation_url":"https://help.shopify.com","theme_support_url":"https://help.shopify.com"},
+  {"name":"Store","settings":[
+    {"type":"product","id":"featured_product","label":"Featured product","info":"Defaults to handle lmty-honey-citrus-mint-ball."},
+    {"type":"image_picker","id":"favicon","label":"Favicon"},
+    {"type":"text","id":"announcement","label":"Announcement bar","default":"Free shipping on every order · Ships from a US warehouse"},
+    {"type":"number","id":"free_ship_threshold","label":"Free shipping threshold (dollars, 0 hides the bar)","default":0}
+  ]}
+]
