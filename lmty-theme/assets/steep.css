@@ -364,7 +364,8 @@ button{font:inherit;color:inherit}
   .bens{grid-template-columns:1fr 1fr}
   .blend__list{grid-template-columns:1fr 1fr;gap:36px 16px}
   .blend__art{width:112px;height:112px}
-  .steps{grid-template-columns:1fr;max-width:420px;margin:0 auto}
+  .steps{grid-template-columns:repeat(3,1fr);gap:10px}
+  .step h3{font-size:1.1rem}.step p{font-size:.8rem}.step__m{margin-bottom:10px}
   .revs{grid-template-columns:1fr}
   .split--rev .split__m{order:0;justify-self:start}
   .split__m{max-width:none}
@@ -377,7 +378,8 @@ button{font:inherit;color:inherit}
   .proof__in{grid-template-columns:1fr 1fr}
   .proof__i:nth-child(2){border-right:0}
   .proof__i:nth-child(-n+2){border-bottom:1px solid var(--line)}
-  .bens,.ing,.stats{grid-template-columns:1fr}
+  .ing,.stats{grid-template-columns:1fr}
+  .bens{grid-template-columns:1fr 1fr}.ben{padding:20px 16px}.ben h3{font-size:1rem}.ben p{font-size:.85rem}
   .stats{gap:14px}
   .assure{grid-template-columns:1fr 1fr 1fr;font-size:.75rem}
   .cmp th,.cmp td{padding:12px 8px;font-size:.85rem}
