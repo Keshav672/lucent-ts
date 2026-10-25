@@ -3,7 +3,7 @@
   {"name":"Store","settings":[
     {"type":"product","id":"featured_product","label":"Featured product","info":"Defaults to handle lmty-honey-citrus-mint-ball."},
     {"type":"image_picker","id":"favicon","label":"Favicon"},
-    {"type":"text","id":"announcement","label":"Announcement bar","default":"Free shipping on every order · Ships from a US warehouse · Hot or iced in 2 minutes · About 8 cups per carton"},
+    {"type":"text","id":"announcement","label":"Announcement bar","default":"Free shipping on every order · Ships from a US warehouse · Hot or iced in 2 minutes · About 5 servings per carton"},
     {"type":"number","id":"free_ship_threshold","label":"Free shipping threshold (dollars, 0 hides the bar)","default":0}
   ]}
 ]

@@ -13,12 +13,11 @@
     <button class="head__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu" data-menu-open><span></span><span></span></button>
     <a href="{{ routes.root_url }}" class="wordmark">{{ shop.name }}</a>
     <nav class="head__nav" aria-label="Primary">
-      <a href="{{ fp_url }}">Shop</a>
       <a href="{{ fp_url }}#how">How to make it</a>
       <a href="{{ fp_url }}#inside">What's inside</a>
       <a href="{{ fp_url }}#reviews">Reviews</a>
       <a href="{{ fp_url }}#faq">FAQ</a>
-      <a href="{{ track_url }}">Track order</a>
+      {%- if pages['track-order'] != blank -%}<a href="{{ track_url }}">Track order</a>{%- endif -%}
     </nav>
     <div class="head__act">
       <a href="{{ routes.account_url }}" class="head__icon" aria-label="Account"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a>
@@ -37,7 +36,7 @@
     <a href="{{ fp_url }}#reviews">Reviews</a>
     <a href="{{ fp_url }}#faq">FAQ</a>
     <a href="{{ routes.collections_url }}/best-sellers">Best sellers</a>
-    <a href="{{ track_url }}">Track order</a>
+    {%- if pages['track-order'] != blank -%}<a href="{{ track_url }}">Track order</a>{%- endif -%}
     <a href="{{ contact_url }}">Contact us</a>
   </nav>
   <a href="{{ fp_url }}#buy" class="btn btn--block">Shop now</a>

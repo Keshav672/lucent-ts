@@ -3,6 +3,7 @@
 {%- if p == blank -%}{%- assign p = settings.featured_product -%}{%- endif -%}
 {%- if p == blank -%}{%- assign p = all_products['lmty-honey-citrus-mint-ball'] -%}{%- endif -%}
 {%- assign v = p.selected_or_first_available_variant -%}
+{%- if p.selected_variant == blank and p.variants.size > 1 and p.variants.last.available -%}{%- assign v = p.variants.last -%}{%- endif -%}
 {%- assign own = false -%}{%- if p.title contains 'LMTY' or p.title contains 'Citrus Mint' -%}{%- assign own = true -%}{%- endif -%}
 {%- assign has_plans = false -%}{%- if p.selling_plan_groups.size > 0 -%}{%- assign has_plans = true -%}{%- endif -%}
 {%- assign reviews_n = section.settings.review_count -%}
@@ -14,7 +15,7 @@
       <p class="eyebrow" style="color:var(--honey)">Honey · Citrus · Mint</p>
       <h1 class="hero__h">Café-style comfort. <em>Made at home.</em></h1>
       <p class="hero__lead">Bright citrus, cool mint, smooth green tea and honey sweetness in an easy-to-prepare concentrate. Enjoy it warm or iced, without the long line.</p>
-      <ul class="chips"><li>32 oz concentrate</li><li>Green tea</li><li>Hot or iced</li><li>About 8 cups</li></ul>
+      <ul class="chips"><li>32 oz concentrate</li><li>Green tea</li><li>Hot or iced</li><li>~5 servings</li></ul>
       <div class="hero__row">
         <a href="#buy" class="btn btn--lg btn--light">Add to cart · {{ v.price | money }}</a>
         <a href="#buy" class="btn btn--lg btn--outline">Choose your pack</a>
@@ -51,6 +52,7 @@
         {%- else -%}
           <img src="{{ 'lmty-carton.jpg' | asset_url }}" alt="LMTY Honey Citrus Mint Ball 32 oz green tea concentrate carton" width="1024" height="1024" data-slide>
           <img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="Ingredients: lemon verbena, lemongrass, peach flavor, citrus flavor, spearmint and honey" width="1024" height="1024" data-slide hidden loading="lazy">
+          <img src="{{ 'lmty-iced.jpg' | asset_url }}" alt="LMTY poured over ice with orange, mint and honey" width="1024" height="1024" data-slide hidden loading="lazy">
           <img src="{{ 'gif-glass.gif' | asset_url }}" alt="A warm glass of honey citrus mint tea" width="300" height="400" data-slide hidden loading="lazy">
         {%- endif -%}
         <button type="button" class="gal__nav gal__nav--p" aria-label="Previous image" data-prev>&lsaquo;</button>
@@ -64,7 +66,8 @@
         {%- else -%}
           <button type="button" aria-label="Show image 1" aria-current="true"><img src="{{ 'lmty-carton.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
           <button type="button" aria-label="Show image 2"><img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
-          <button type="button" aria-label="Show image 3"><img src="{{ 'gif-glass.gif' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 3"><img src="{{ 'lmty-iced.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 4"><img src="{{ 'gif-glass.gif' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
           {%- endif -%}
       </div>
     </div>
@@ -81,10 +84,10 @@
       {%- if section.settings.trustbox != blank -%}<div class="trustbox">{{ section.settings.trustbox }}</div>{%- endif -%}
       <p class="buy__rating">{{ reviews_n }}+ cartons sold</p>
       {%- if section.settings.show_hero -%}<h2 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</h2>{%- else -%}<h1 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</h1>{%- endif -%}
-      <p class="buy__sub">Green tea, honey, citrus, mint and a hint of peach. Mix 1:1 with water for a cozy café-style cup, warm or iced.</p>
+      <p class="buy__sub">Green tea, honey, citrus, mint and a hint of peach. Mix with an equal amount of water for a cozy café-style cup, warm or iced.</p>
       <ul class="ticks">
         <li>Tastes just as good as the café version</li>
-        <li>One carton makes cups for the whole week</li>
+        <li>About 5 café-size servings per carton</li>
         <li>Drink it hot or iced</li>
       </ul>
       <div class="pricerow">
@@ -144,9 +147,9 @@
         <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/></svg>Free US shipping</li>
       </ul>
 
-      <details class="acc" open><summary>How to make it</summary><div class="acc__b"><p>Hot: pour 1 part concentrate and 1 part water into a mug, microwave 60 to 90 seconds, stir.</p><p>Iced: pour over ice, top with cold water or lemonade.</p></div></details>
+      <details class="acc" open><summary>How to make it</summary><div class="acc__b"><p>Hot: ¾ cup concentrate plus ¾ cup water in a mug, microwave 60 to 90 seconds, stir.</p><p>Iced: pour over ice, top with cold water or lemonade.</p></div></details>
       <details class="acc"><summary>Ingredients</summary><div class="acc__b"><p>Green tea, lemon verbena, spearmint, lemongrass, honey, cane sugar, citric acid and natural flavors. Contains caffeine from green tea. Check the carton for the current full ingredient list.</p></div></details>
-      <details class="acc"><summary>Size &amp; nutrition</summary><div class="acc__b"><p>32 fl oz (946 mL) carton, about 8 servings mixed 1:1. The Nutrition Facts panel is printed on the carton and shown in the product photos.</p></div></details>
+      <details class="acc"><summary>Size &amp; nutrition</summary><div class="acc__b"><p>32 fl oz (946 mL) carton, about 5 servings. One serving is ¾ cup concentrate mixed with ¾ cup water. Full Nutrition Facts are below.</p></div></details>
       <details class="acc"><summary>Shipping &amp; returns</summary><div class="acc__b"><p>Free shipping on every order. Unopened cartons can be returned within 30 days of delivery.</p></div></details>
     </div>
   </div>
@@ -201,7 +204,7 @@
     <h2 class="sec__h">Everything in the carton, printed on the front.</h2>
     <div class="specs">
       <div class="spec"><div class="spec__n">32 oz</div><h3>Concentrate</h3><p>946 mL, already brewed and sweetened.</p></div>
-      <div class="spec"><div class="spec__n">~8</div><h3>Cups</h3><p>Mixed 1:1 with water, 8 oz each.</p></div>
+      <div class="spec"><div class="spec__n">~5</div><h3>Servings</h3><p>¾ cup concentrate + ¾ cup water each.</p></div>
       <div class="spec"><div class="spec__n">2 min</div><h3>Carton to mug</h3><p>Pour, add water, heat or ice.</p></div>
       <div class="spec"><div class="spec__n">1/5</div><h3>Caffeine level</h3><p>Light lift from green tea.</p></div>
     </div>
@@ -217,11 +220,10 @@
       <p class="sec__lead">Concentrate means you make a cup in minutes, all week long.</p>
     </div>
     <div class="steps">
-      <div class="step"><div class="step__m"><img src="{{ 'gif-overhead.gif' | asset_url }}" alt="Concentrate pouring into a mug" width="300" height="375" loading="lazy"></div><h3>Pour</h3><p>Fill your mug halfway with the concentrate.</p></div>
-      <div class="step"><div class="step__m"><img src="{{ 'gif-pour.gif' | asset_url }}" alt="Hot water poured in and stirred" width="300" height="400" loading="lazy"></div><h3>Top up</h3><p>Add the same amount of water, then stir.</p></div>
+      <div class="step"><div class="step__m"><img src="{{ 'gif-overhead.gif' | asset_url }}" alt="Concentrate pouring into a mug" width="300" height="375" loading="lazy"></div><h3>Pour</h3><p>Pour ¾ cup of concentrate into your mug.</p></div>
+      <div class="step"><div class="step__m"><img src="{{ 'gif-pour.gif' | asset_url }}" alt="Hot water poured in and stirred" width="300" height="400" loading="lazy"></div><h3>Top up</h3><p>Add ¾ cup water, then stir.</p></div>
       <div class="step"><div class="step__m"><img src="{{ 'gif-glass.gif' | asset_url }}" alt="Warm golden tea fresh from the microwave" width="300" height="400" loading="lazy"></div><h3>Heat &amp; sip</h3><p>Microwave 60 to 90 seconds. Cozy up.</p></div>
     </div>
-    <div class="how__cta"><a href="#buy" class="btn btn--lg">Get the concentrate</a></div>
   </div>
 </section>
 
@@ -252,10 +254,10 @@
 
 <section class="sec anchor">
   <div class="wrap anchor__in">
-    <div><h2 class="sec__h">Less than half the price of a café cup.</h2><p class="sec__lead">One carton makes about 8 cups. That's roughly {{ v.price | divided_by: 8 | money }} a cup at home, versus $5 or more at the counter.</p><a href="#buy" class="btn btn--lg">Get the concentrate</a></div>
+    <div><h2 class="sec__h">Café-style, for less than the café.</h2><p class="sec__lead">One carton makes about 5 servings. That's roughly {{ v.price | divided_by: 5 | money }} a serving at home, versus $5 or more at the counter.</p></div>
     <div class="anchor__cmp" aria-label="Price per cup comparison">
       <div><span class="anchor__k">Café cup</span><span class="anchor__bar anchor__bar--cafe"></span><strong>$5+</strong></div>
-      <div><span class="anchor__k">LMTY at home</span><span class="anchor__bar anchor__bar--us" style="--w:{{ v.price | divided_by: 8 | times: 100 | divided_by: 500 }}%"></span><strong>{{ v.price | divided_by: 8 | money }}</strong></div>
+      <div><span class="anchor__k">LMTY at home</span><span class="anchor__bar anchor__bar--us" style="--w:{{ v.price | divided_by: 5 | times: 100 | divided_by: 500 }}%"></span><strong>{{ v.price | divided_by: 5 | money }}</strong></div>
     </div>
   </div>
 </section>
@@ -275,6 +277,33 @@
         <div><dt>Natural honey blend</dt><dd>Sweet enough as is. Add a squeeze of lemon if you like.</dd></div>
         <div><dt>A hint of peach</dt><dd>The soft fruity finish that makes it taste like the café cup.</dd></div>
       </dl>
+      <details class="nf-wrap">
+        <summary>Nutrition Facts &amp; full ingredients</summary>
+        <div class="nf" role="table" aria-label="Nutrition Facts">
+          <p class="nf__t">Nutrition Facts</p>
+          <p>about 5 servings per container</p>
+          <p class="nf__row nf__row--b"><strong>Serving size</strong><strong>¾ cup concentrate (180mL)<br>prepared with ¾ cup water</strong></p>
+          <p class="nf__sm"><strong>Amount per serving</strong></p>
+          <p class="nf__cal"><span>Calories</span><span>85</span></p>
+          <p class="nf__dv">% Daily Value*</p>
+          <p class="nf__row"><span><strong>Total Fat</strong> 0g</span><strong>0%</strong></p>
+          <p class="nf__row nf__in"><span>Saturated Fat 0g</span><strong>0%</strong></p>
+          <p class="nf__row nf__in"><span><em>Trans</em> Fat 0g</span><span></span></p>
+          <p class="nf__row"><span><strong>Cholesterol</strong> 0mg</span><strong>0%</strong></p>
+          <p class="nf__row"><span><strong>Sodium</strong> 0mg</span><strong>0%</strong></p>
+          <p class="nf__row"><span><strong>Total Carbohydrate</strong> 19g</span><strong>7%</strong></p>
+          <p class="nf__row nf__in"><span>Dietary Fiber 0g</span><strong>0%</strong></p>
+          <p class="nf__row nf__in"><span>Total Sugars 19g</span><span></span></p>
+          <p class="nf__row nf__in2"><span>Includes 19g Added Sugars</span><strong>38%</strong></p>
+          <p class="nf__row nf__row--k"><span><strong>Protein</strong> 0g</span><span></span></p>
+          <p class="nf__row"><span>Vitamin D 0mcg</span><span>0%</span></p>
+          <p class="nf__row"><span>Calcium 0mg</span><span>0%</span></p>
+          <p class="nf__row"><span>Iron 0mg</span><span>0%</span></p>
+          <p class="nf__row nf__row--k"><span>Potassium 0mg</span><span>0%</span></p>
+          <p class="nf__fn">* The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.</p>
+        </div>
+        <p class="nf__ing"><strong>Ingredients:</strong> green tea infusion (water, green tea, lemon verbena, spearmint, lemongrass), honey, cane sugar, citric acid, natural flavor.</p>
+      </details>
     </div>
   </div>
 </section>
@@ -305,26 +334,13 @@
       <div style="margin-left:auto"><h2 class="sec__h">What people are saying</h2></div>
     </div>
     <div class="revs" data-revs>
-      {%- assign revs = 'It tastes just as good|The same lemony minty goodness, but without the long line. It smells so good, and yes, it tastes just as good.|TikTok creator~An evening favorite|I love this in the evening if I just want something warm and tasty.|TikTok creator~Smells delicious|It smells delicious, it tastes even better. You can drink it hot or iced.|TikTok creator~Cozy in a cup|If cozy in a cup had a name, this would be it. Your future self will thank you.|TikTok creator~Hits the spot|Since it’s a concentrate you can make multiple for the whole week. It just hits the spot.|TikTok creator' | split: '~' -%}
+      {%- assign revs = 'It tastes just as good|The same lemony minty goodness, but without the long line. It smells so good, and yes, it tastes just as good.|TikTok creator~An evening favorite|I love this in the evening if I just want something warm and tasty.|TikTok creator~Smells delicious|It smells delicious, it tastes even better. You can drink it hot or iced.|TikTok creator~Cozy in a cup|If cozy in a cup had a name, this would be it. Your future self will thank you.|TikTok creator~Hits the spot|Since it’s a concentrate you can make multiple cups. It just hits the spot.|TikTok creator' | split: '~' -%}
       {%- for r in revs -%}{%- assign rp = r | split: '|' -%}
       <article class="rev"><span class="rev__real">Real review</span><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><h3>{{ rp[0] }}</h3><p>{{ rp[1] }}</p></article>
       {%- endfor -%}
     </div>
     <div class="rev__nav"><button type="button" aria-label="Previous reviews" data-rev-prev>&lsaquo;</button><button type="button" aria-label="Next reviews" data-rev-next>&rsaquo;</button></div>
-    <div class="rev__more">
-      
-      <button type="button" class="btn" data-rev-write>Write a review</button>
-    </div>
-    <dialog class="modal" data-rev-modal>
-      <form method="dialog" data-rev-form novalidate>
-        <h2>Write a review</h2>
-        <label>Name<input name="name" autocomplete="name" required></label>
-        <label>Rating<select name="rating"><option value="5">5 stars</option><option value="4">4 stars</option><option value="3">3 stars</option><option value="2">2 stars</option><option value="1">1 star</option></select></label>
-        <label>Review<textarea name="body" rows="4" required></textarea></label>
-        <p class="modal__err" data-rev-err role="alert"></p>
-        <div class="modal__row"><button type="button" class="btn btn--ghost" data-rev-cancel>Cancel</button><button type="submit" class="btn">Submit</button></div>
-      </form>
-    </dialog>
+
   </div>
 </section>
 
@@ -362,8 +378,8 @@
   <div class="wrap">
     <div class="sec__head sec__head--c"><h2 class="sec__h">Good questions</h2></div>
     <div class="faq">
-      <details class="acc"><summary>Is this the same tea the cafés use?</summary><div class="acc__b"><p>It's a honey citrus mint green tea concentrate made for café-style drinks at home. Mix it 1:1 with hot water; for the full café version, add a splash of hot lemonade.</p></div></details>
-      <details class="acc"><summary>How many cups does one carton make?</summary><div class="acc__b"><p>A 32 oz carton makes about eight 8 oz cups when mixed 1:1 with water.</p></div></details>
+      <details class="acc"><summary>Is this the same tea the cafés use?</summary><div class="acc__b"><p>It's a honey citrus mint green tea concentrate made for café-style drinks at home. Mix ¾ cup with ¾ cup hot water; for the full café version, add a splash of hot lemonade.</p></div></details>
+      <details class="acc"><summary>How many cups does one carton make?</summary><div class="acc__b"><p>About 5 servings: each is ¾ cup concentrate plus ¾ cup water (1½ cups total).</p></div></details>
       <details class="acc"><summary>Does it have caffeine?</summary><div class="acc__b"><p>Yes, a little, from the green tea. Less than a cup of coffee.</p></div></details>
       <details class="acc"><summary>How do I store it?</summary><div class="acc__b"><p>Unopened cartons keep in the pantry. Once open, refrigerate and use within 7 to 10 days.</p></div></details>
       <details class="acc"><summary>Can I drink it iced?</summary><div class="acc__b"><p>Absolutely. Pour over ice and top with cold water or lemonade.</p></div></details>
@@ -389,13 +405,7 @@
 
 
 
-<section class="sec sec--green final">
-  <div class="wrap">
-    <h2 class="sec__h">The same goodness, without the long line.</h2>
-    <p>Keep a carton tucked away so cozy is always one pour away. Available in a 1 or 2 pack, free shipping.</p>
-    <a href="#buy" class="btn btn--lg btn--light">Shop the concentrate</a>
-  </div>
-</section>
+
 
 <div class="sticky" data-sticky aria-hidden="true">
   <div class="wrap sticky__in">

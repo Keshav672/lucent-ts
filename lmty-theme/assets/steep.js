@@ -147,24 +147,12 @@
   var track = $('[data-revs]');
   function slide(dir) { track.scrollBy({ left: dir * track.clientWidth * 0.9, behavior: 'smooth' }); }
   if (track && $('[data-rev-next]')) {
+    var nav = $('.rev__nav');
+    var syncNav = function () { nav.hidden = track.scrollWidth <= track.clientWidth + 4; };
+    syncNav(); window.addEventListener('resize', syncNav);
     $('[data-rev-next]').addEventListener('click', function () { slide(1); });
     $('[data-rev-prev]').addEventListener('click', function () { slide(-1); });
   }
-  var modal = $('[data-rev-modal]'), rform = $('[data-rev-form]');
-  if (modal && rform) {
-    $('[data-rev-write]').addEventListener('click', function () { $('[data-rev-err]').textContent = ''; modal.showModal(); });
-    $('[data-rev-cancel]').addEventListener('click', function () { modal.close(); });
-    rform.addEventListener('submit', function (e) {
-      var n = rform.name.value.trim(), b = rform.body.value.trim();
-      if (!n || b.length < 10) { e.preventDefault(); $('[data-rev-err]').textContent = !n ? 'Please add your name.' : 'Tell us a little more (10+ characters).'; return; }
-      var stars = Number(rform.rating.value), card = document.createElement('article');
-      card.className = 'rev';
-      card.innerHTML = '<div class="stars" aria-label="' + stars + ' out of 5 stars">' + '★'.repeat(stars) + '☆'.repeat(5 - stars) + '</div><h3>Thanks for sharing!</h3><p>' + esc(b) + '</p><p class="rev__by"><strong>' + esc(n) + '</strong> · Pending approval</p>';
-      $('[data-revs]').prepend(card);
-      rform.reset();
-    });
-  }
-
   /* cart page steppers (native form submit keeps checkout server-side) */
   $$('[data-cart-qty]').forEach(function (s) {
     var input = $('[data-cart-quantity]', s);
