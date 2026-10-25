@@ -2,8 +2,8 @@
 {%- if p == blank -%}{%- assign p = section.settings.product -%}{%- endif -%}
 {%- if p == blank -%}{%- assign p = settings.featured_product -%}{%- endif -%}
 {%- if p == blank -%}{%- assign p = all_products['lmty-honey-citrus-mint-ball'] -%}{%- endif -%}
-{%- if p == blank and collections['all'].products.size > 0 -%}{%- assign p = collections['all'].products.first -%}{%- endif -%}
 {%- assign v = p.selected_or_first_available_variant -%}
+{%- assign own = false -%}{%- if p.title contains 'LMTY' or p.title contains 'Citrus Mint' -%}{%- assign own = true -%}{%- endif -%}
 {%- assign has_plans = false -%}{%- if p.selling_plan_groups.size > 0 -%}{%- assign has_plans = true -%}{%- endif -%}
 {%- assign reviews_n = section.settings.review_count -%}
 
@@ -14,17 +14,17 @@
       <p class="eyebrow" style="color:var(--honey)">Honey · Citrus · Mint</p>
       <h1 class="hero__h">Café-style comfort. <em>Made at home.</em></h1>
       <p class="hero__lead">Bright citrus, cool mint, smooth green tea and honey sweetness in an easy-to-prepare concentrate. Enjoy it warm or iced, without the long line.</p>
+      <ul class="chips"><li>32 oz concentrate</li><li>Green tea</li><li>Hot or iced</li><li>About 8 cups</li></ul>
       <div class="hero__row">
-        <a href="#buy" class="btn btn--lg btn--light">Make it at home</a>
-        <a href="#how" class="hero__rating">Pour. Mix. Enjoy. Ready in about 2 minutes</a>
+        <a href="#buy" class="btn btn--lg btn--light">Add to cart · {{ v.price | money }}</a>
+        <a href="#buy" class="btn btn--lg btn--outline">Choose your pack</a>
       </div>
+      <p class="hero__note">Free shipping on every order · Ships from the US</p>
     </div>
     <div class="hero__media hero__media--img">
       {%- if section.settings.hero_image != blank -%}
         <img src="{{ section.settings.hero_image | image_url: width: 1100 }}" alt="{{ section.settings.hero_image.alt | default: 'LMTY Honey Citrus Mint Ball green tea concentrate' | escape }}" width="1100" height="1100" fetchpriority="high">
-      {%- elsif p.featured_image -%}
-        <img src="{{ p.featured_image | image_url: width: 1100 }}" alt="{{ p.featured_image.alt | default: p.title | escape }}" width="1100" height="1100" fetchpriority="high">
-      {%- else -%}
+            {%- else -%}
         <img src="{{ 'lmty-carton.jpg' | asset_url }}" alt="LMTY Honey Citrus Mint Ball green tea concentrate" width="1024" height="1024" fetchpriority="high">
       {%- endif -%}
     </div>
@@ -44,7 +44,7 @@
   <div class="wrap buy__in">
     <div class="gal" data-gallery>
       <div class="gal__main">
-        {%- if p.media.size > 0 -%}
+        {%- if own and p.media.size > 0 -%}
           {%- for m in p.media -%}{%- if m.media_type == 'image' -%}
           <img src="{{ m | image_url: width: 1100 }}" alt="{{ m.alt | default: p.title | escape }}" width="1100" height="1100" data-slide{% unless forloop.first %} hidden loading="lazy"{% endunless %}>
           {%- endif -%}{%- endfor -%}
@@ -57,7 +57,7 @@
         <button type="button" class="gal__nav gal__nav--n" aria-label="Next image" data-next>&rsaquo;</button>
       </div>
       <div class="gal__thumbs" data-thumbs>
-        {%- if p.media.size > 0 -%}
+        {%- if own and p.media.size > 0 -%}
           {%- for m in p.media -%}{%- if m.media_type == 'image' -%}
           <button type="button" aria-label="Show image {{ forloop.index }}"{% if forloop.first %} aria-current="true"{% endif %}><img src="{{ m | image_url: width: 160 }}" alt="" width="72" height="72" loading="lazy"></button>
           {%- endif -%}{%- endfor -%}
@@ -72,7 +72,7 @@
 
     <div>
       <a href="#reviews" class="buy__rating">{{ reviews_n }}+ cartons sold</a>
-      {%- if section.settings.show_hero -%}<h2 class="buy__t">{{ p.title | default: 'LMTY Honey Citrus Mint Ball' }}</h2>{%- else -%}<h1 class="buy__t">{{ p.title | default: 'LMTY Honey Citrus Mint Ball' }}</h1>{%- endif -%}
+      {%- if section.settings.show_hero -%}<h2 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</h2>{%- else -%}<h1 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</h1>{%- endif -%}
       <p class="buy__sub">Green tea, honey, citrus, mint and a hint of peach. Mix 1:1 with water for a cozy café-style cup, warm or iced.</p>
       <ul class="ticks">
         <li>Tastes just as good as the café version</li>
@@ -175,6 +175,43 @@
   </div>
 </section>
 
+<section class="sec" id="expect">
+  <div class="wrap expect">
+    <div>
+      <div class="phone" data-expect-phone>
+        <p class="phone__k">Your first carton</p>
+        <p class="phone__t">About 8 cups, one pour at a time</p>
+        <div class="cups" aria-hidden="true">{%- for i in (1..8) -%}<i></i>{%- endfor -%}</div>
+        <p class="phone__foot"><strong data-expect-label>Day 1</strong><span data-expect-text>First cup. Half concentrate, half water.</span></p>
+      </div>
+    </div>
+    <div>
+      <p class="eyebrow">What to expect</p>
+      <h2 class="sec__h">One carton. A week of cozy cups.</h2>
+      <p class="sec__lead">No steeping, no tea bags, no measuring honey. Here's how a carton usually goes.</p>
+      <ol class="tl" data-expect>
+        <li data-cups="1" aria-current="true"><b>Day 1</b><span>First cup. Half concentrate, half water.</span></li>
+        <li data-cups="3"><b>Day 3</b><span>You've worked out your ratio: a little stronger, or over ice.</span></li>
+        <li data-cups="6"><b>Day 5</b><span>It's part of the evening routine now.</span></li>
+        <li data-cups="8"><b>Day 7</b><span>Last pour. Time to restock, or grab the 2 pack next time.</span></li>
+      </ol>
+      <a href="#buy" class="btn btn--lg">Start your first carton</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--green">
+  <div class="wrap">
+    <h2 class="sec__h">Everything in the carton, printed on the front.</h2>
+    <div class="specs">
+      <div class="spec"><div class="spec__n">32 oz</div><h3>Concentrate</h3><p>946 mL, already brewed and sweetened.</p></div>
+      <div class="spec"><div class="spec__n">~8</div><h3>Cups</h3><p>Mixed 1:1 with water, 8 oz each.</p></div>
+      <div class="spec"><div class="spec__n">2 min</div><h3>Carton to mug</h3><p>Pour, add water, heat or ice.</p></div>
+      <div class="spec"><div class="spec__n">1/5</div><h3>Caffeine level</h3><p>Light lift from green tea.</p></div>
+    </div>
+  </div>
+</section>
+
 <section class="sec" id="how">
   <div class="wrap">
     <div class="sec__head sec__head--c">
@@ -250,11 +287,12 @@
     <div class="revs" data-revs>
       {%- assign revs = 'It tastes just as good|The same lemony minty goodness, but without the long line. It smells so good, and yes, it tastes just as good.|TikTok creator~An evening favorite|I love this in the evening if I just want something warm and tasty.|TikTok creator~Smells delicious|It smells delicious, it tastes even better. You can drink it hot or iced.|TikTok creator~Cozy in a cup|If cozy in a cup had a name, this would be it. Your future self will thank you.|TikTok creator~Hits the spot|Since it’s a concentrate you can make multiple for the whole week. It just hits the spot.|TikTok creator' | split: '~' -%}
       {%- for r in revs -%}{%- assign rp = r | split: '|' -%}
-      <article class="rev"{% if forloop.index > 3 %} hidden data-more{% endif %}><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><h3>{{ rp[0] }}</h3><p>{{ rp[1] }}</p><p class="rev__by"><strong>{{ rp[2] }}</strong> · From a video review</p></article>
+      <article class="rev"><span class="rev__real">Real review</span><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><h3>{{ rp[0] }}</h3><p>{{ rp[1] }}</p><p class="rev__by"><strong>{{ rp[2] }}</strong> · from their TikTok video</p></article>
       {%- endfor -%}
     </div>
+    <div class="rev__nav"><button type="button" aria-label="Previous reviews" data-rev-prev>&lsaquo;</button><button type="button" aria-label="Next reviews" data-rev-next>&rsaquo;</button></div>
     <div class="rev__more">
-      <button type="button" class="btn btn--ghost" data-rev-more>Show more reviews</button>
+      
       <button type="button" class="btn" data-rev-write>Write a review</button>
     </div>
     <dialog class="modal" data-rev-modal>
@@ -295,6 +333,7 @@
       {%- endfor -%}
       {%- if open -%}</div>{%- endif -%}
     </div>
+    <p class="fbc__note">Real comments from our ads, lightly edited for length. Individual results vary.</p>
   </div>
 </section>
 {%- endif -%}
@@ -313,6 +352,28 @@
   </div>
 </section>
 
+<section class="sec">
+  <div class="wrap note">
+    <div class="note__m"><img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="LMTY carton surrounded by lemon verbena, lemongrass, peach, citrus, spearmint and honey" width="1024" height="1024" loading="lazy"></div>
+    <div>
+      <p class="eyebrow">Who you're buying from</p>
+      <h2 class="sec__h">We just wanted the café cup without the drive.</h2>
+      <p class="sec__lead">LMTY started with one habit: a honey citrus mint tea from the café, a few times a week, and a line every time. A concentrate made it a two-minute thing at home, so that's what we sell.</p>
+      <p class="sec__lead">We're a small team. We answer our own emails, and if your carton arrives damaged we'll replace it.</p>
+      <p class="note__by">The LMTY team</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="guar">
+      <div><h2 class="sec__h">Try a carton. If it arrives damaged, it's on us.</h2><p>Unopened cartons can be returned within 30 days. Damaged in transit? Email us a photo and we'll send a replacement.</p></div>
+      <div class="guar__cta"><a href="#buy" class="btn btn--lg">Add to cart · {{ v.price | money }}</a><small>Free shipping on every order</small></div>
+    </div>
+  </div>
+</section>
+
 <section class="sec sec--green final">
   <div class="wrap">
     <h2 class="sec__h">The same goodness, without the long line.</h2>
@@ -323,8 +384,8 @@
 
 <div class="sticky" data-sticky aria-hidden="true">
   <div class="wrap sticky__in">
-    {%- if p.featured_image -%}<img src="{{ p.featured_image | image_url: width: 120 }}" alt="" width="48" height="48">{%- endif -%}
-    <div><div class="sticky__t">{{ p.title | default: 'LMTY Honey Citrus Mint Ball' }}</div><div class="sticky__p"><span data-price-label>{{ v.price | money }}</span> · Free shipping</div></div>
+    {%- if own and p.featured_image -%}<img src="{{ p.featured_image | image_url: width: 120 }}" alt="" width="48" height="48">{%- endif -%}
+    <div><div class="sticky__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</div><div class="sticky__p"><span data-price-label>{{ v.price | money }}</span> · Free shipping</div></div>
     <button type="button" class="btn" data-sticky-add tabindex="-1"{% unless v.available %} disabled{% endunless %}>Add to cart</button>
   </div>
 </div>

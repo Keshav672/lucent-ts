@@ -139,12 +139,13 @@
     main.addEventListener('touchend', function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1)); x0 = null; });
   }
 
-  /* reviews */
-  var more = $('[data-rev-more]');
-  if (more) more.addEventListener('click', function () {
-    $$('[data-more][hidden]').slice(0, 3).forEach(function (r) { r.hidden = false; });
-    if (!$('[data-more][hidden]')) more.hidden = true;
-  });
+  /* reviews carousel */
+  var track = $('[data-revs]');
+  function slide(dir) { track.scrollBy({ left: dir * track.clientWidth * 0.9, behavior: 'smooth' }); }
+  if (track && $('[data-rev-next]')) {
+    $('[data-rev-next]').addEventListener('click', function () { slide(1); });
+    $('[data-rev-prev]').addEventListener('click', function () { slide(-1); });
+  }
   var modal = $('[data-rev-modal]'), rform = $('[data-rev-form]');
   if (modal && rform) {
     $('[data-rev-write]').addEventListener('click', function () { $('[data-rev-err]').textContent = ''; modal.showModal(); });
@@ -193,6 +194,28 @@
       if (n) n.textContent = Number(n.textContent) + (on ? 1 : -1);
     });
   });
+
+  /* what to expect: cups fill as each day is picked, auto-advancing until touched */
+  var tl = $('[data-expect]');
+  if (tl) {
+    var days = $$('li', tl), cups = $$('[data-expect-phone] .cups i'), auto = null, at = 0;
+    var pick = function (i) {
+      at = i;
+      days.forEach(function (d, k) { if (k === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+      var n = Number(days[i].dataset.cups);
+      cups.forEach(function (c, k) { c.classList.toggle('on', k < n); });
+      $('[data-expect-label]').textContent = $('b', days[i]).textContent;
+      $('[data-expect-text]').textContent = $('span', days[i]).textContent;
+    };
+    days.forEach(function (d, i) { d.addEventListener('click', function () { clearInterval(auto); pick(i); }); });
+    pick(0);
+    if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var eo = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting) { auto = setInterval(function () { pick((at + 1) % days.length); }, 1800); eo.disconnect(); }
+      }, { threshold: 0.4 });
+      eo.observe(tl);
+    }
+  }
 
   refreshCart();
 })();

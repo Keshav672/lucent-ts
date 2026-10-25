@@ -1,11 +1,11 @@
 {%- assign fp = settings.featured_product -%}
 {%- if fp == blank -%}{%- assign fp = all_products['lmty-honey-citrus-mint-ball'] -%}{%- endif -%}
-{%- if fp == blank and collections['all'].products.size > 0 -%}{%- assign fp = collections['all'].products.first -%}{%- endif -%}
 {%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.all_products_collection_url -%}{%- endif -%}
 {%- if template.name == 'index' -%}{%- assign anchor = '' -%}{%- else -%}{%- assign anchor = routes.root_url -%}{%- endif -%}
 <a href="#content" class="skip-link">Skip to content</a>
 {%- if settings.announcement != blank -%}
-<div class="announce"><a href="{{ fp_url }}#buy">{{ settings.announcement }}</a></div>
+{%- assign msgs = settings.announcement | split: '·' -%}
+<div class="announce" aria-label="{{ settings.announcement | escape }}"><div class="announce__track" aria-hidden="true">{%- for k in (1..4) -%}{%- for m in msgs -%}<span>{{ m | strip }}</span>{%- endfor -%}{%- endfor -%}</div></div>
 {%- endif -%}
 <header class="head" data-head>
   <div class="wrap head__in">

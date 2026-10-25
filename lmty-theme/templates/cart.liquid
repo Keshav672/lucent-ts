@@ -1,7 +1,7 @@
 {%- assign featured_product = settings.featured_product -%}
 {%- if featured_product == blank -%}{%- assign featured_product = all_products['lmty-honey-citrus-mint-ball'] -%}{%- endif -%}
 {%- if featured_product == blank -%}{%- for fp_item in collections['all'].products -%}{%- if fp_item.title contains 'Citrus Mint' -%}{%- assign featured_product = fp_item -%}{%- endif -%}{%- endfor -%}{%- endif -%}
-{%- if featured_product == blank and collections['all'].products.size > 0 -%}{%- assign featured_product = collections['all'].products.first -%}{%- endif -%}
+
 {%- if featured_product != blank -%}{%- assign featured_url = featured_product.url -%}{%- else -%}{%- assign featured_url = routes.root_url -%}{%- endif -%}
 <section class="cart-page" data-cart-change-url="{{ routes.cart_change_url }}.js">
   <div class="wrap cart-shell">
