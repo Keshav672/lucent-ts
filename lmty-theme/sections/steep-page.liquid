@@ -70,7 +70,16 @@
     </div>
 
     <div>
-      <a href="#reviews" class="buy__rating">{{ reviews_n }}+ cartons sold</a>
+      {%- assign rc = section.settings.rating_count | plus: 0 -%}
+      {%- if rc > 0 and section.settings.rating_value != blank -%}
+      {%- assign rv = section.settings.rating_value | plus: 0 -%}
+      <a href="#reviews" class="rating" aria-label="Rated {{ rv }} out of 5 from {{ rc }} reviews">
+        <span class="rating__stars" style="--r:{{ rv | times: 20 }}%" aria-hidden="true"><span>★★★★★</span></span>
+        <strong>{{ rv }}/5</strong><span>· {{ rc }} reviews{% if section.settings.rating_source != blank %} on {{ section.settings.rating_source }}{% endif %}</span>
+      </a>
+      {%- endif -%}
+      {%- if section.settings.trustbox != blank -%}<div class="trustbox">{{ section.settings.trustbox }}</div>{%- endif -%}
+      <p class="buy__rating">{{ reviews_n }}+ cartons sold</p>
       {%- if section.settings.show_hero -%}<h2 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</h2>{%- else -%}<h1 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</h1>{%- endif -%}
       <p class="buy__sub">Green tea, honey, citrus, mint and a hint of peach. Mix 1:1 with water for a cozy café-style cup, warm or iced.</p>
       <ul class="ticks">
@@ -123,6 +132,10 @@
           </button>
         </div>
         <p class="buy__msg" role="status" aria-live="polite" data-buy-msg></p>
+        <a href="#guarantee" class="guarbadge">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+          <span><strong>Arrives damaged? We replace it free.</strong>Plus 30-day returns on unopened cartons.</span>
+        </a>
       {%- endform -%}
 
       <ul class="trust">
@@ -142,7 +155,7 @@
 <section class="blend" id="blend">
   <div class="wrap">
     <h2 class="blend__h"><span>Know this</span> <em>amazing blend</em></h2>
-    <p class="blend__lead">Four ingredients you can name. Here's exactly what goes into every pour.</p>
+    <p class="blend__lead">The four flavors you taste in every pour.</p>
     <ul class="blend__list">
       {%- assign ing_n = 0 -%}{%- for b in section.blocks -%}{%- if b.type == 'ingredient' -%}{%- assign ing_n = ing_n | plus: 1 -%}{%- endif -%}{%- endfor -%}
       {%- if ing_n > 0 -%}
@@ -153,10 +166,10 @@
         </li>
         {%- endfor -%}
       {%- else -%}
-        {%- assign blend = 'green-tea|Green Tea|Smooth and lightly grassy, with a gentle lift.~lemon-verbena|Lemon Verbena|Bright, lemony and fresh, without the sour bite.~spearmint|Spearmint|Cool and fresh, the minty half of the magic.~honey|Honey|Honey sweetness that wraps it all together.' | split: '~' -%}
+        {%- assign blend = 'green-tea|Green Tea|Smooth and lightly grassy, with a gentle lift.|tea~lemon-verbena|Lemon Verbena|Bright, lemony and fresh, without the sour bite.|verbena~spearmint|Spearmint|Cool and fresh, the minty half of the magic.|mint~honey|Honey|Honey sweetness that wraps it all together.|honey' | split: '~' -%}
         {%- for x in blend -%}{%- assign bp = x | split: '|' -%}
         <li class="blend__i" style="--d:{{ forloop.index0 | times: 120 }}ms">
-          <div class="blend__art">{% render 'blend-art', name: bp[0] %}</div>
+          <div class="blend__art blend__art--photo"><img src="{{ 'blend-' | append: bp[3] | append: '.jpg' | asset_url }}" alt="{{ bp[1] }}" width="160" height="160" loading="lazy"></div>
           <h3>{{ bp[1] }}</h3><p>{{ bp[2] }}</p>
         </li>
         {%- endfor -%}
@@ -177,33 +190,6 @@
       <div class="ben"><h3>Smells delicious</h3><p>Honey, citrus and mint hit you the second you pour. It tastes even better.</p></div>
       <div class="ben"><h3>Tucked in your pantry</h3><p>Keep a carton on hand so a cozy cup is always a few minutes away.</p></div>
       <div class="ben"><h3>Hot or iced</h3><p>Microwave it for a cozy mug or pour it over ice in summer. Same carton.</p></div>
-    </div>
-  </div>
-</section>
-{%- endunless -%}
-
-{%- unless section.settings.classic -%}
-<section class="sec" id="expect">
-  <div class="wrap expect">
-    <div>
-      <div class="phone" data-expect-phone>
-        <p class="phone__k">Your first carton</p>
-        <p class="phone__t">About 8 cups, one pour at a time</p>
-        <div class="cups" aria-hidden="true">{%- for i in (1..8) -%}<i></i>{%- endfor -%}</div>
-        <p class="phone__foot"><strong data-expect-label>Day 1</strong><span data-expect-text>First cup. Half concentrate, half water.</span></p>
-      </div>
-    </div>
-    <div>
-      <p class="eyebrow">What to expect</p>
-      <h2 class="sec__h">One carton. A week of cozy cups.</h2>
-      <p class="sec__lead">No steeping, no tea bags, no measuring honey. Here's how a carton usually goes.</p>
-      <ol class="tl" data-expect>
-        <li data-cups="1" aria-current="true"><b>Day 1</b><span>First cup. Half concentrate, half water.</span></li>
-        <li data-cups="3"><b>Day 3</b><span>You've worked out your ratio: a little stronger, or over ice.</span></li>
-        <li data-cups="6"><b>Day 5</b><span>It's part of the evening routine now.</span></li>
-        <li data-cups="8"><b>Day 7</b><span>Last pour. Time to restock, or grab the 2 pack next time.</span></li>
-      </ol>
-      <a href="#buy" class="btn btn--lg">Start your first carton</a>
     </div>
   </div>
 </section>
@@ -242,13 +228,24 @@
 <section class="sec sec--cream" id="why">
   <div class="wrap">
     <div class="sec__head sec__head--c"><h2 class="sec__h">It's not your tea. It's the steeping.</h2><p class="sec__lead">Same flavors, two very different evenings.</p></div>
-    <div class="tog" data-tog>
-      <div class="tog__btns" role="tablist">
-        <button type="button" role="tab" aria-selected="false" data-tog-btn="0">Tea bags + honey</button>
-        <button type="button" role="tab" aria-selected="true" data-tog-btn="1">LMTY concentrate</button>
+    <div class="chk">
+      <div class="chk__col chk__col--no">
+        <h3>Tea bags + honey</h3>
+        <ul><li>Boil water, steep 5 minutes, fish out the bag</li><li>Measure honey, squeeze lemon, find the mint</li><li>Tastes different every time</li><li>Hot only, unless you wait for it to cool</li></ul>
       </div>
-      <ul class="tog__list" data-tog-panel="0" hidden><li>Boil water, steep 5 minutes, fish out the bag</li><li>Measure honey, squeeze lemon, find the mint</li><li>Tastes different every time</li></ul>
-      <ul class="tog__list" data-tog-panel="1"><li>Pour, add water, heat. About 2 minutes</li><li>Honey, citrus and mint already in the carton</li><li>Same café-style cup, every time</li></ul>
+      <div class="chk__col chk__col--yes">
+        <h3>LMTY concentrate</h3>
+        <ul><li>Pour, add water, heat. About 2 minutes</li><li>Honey, citrus and mint already in the carton</li><li>Same café-style cup, every time</li><li>Hot or iced from the same carton</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="guarantee" style="padding-top:0">
+  <div class="wrap">
+    <div class="guar">
+      <div><h2 class="sec__h">Try a carton. If it arrives damaged, it's on us.</h2><p>Unopened cartons can be returned within 30 days. Damaged in transit? Email us a photo and we'll send a replacement.</p></div>
+      <div class="guar__cta"><a href="#buy" class="btn btn--lg">Add to cart · {{ v.price | money }}</a><small>Free shipping on every order</small></div>
     </div>
   </div>
 </section>
@@ -262,24 +259,6 @@
     </div>
   </div>
 </section>
-
-{%- unless section.settings.classic -%}
-<section class="sec sec--green">
-  <div class="wrap split">
-    <div class="split__m"><img src="{{ 'gif-cozy.gif' | asset_url }}" alt="Sipping tea under a blanket with a book" width="300" height="400" loading="lazy"></div>
-    <div>
-      
-      <h2 class="sec__h">Your future self will thank you.</h2>
-      <p class="sec__lead">One carton makes about eight cafe-size cups. Do the math once and you'll never wait in line for it again.</p>
-      <div class="stats">
-        <div><div class="stat__n">8</div><div class="stat__l">cups per carton</div></div>
-        <div><div class="stat__n">2 min</div><div class="stat__l">carton to mug</div></div>
-        <div><div class="stat__n">1:1</div><div class="stat__l">concentrate to water</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-{%- endunless -%}
 
 {%- unless section.settings.classic -%}
 <section class="sec" id="inside">
@@ -328,7 +307,7 @@
     <div class="revs" data-revs>
       {%- assign revs = 'It tastes just as good|The same lemony minty goodness, but without the long line. It smells so good, and yes, it tastes just as good.|TikTok creator~An evening favorite|I love this in the evening if I just want something warm and tasty.|TikTok creator~Smells delicious|It smells delicious, it tastes even better. You can drink it hot or iced.|TikTok creator~Cozy in a cup|If cozy in a cup had a name, this would be it. Your future self will thank you.|TikTok creator~Hits the spot|Since it’s a concentrate you can make multiple for the whole week. It just hits the spot.|TikTok creator' | split: '~' -%}
       {%- for r in revs -%}{%- assign rp = r | split: '|' -%}
-      <article class="rev"><span class="rev__real">Real review</span><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><h3>{{ rp[0] }}</h3><p>{{ rp[1] }}</p><p class="rev__by"><strong>{{ rp[2] }}</strong> · from their TikTok video</p></article>
+      <article class="rev"><span class="rev__real">Real review</span><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><h3>{{ rp[0] }}</h3><p>{{ rp[1] }}</p></article>
       {%- endfor -%}
     </div>
     <div class="rev__nav"><button type="button" aria-label="Previous reviews" data-rev-prev>&lsaquo;</button><button type="button" aria-label="Next reviews" data-rev-next>&rsaquo;</button></div>
@@ -408,14 +387,7 @@
 </section>
 {%- endunless -%}
 
-<section class="sec" style="padding-top:0">
-  <div class="wrap">
-    <div class="guar">
-      <div><h2 class="sec__h">Try a carton. If it arrives damaged, it's on us.</h2><p>Unopened cartons can be returned within 30 days. Damaged in transit? Email us a photo and we'll send a replacement.</p></div>
-      <div class="guar__cta"><a href="#buy" class="btn btn--lg">Add to cart · {{ v.price | money }}</a><small>Free shipping on every order</small></div>
-    </div>
-  </div>
-</section>
+
 
 <section class="sec sec--green final">
   <div class="wrap">
@@ -445,6 +417,11 @@
     {"type": "text", "id": "comments_eyebrow", "label": "Comments: eyebrow", "default": "From our Facebook ad comments"},
     {"type": "text", "id": "comments_title", "label": "Comments: heading", "default": "Don't take our word for it. Ask the comments."},
     {"type": "text", "id": "comments_lead", "label": "Comments: intro", "default": "Every time someone asks a question under our ads, the answers come from people who already tried it."},
+    {"type": "header", "content": "Rating badge (real numbers only)"},
+    {"type": "text", "id": "rating_value", "label": "Average rating (e.g. 4.8)", "info": "Copy from your review app or TikTok Shop. Leave blank to hide."},
+    {"type": "number", "id": "rating_count", "label": "Number of reviews"},
+    {"type": "text", "id": "rating_source", "label": "Where the reviews are from (e.g. TikTok Shop, Judge.me)"},
+    {"type": "html", "id": "trustbox", "label": "Trustpilot TrustBox code", "info": "Paste the TrustBox snippet from your Trustpilot business account."},
     {"type": "number", "id": "review_count", "label": "Order count shown next to rating", "default": 1000}
   ],
   "blocks": [

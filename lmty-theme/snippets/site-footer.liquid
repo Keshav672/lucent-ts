@@ -3,19 +3,6 @@
 {%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.all_products_collection_url -%}{%- endif -%}
 {%- if pages['contact'] != blank -%}{%- assign contact_url = pages['contact'].url -%}{%- else -%}{%- assign contact_url = 'mailto:' | append: shop.email -%}{%- endif -%}
 {%- if pages['shipping-returns'] != blank -%}{%- assign ship_url = pages['shipping-returns'].url -%}{%- else -%}{%- assign ship_url = contact_url -%}{%- endif -%}
-<section class="news">
-  <div class="wrap news__in">
-    <div><h2 class="news__h">First pour's on us.</h2><p>Brewing tips, restock alerts and the occasional deal. No spam, unsubscribe anytime.</p></div>
-    {%- form 'customer', class: 'news__form' -%}
-      <input type="hidden" name="contact[tags]" value="newsletter">
-      {%- if form.posted_successfully? -%}<p class="news__ok" role="status">You're on the list. Check your inbox.</p>{%- else -%}
-      <label class="sr" for="news-email">Email</label>
-      <input id="news-email" type="email" name="contact[email]" placeholder="Email address" required autocomplete="email">
-      <button class="btn" type="submit">Sign up</button>
-      {%- if form.errors -%}<p class="news__err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}{%- endif -%}
-    {%- endform -%}
-  </div>
-</section>
 <footer class="foot">
   <div class="wrap foot__grid">
     <div class="foot__brand"><span class="wordmark">{{ shop.name }}</span><p>The honey citrus mint tea you line up for, made in your own kitchen.</p></div>
@@ -34,5 +21,5 @@
     </nav>
     <ul class="pays" aria-label="Accepted payments">{%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag }}</li>{%- endfor -%}</ul>
   </div>
-  <div class="wrap foot__legal"><p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}.</p><p>Contains green tea (caffeine). Not intended to diagnose, treat, cure or prevent any disease.</p></div>
+  <div class="wrap foot__legal"><p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}.</p><p>Green tea photo: "Maofeng green tea", Wikimedia Commons, CC BY 2.5.</p><p>Contains green tea (caffeine). Not intended to diagnose, treat, cure or prevent any disease.</p></div>
 </footer>

@@ -199,38 +199,5 @@
     });
   });
 
-  /* what to expect: cups fill as each day is picked, auto-advancing until touched */
-  var tl = $('[data-expect]');
-  if (tl) {
-    var days = $$('li', tl), cups = $$('[data-expect-phone] .cups i'), auto = null, at = 0;
-    var pick = function (i) {
-      at = i;
-      days.forEach(function (d, k) { if (k === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
-      var n = Number(days[i].dataset.cups);
-      cups.forEach(function (c, k) { c.classList.toggle('on', k < n); });
-      $('[data-expect-label]').textContent = $('b', days[i]).textContent;
-      $('[data-expect-text]').textContent = $('span', days[i]).textContent;
-    };
-    days.forEach(function (d, i) { d.addEventListener('click', function () { clearInterval(auto); pick(i); }); });
-    pick(0);
-    if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      var eo = new IntersectionObserver(function (en) {
-        if (en[0].isIntersecting) { auto = setInterval(function () { pick((at + 1) % days.length); }, 1800); eo.disconnect(); }
-      }, { threshold: 0.4 });
-      eo.observe(tl);
-    }
-  }
-
-  /* tea bags vs concentrate toggle */
-  $$('[data-tog]').forEach(function (tg) {
-    var btns = $$('[data-tog-btn]', tg), panels = $$('[data-tog-panel]', tg);
-    btns.forEach(function (b) {
-      b.addEventListener('click', function () {
-        btns.forEach(function (o) { o.setAttribute('aria-selected', String(o === b)); });
-        panels.forEach(function (pn) { pn.hidden = pn.dataset.togPanel !== b.dataset.togBtn; });
-      });
-    });
-  });
-
   refreshCart();
 })();

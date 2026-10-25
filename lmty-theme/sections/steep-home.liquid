@@ -18,6 +18,58 @@
     </div>
   </div>
 </section>
+
+<div class="proof">
+  <div class="wrap proof__in">
+    <div class="proof__i"><div class="proof__n">1,000+</div><div class="proof__l">cartons sold</div></div>
+    <div class="proof__i"><div class="proof__n">~8</div><div class="proof__l">cups per carton</div></div>
+    <div class="proof__i"><div class="proof__n">2 min</div><div class="proof__l">carton to mug</div></div>
+    <div class="proof__i"><div class="proof__n">$0</div><div class="proof__l">shipping, every order</div></div>
+  </div>
+</div>
+
+<section class="sec">
+  <div class="wrap hp">
+    <a href="{{ p_url }}" class="hp__m"><img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="LMTY carton with lemon verbena, lemongrass, peach, citrus, spearmint and honey" width="1024" height="1024" loading="lazy"></a>
+    <div>
+      <p class="eyebrow">Best seller</p>
+      <h2 class="sec__h">LMTY Honey Citrus Mint Ball</h2>
+      <p class="sec__lead">Green tea, lemon verbena, spearmint, lemongrass and honey in one 32 oz concentrate. Mix 1:1 with water, warm or iced.</p>
+      <p class="hp__price">{%- if p != blank -%}{{ p.price | money }}{%- if p.compare_at_price > p.price -%} <s>{{ p.compare_at_price | money }}</s>{%- endif -%}{%- endif -%}</p>
+      <div class="hero__row"><a href="{{ p_url }}" class="btn btn--lg">Shop now</a><a href="{{ p_url }}#how" class="btn btn--lg btn--outline">How to make it</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--cream">
+  <div class="wrap">
+    <div class="sec__head sec__head--c"><h2 class="sec__h">Pour. Mix. Enjoy.</h2><p class="sec__lead">Café-style tea in about 2 minutes.</p></div>
+    <div class="steps">
+      <div class="step"><div class="step__m"><img src="{{ 'gif-overhead.gif' | asset_url }}" alt="Concentrate pouring into a mug" width="300" height="375" loading="lazy"></div><h3>Pour</h3><p>Fill your mug halfway with the concentrate.</p></div>
+      <div class="step"><div class="step__m"><img src="{{ 'gif-pour.gif' | asset_url }}" alt="Water poured in and stirred" width="300" height="400" loading="lazy"></div><h3>Top up</h3><p>Add the same amount of water, then stir.</p></div>
+      <div class="step"><div class="step__m"><img src="{{ 'gif-glass.gif' | asset_url }}" alt="Warm golden tea" width="300" height="400" loading="lazy"></div><h3>Heat &amp; sip</h3><p>Microwave 60 to 90 seconds, or pour over ice.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec__head sec__head--c"><h2 class="sec__h">What people are saying</h2></div>
+    <div class="hq">
+      <figure><blockquote>"The same lemony minty goodness, but without the long line."</blockquote><span class="stars" aria-label="5 out of 5 stars">★★★★★</span></figure>
+      <figure><blockquote>"It smells delicious, it tastes even better."</blockquote><span class="stars" aria-label="5 out of 5 stars">★★★★★</span></figure>
+      <figure><blockquote>"If cozy in a cup had a name, this would be it."</blockquote><span class="stars" aria-label="5 out of 5 stars">★★★★★</span></figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--green final">
+  <div class="wrap">
+    <h2 class="sec__h">Skip the line. Keep the cozy.</h2>
+    <p>About 8 cups per carton, free shipping on every order.</p>
+    <a href="{{ p_url }}" class="btn btn--lg btn--light">Shop LMTY</a>
+  </div>
+</section>
 {% schema %}
 {
   "name": "Home offer",
