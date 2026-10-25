@@ -54,10 +54,10 @@
         {%- else -%}
           <img src="{{ 'lmty-carton.jpg' | asset_url }}" alt="LMTY Honey Citrus Mint Ball 32 oz green tea concentrate carton" width="1024" height="1024" data-slide>
           <img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="Ingredients: lemon verbena, lemongrass, peach flavor, citrus flavor, spearmint and honey" width="1024" height="1024" data-slide hidden loading="lazy">
+        {%- endif -%}
           <img src="{{ 'lmty-iced.jpg' | asset_url }}" alt="LMTY poured over ice with orange, mint and honey" width="1024" height="1024" data-slide hidden loading="lazy">
           <img src="{{ 'lmty-nutrition.jpg' | asset_url }}" alt="Nutrition Facts: about 5 servings, 85 calories, 19g added sugars per serving. Ingredients: green tea infusion (water, green tea, lemon verbena, spearmint, lemongrass), honey, cane sugar, citric acid, natural flavor." width="1024" height="1024" data-slide hidden loading="lazy">
           <img src="{{ 'gif-glass.gif' | asset_url }}" alt="A warm glass of honey citrus mint tea" width="300" height="400" data-slide hidden loading="lazy">
-        {%- endif -%}
         <button type="button" class="gal__nav gal__nav--p" aria-label="Previous image" data-prev>&lsaquo;</button>
         <button type="button" class="gal__nav gal__nav--n" aria-label="Next image" data-next>&rsaquo;</button>
       </div>
@@ -69,10 +69,10 @@
         {%- else -%}
           <button type="button" aria-label="Show image 1" aria-current="true"><img src="{{ 'lmty-carton.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
           <button type="button" aria-label="Show image 2"><img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
-          <button type="button" aria-label="Show image 3"><img src="{{ 'lmty-iced.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
-          <button type="button" aria-label="Show image 4"><img src="{{ 'lmty-nutrition.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
-          <button type="button" aria-label="Show image 5"><img src="{{ 'gif-glass.gif' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
           {%- endif -%}
+          <button type="button" aria-label="Show iced drink photo"><img src="{{ 'lmty-iced.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show nutrition facts"><img src="{{ 'lmty-nutrition.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show warm glass"><img src="{{ 'gif-glass.gif' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
       </div>
     </div>
 
