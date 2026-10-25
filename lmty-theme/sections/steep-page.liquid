@@ -12,11 +12,11 @@
   <div class="wrap hero__in">
     <div>
       <p class="eyebrow" style="color:var(--honey)">Honey · Citrus · Mint</p>
-      <h1 class="hero__h">If cozy in a cup had a name, <em>this is it.</em></h1>
-      <p class="hero__lead">The medicine ball you used to line up for, now a concentrate you keep at home. Same lemony, minty goodness, without the long line.</p>
+      <h1 class="hero__h">Café-style comfort. <em>Made at home.</em></h1>
+      <p class="hero__lead">Bright citrus, cool mint, smooth green tea and honey sweetness in an easy-to-prepare concentrate. Enjoy it warm or iced, without the long line.</p>
       <div class="hero__row">
         <a href="#buy" class="btn btn--lg btn--light">Make it at home</a>
-        <a href="#reviews" class="hero__rating"><span class="stars" aria-hidden="true">★★★★★</span> 5.0 rating · {{ reviews_n }}+ sold</a>
+        <a href="#how" class="hero__rating">Pour. Mix. Enjoy. Ready in about 2 minutes</a>
       </div>
     </div>
     <div class="hero__media hero__media--img">
@@ -33,7 +33,7 @@
 <div class="proof">
   <div class="wrap proof__in">
     <div class="proof__i"><div class="proof__n">1,000+</div><div class="proof__l">cartons sold this season</div></div>
-    <div class="proof__i"><div class="proof__n">5.0</div><div class="proof__l">average rating</div></div>
+    <div class="proof__i"><div class="proof__n">32 oz</div><div class="proof__l">concentrate per carton</div></div>
     <div class="proof__i"><div class="proof__n">2 min</div><div class="proof__l">from carton to mug</div></div>
     <div class="proof__i"><div class="proof__n">$0</div><div class="proof__l">shipping, every order</div></div>
   </div>
@@ -51,7 +51,6 @@
         {%- else -%}
           <img src="{{ 'lmty-carton.jpg' | asset_url }}" alt="LMTY Honey Citrus Mint Ball 32 oz green tea concentrate carton" width="1024" height="1024" data-slide>
           <img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="Ingredients: lemon verbena, lemongrass, peach flavor, citrus flavor, spearmint and honey" width="1024" height="1024" data-slide hidden loading="lazy">
-          <img src="{{ 'lmty-iced.jpg' | asset_url }}" alt="LMTY over ice with orange and mint" width="1024" height="1024" data-slide hidden loading="lazy">
           <img src="{{ 'gif-glass.gif' | asset_url }}" alt="A warm glass of honey citrus mint tea" width="300" height="400" data-slide hidden loading="lazy">
         {%- endif -%}
         <button type="button" class="gal__nav gal__nav--p" aria-label="Previous image" data-prev>&lsaquo;</button>
@@ -65,16 +64,16 @@
         {%- else -%}
           <button type="button" aria-label="Show image 1" aria-current="true"><img src="{{ 'lmty-carton.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
           <button type="button" aria-label="Show image 2"><img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
-          <button type="button" aria-label="Show image 3"><img src="{{ 'lmty-iced.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
-          <button type="button" aria-label="Show image 4"><img src="{{ 'gif-glass.gif' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 3"></button>
+          <button type="button" aria-label="Show image 3"><img src="{{ 'gif-glass.gif' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
           {%- endif -%}
       </div>
     </div>
 
     <div>
-      <a href="#reviews" class="buy__rating"><span class="stars" aria-hidden="true">★★★★★</span> 5.0 rating · {{ reviews_n }}+ sold</a>
+      <a href="#reviews" class="buy__rating">{{ reviews_n }}+ cartons sold</a>
       {%- if section.settings.show_hero -%}<h2 class="buy__t">{{ p.title | default: 'LMTY Honey Citrus Mint Ball' }}</h2>{%- else -%}<h1 class="buy__t">{{ p.title | default: 'LMTY Honey Citrus Mint Ball' }}</h1>{%- endif -%}
-      <p class="buy__sub">Green tea, honey, citrus, mint and a hint of peach. Mix 1:1 with hot water for the warm, comforting cup you crave when you're feeling under the weather.</p>
+      <p class="buy__sub">Green tea, honey, citrus, mint and a hint of peach. Mix 1:1 with water for a cozy café-style cup, warm or iced.</p>
       <ul class="ticks">
         <li>Tastes just as good as the café version</li>
         <li>One carton makes cups for the whole week</li>
@@ -90,7 +89,8 @@
           <label class="opt">
             <input type="radio" name="steep-variant" value="{{ var.id }}" data-price="{{ var.price }}" data-compare="{{ var.compare_at_price | default: 0 }}"{% if var.id == v.id %} checked{% endif %}{% unless var.available %} disabled{% endunless %}>
             <span class="opt__b"><span class="opt__t">{{ var.title }}</span>{% unless var.available %}<span class="opt__s"> · Sold out</span>{% endunless %}</span>
-            <span class="opt__p">{{ var.price | money }}{% if var.compare_at_price > var.price %}<s>{{ var.compare_at_price | money }}</s>{% endif %}</span>
+            {%- assign n_cart = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}
+            <span class="opt__p">{{ var.price | money }}{% if n_cart > 1 %}<small class="opt__per">{{ var.price | divided_by: n_cart | money }} per carton</small>{% endif %}{% if var.compare_at_price > var.price %}<s>{{ var.compare_at_price | money }}</s>{% endif %}</span>
           </label>
           {%- endfor -%}
         </fieldset>
@@ -127,7 +127,8 @@
       </div>
 
       <details class="acc" open><summary>How to make it</summary><div class="acc__b"><p>Hot: pour 1 part concentrate and 1 part water into a mug, microwave 60 to 90 seconds, stir.</p><p>Iced: pour over ice, top with cold water or lemonade.</p></div></details>
-      <details class="acc"><summary>Ingredients</summary><div class="acc__b"><p>A brewed green tea concentrate with honey, citrus, mint and peach flavor. Contains caffeine from green tea. The full ingredient and allergen list is printed on every carton and in the product photos.</p></div></details>
+      <details class="acc"><summary>Ingredients</summary><div class="acc__b"><p>Green tea, lemon verbena, spearmint, lemongrass, honey, cane sugar, citric acid and natural flavors. Contains caffeine from green tea. Check the carton for the current full ingredient list.</p></div></details>
+      <details class="acc"><summary>Size &amp; nutrition</summary><div class="acc__b"><p>32 fl oz (946 mL) carton, about 8 servings mixed 1:1. The Nutrition Facts panel is printed on the carton and shown in the product photos.</p></div></details>
       <details class="acc"><summary>Shipping &amp; returns</summary><div class="acc__b"><p>Free shipping on every order. Unopened cartons can be returned within 30 days of delivery.</p></div></details>
     </div>
   </div>
@@ -147,7 +148,7 @@
         </li>
         {%- endfor -%}
       {%- else -%}
-        {%- assign blend = 'green-tea|Green Tea|Smooth and lightly grassy, with a gentle lift.~lemon-verbena|Lemon Verbena|Bright, lemony and fresh, without the sour bite.~spearmint|Spearmint|Cool and soothing, the minty half of the magic.~honey|Honey|Natural sweetness that wraps it all together.' | split: '~' -%}
+        {%- assign blend = 'green-tea|Green Tea|Smooth and lightly grassy, with a gentle lift.~lemon-verbena|Lemon Verbena|Bright, lemony and fresh, without the sour bite.~spearmint|Spearmint|Cool and fresh, the minty half of the magic.~honey|Honey|Honey sweetness that wraps it all together.' | split: '~' -%}
         {%- for x in blend -%}{%- assign bp = x | split: '|' -%}
         <li class="blend__i" style="--d:{{ forloop.index0 | times: 120 }}ms">
           <div class="blend__art">{% render 'blend-art', name: bp[0] %}</div>
@@ -163,12 +164,12 @@
   <div class="wrap">
     <div class="sec__head">
       
-      <h2 class="sec__h">A lifesaver when you don't feel good.</h2>
+      <h2 class="sec__h">Your new favorite tea ritual.</h2>
     </div>
     <div class="bens">
-      <div class="ben"><h3>The original recipe</h3><p>Green tea, honey, citrus, mint and peach. The medicine ball, without the drive or the $6 cup.</p></div>
+      <div class="ben"><h3>Café-style flavor</h3><p>The honey citrus mint combo you order out, without the drive or the $6 cup.</p></div>
       <div class="ben"><h3>Smells delicious</h3><p>Honey, citrus and mint hit you the second you pour. It tastes even better.</p></div>
-      <div class="ben"><h3>Tucked in your pantry</h3><p>Keep a carton on hand so a cozy cup is waiting the next time you feel a cold coming on.</p></div>
+      <div class="ben"><h3>Tucked in your pantry</h3><p>Keep a carton on hand so a cozy cup is always a few minutes away.</p></div>
       <div class="ben"><h3>Hot or iced</h3><p>Microwave it for a cozy mug or pour it over ice in summer. Same carton.</p></div>
     </div>
   </div>
@@ -211,11 +212,11 @@
     <div class="inside__m">{%- if section.settings.hero_image != blank -%}<img src="{{ section.settings.hero_image | image_url: width: 900 }}" alt="LMTY Honey Citrus Mint Ball carton with orange, peach and mint" width="900" height="900" loading="lazy">{%- else -%}<img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="Ingredients: lemon verbena, lemongrass, peach flavor, citrus flavor, spearmint and honey" width="1024" height="1024" loading="lazy">{%- endif -%}</div>
     <div>
       
-      <h2 class="sec__h">Real tea. Real honey. Nothing weird.</h2>
-      <p class="sec__lead">Green tea, honey, citrus and mint. All the things you want in a warm cup, already brewed and sweetened.</p>
+      <h2 class="sec__h">Bright citrus. Cool mint. Smooth green tea.</h2>
+      <p class="sec__lead">Already brewed and sweetened with honey and cane sugar. The full ingredient list is below.</p>
       <dl class="ing">
         <div><dt>Green tea</dt><dd>The smooth, lightly grassy base with a gentle lift of caffeine.</dd></div>
-        <div><dt>Mint</dt><dd>Cool, fresh and the reason it feels so soothing.</dd></div>
+        <div><dt>Mint</dt><dd>Cool and fresh, the minty half of the flavor.</dd></div>
         <div><dt>Citrus</dt><dd>Bright lemony notes without the sour bite.</dd></div>
         <div><dt>Natural honey blend</dt><dd>Sweet enough as is. Add a squeeze of lemon if you like.</dd></div>
         <div><dt>A hint of peach</dt><dd>The soft fruity finish that makes it taste like the café cup.</dd></div>
@@ -228,7 +229,7 @@
   <div class="wrap">
     <div class="sec__head sec__head--c"><h2 class="sec__h">Home vs. the drive-thru</h2></div>
     <table class="cmp">
-      <thead><tr><th scope="col"></th><th scope="col" class="cmp__us">This concentrate</th><th scope="col">Café medicine ball</th><th scope="col">Tea bags + honey</th></tr></thead>
+      <thead><tr><th scope="col"></th><th scope="col" class="cmp__us">This concentrate</th><th scope="col">Café version</th><th scope="col">Tea bags + honey</th></tr></thead>
       <tbody>
         <tr><th scope="row">Cost per cup</th><td class="cmp__us">Under $3</td><td>$5+</td><td>About $1</td></tr>
         <tr><th scope="row">Ready in</th><td class="cmp__us">2 min</td><td>Drive + line</td><td>5+ min steep</td></tr>
@@ -243,11 +244,11 @@
 <section class="sec" id="reviews">
   <div class="wrap">
     <div class="rev__top">
-      <div><div class="rev__big">5.0</div><div class="stars" style="color:var(--citrus)" aria-label="5 out of 5 stars">★★★★★</div><p style="color:var(--ink-2);font-size:.9rem">Rated 5.0 on TikTok Shop · {{ reviews_n }}+ sold</p></div>
+      <div><div class="rev__big">{{ reviews_n }}+</div><p style="color:var(--ink-2);font-size:.9rem">cartons sold through creator videos</p></div>
       <div style="margin-left:auto"><h2 class="sec__h">What people are saying</h2></div>
     </div>
     <div class="revs" data-revs>
-      {%- assign revs = 'It tastes just as good|The same lemony minty goodness, but without the long line. It smells so good, and yes, it tastes just as good.|TikTok creator~A lifesaver|This is a lifesaver when you don’t feel good. I love this in the evening too if I just want something warm and tasty.|TikTok creator~Smells delicious|It smells delicious, it tastes even better. You can drink it hot or iced.|TikTok creator~Cozy in a cup|If cozy in a cup had a name, this would be it. Your future self will thank you.|TikTok creator~The original recipe|Green tea, honey, citrus, mint and peach. You don’t have to go to the store anymore, they send it to your house.|TikTok creator~Hits the spot|Since it’s a concentrate you can make multiple for the whole week. It just hits the spot.|TikTok creator' | split: '~' -%}
+      {%- assign revs = 'It tastes just as good|The same lemony minty goodness, but without the long line. It smells so good, and yes, it tastes just as good.|TikTok creator~An evening favorite|I love this in the evening if I just want something warm and tasty.|TikTok creator~Smells delicious|It smells delicious, it tastes even better. You can drink it hot or iced.|TikTok creator~Cozy in a cup|If cozy in a cup had a name, this would be it. Your future self will thank you.|TikTok creator~Hits the spot|Since it’s a concentrate you can make multiple for the whole week. It just hits the spot.|TikTok creator' | split: '~' -%}
       {%- for r in revs -%}{%- assign rp = r | split: '|' -%}
       <article class="rev"{% if forloop.index > 3 %} hidden data-more{% endif %}><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><h3>{{ rp[0] }}</h3><p>{{ rp[1] }}</p><p class="rev__by"><strong>{{ rp[2] }}</strong> · From a video review</p></article>
       {%- endfor -%}
@@ -302,7 +303,7 @@
   <div class="wrap">
     <div class="sec__head sec__head--c"><h2 class="sec__h">Good questions</h2></div>
     <div class="faq">
-      <details class="acc"><summary>Is this the same tea the cafés use?</summary><div class="acc__b"><p>It's the honey citrus mint concentrate people use to make the popular "medicine ball" drink at home. Mix it 1:1 with hot water; for the full café version, add a splash of hot lemonade.</p></div></details>
+      <details class="acc"><summary>Is this the same tea the cafés use?</summary><div class="acc__b"><p>It's a honey citrus mint green tea concentrate made for café-style drinks at home. Mix it 1:1 with hot water; for the full café version, add a splash of hot lemonade.</p></div></details>
       <details class="acc"><summary>How many cups does one carton make?</summary><div class="acc__b"><p>A 32 oz carton makes about eight 8 oz cups when mixed 1:1 with water.</p></div></details>
       <details class="acc"><summary>Does it have caffeine?</summary><div class="acc__b"><p>Yes, a little, from the green tea. Less than a cup of coffee.</p></div></details>
       <details class="acc"><summary>How do I store it?</summary><div class="acc__b"><p>Unopened cartons keep in the pantry. Once open, refrigerate and use within 7 to 10 days.</p></div></details>
