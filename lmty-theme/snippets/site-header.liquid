@@ -1,7 +1,8 @@
 {%- assign fp = settings.featured_product -%}
 {%- if fp == blank -%}{%- assign fp = all_products['lmty-honey-citrus-mint-ball'] -%}{%- endif -%}
 {%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.all_products_collection_url -%}{%- endif -%}
-{%- if template.name == 'index' -%}{%- assign anchor = '' -%}{%- else -%}{%- assign anchor = routes.root_url -%}{%- endif -%}
+{%- if pages['track-order'] != blank -%}{%- assign track_url = pages['track-order'].url -%}{%- else -%}{%- assign track_url = routes.account_url -%}{%- endif -%}
+{%- if pages['contact'] != blank -%}{%- assign contact_url = pages['contact'].url -%}{%- else -%}{%- assign contact_url = 'mailto:' | append: shop.email -%}{%- endif -%}
 <a href="#content" class="skip-link">Skip to content</a>
 {%- if settings.announcement != blank -%}
 {%- assign msgs = settings.announcement | split: '·' -%}
@@ -13,10 +14,11 @@
     <a href="{{ routes.root_url }}" class="wordmark">{{ shop.name }}</a>
     <nav class="head__nav" aria-label="Primary">
       <a href="{{ fp_url }}">Shop</a>
-      <a href="{{ anchor }}#how">How to make it</a>
-      <a href="{{ anchor }}#inside">What's inside</a>
-      <a href="{{ anchor }}#reviews">Reviews</a>
-      <a href="{{ anchor }}#faq">FAQ</a>
+      <a href="{{ fp_url }}#how">How to make it</a>
+      <a href="{{ fp_url }}#inside">What's inside</a>
+      <a href="{{ fp_url }}#reviews">Reviews</a>
+      <a href="{{ fp_url }}#faq">FAQ</a>
+      <a href="{{ track_url }}">Track order</a>
     </nav>
     <div class="head__act">
       <a href="{{ routes.account_url }}" class="head__icon" aria-label="Account"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a>
@@ -30,11 +32,13 @@
   <div class="menu__top"><span class="wordmark">{{ shop.name }}</span><button type="button" class="menu__x" aria-label="Close menu" data-menu-close>&times;</button></div>
   <nav class="menu__nav">
     <a href="{{ fp_url }}">Shop the concentrate</a>
-    <a href="{{ anchor }}#how">How to make it</a>
-    <a href="{{ anchor }}#inside">What's inside</a>
-    <a href="{{ anchor }}#reviews">Reviews</a>
-    <a href="{{ anchor }}#faq">FAQ</a>
-    <a href="{{ routes.account_url }}">Account</a>
+    <a href="{{ fp_url }}#how">How to make it</a>
+    <a href="{{ fp_url }}#inside">What's inside</a>
+    <a href="{{ fp_url }}#reviews">Reviews</a>
+    <a href="{{ fp_url }}#faq">FAQ</a>
+    <a href="{{ routes.collections_url }}/best-sellers">Best sellers</a>
+    <a href="{{ track_url }}">Track order</a>
+    <a href="{{ contact_url }}">Contact us</a>
   </nav>
   <a href="{{ fp_url }}#buy" class="btn btn--block">Shop now</a>
 </aside>

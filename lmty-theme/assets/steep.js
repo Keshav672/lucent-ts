@@ -82,7 +82,11 @@
     var idInput = $('[data-variant-id]', form), addBtn = $('[data-add]', form), msg = $('[data-buy-msg]'), qty = $('[data-qty]', form);
     function setPrice(cents) { $$('[data-price-label]').forEach(function (l) { l.textContent = money(cents); }); }
     $$('input[name="steep-variant"]', form).forEach(function (r) {
-      r.addEventListener('change', function () { idInput.value = r.value; setPrice(Number(r.dataset.price)); });
+      r.addEventListener('change', function () {
+        idInput.value = r.value; setPrice(Number(r.dataset.price));
+        var was = $('.pricerow__was'), pill = $('.pricerow .pill'), cmp = Number(r.dataset.compare), pr = Number(r.dataset.price);
+        if (was && pill) { var on = cmp > pr; was.hidden = pill.hidden = !on; if (on) { was.textContent = money(cmp); pill.textContent = 'Save ' + Math.floor((cmp - pr) * 100 / cmp) + '%'; } }
+      });
     });
     function clampQty(n) { return Math.max(1, Math.min(20, n || 1)); }
     $('[data-qty-minus]', form).addEventListener('click', function () { qty.value = clampQty(Number(qty.value) - 1); });
@@ -216,6 +220,17 @@
       eo.observe(tl);
     }
   }
+
+  /* tea bags vs concentrate toggle */
+  $$('[data-tog]').forEach(function (tg) {
+    var btns = $$('[data-tog-btn]', tg), panels = $$('[data-tog-panel]', tg);
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        btns.forEach(function (o) { o.setAttribute('aria-selected', String(o === b)); });
+        panels.forEach(function (pn) { pn.hidden = pn.dataset.togPanel !== b.dataset.togBtn; });
+      });
+    });
+  });
 
   refreshCart();
 })();

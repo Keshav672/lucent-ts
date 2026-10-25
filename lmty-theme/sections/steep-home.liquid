@@ -1,0 +1,33 @@
+{%- assign p = section.settings.product -%}
+{%- if p == blank -%}{%- assign p = settings.featured_product -%}{%- endif -%}
+{%- if p == blank -%}{%- assign p = all_products['lmty-honey-citrus-mint-ball'] -%}{%- endif -%}
+{%- if p != blank -%}{%- assign p_url = p.url -%}{%- else -%}{%- assign p_url = routes.all_products_collection_url -%}{%- endif -%}
+<section class="home">
+  <div class="home__media">
+    {%- if section.settings.image != blank -%}
+      <img src="{{ section.settings.image | image_url: width: 2000 }}" alt="{{ section.settings.image.alt | default: 'LMTY Honey Citrus Mint Ball' | escape }}" width="2000" height="1200" fetchpriority="high">
+    {%- else -%}
+      <img src="{{ 'lmty-carton.jpg' | asset_url }}" alt="LMTY Honey Citrus Mint Ball green tea concentrate with orange, peach and mint" width="1024" height="1024" fetchpriority="high">
+    {%- endif -%}
+  </div>
+  <div class="wrap">
+    <div class="home__card">
+      <h1 class="home__h">{{ section.settings.heading | default: 'Café-style comfort. Made at home.' }}</h1>
+      <p class="home__sub">{{ section.settings.sub | default: 'Honey, citrus and mint green tea in about 2 minutes. Free shipping on every order.' }}</p>
+      <a href="{{ p_url }}" class="btn btn--lg">{{ section.settings.cta | default: 'Shop now' }}</a>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Home offer",
+  "settings": [
+    {"type": "image_picker", "id": "image", "label": "Hero image"},
+    {"type": "product", "id": "product", "label": "Shop Now goes to"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Café-style comfort. Made at home."},
+    {"type": "text", "id": "sub", "label": "Subheading", "default": "Honey, citrus and mint green tea in about 2 minutes. Free shipping on every order."},
+    {"type": "text", "id": "cta", "label": "Button", "default": "Shop now"}
+  ],
+  "presets": [{"name": "Home offer"}]
+}
+{% endschema %}

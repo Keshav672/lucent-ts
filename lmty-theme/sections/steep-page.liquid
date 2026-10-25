@@ -64,7 +64,6 @@
         {%- else -%}
           <button type="button" aria-label="Show image 1" aria-current="true"><img src="{{ 'lmty-carton.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
           <button type="button" aria-label="Show image 2"><img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
-          <button type="button" aria-label="Show image 3"></button>
           <button type="button" aria-label="Show image 3"><img src="{{ 'gif-glass.gif' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
           {%- endif -%}
       </div>
@@ -79,6 +78,10 @@
         <li>One carton makes cups for the whole week</li>
         <li>Drink it hot or iced</li>
       </ul>
+      <div class="pricerow">
+        <span class="pricerow__now" data-price-label>{{ v.price | money }}</span>
+        {%- if v.compare_at_price > v.price -%}<s class="pricerow__was">{{ v.compare_at_price | money }}</s><span class="pill">Save {{ v.compare_at_price | minus: v.price | times: 100 | divided_by: v.compare_at_price | floor }}%</span>{%- endif -%}
+      </div>
 
       {%- form 'product', p, data-buy-form: '', novalidate: 'novalidate' -%}
         <input type="hidden" name="id" value="{{ v.id }}" data-variant-id>
@@ -86,7 +89,8 @@
         <fieldset class="opts">
           <legend class="opt-l">Size</legend>
           {%- for var in p.variants -%}
-          <label class="opt">
+          <label class="opt{% if forloop.last and p.variants.size > 1 %} opt--pop{% endif %}">
+            {%- if forloop.last and p.variants.size > 1 -%}<span class="opt__flag">Most popular</span>{%- endif -%}
             <input type="radio" name="steep-variant" value="{{ var.id }}" data-price="{{ var.price }}" data-compare="{{ var.compare_at_price | default: 0 }}"{% if var.id == v.id %} checked{% endif %}{% unless var.available %} disabled{% endunless %}>
             <span class="opt__b"><span class="opt__t">{{ var.title }}</span>{% unless var.available %}<span class="opt__s"> · Sold out</span>{% endunless %}</span>
             {%- assign n_cart = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}
@@ -95,6 +99,7 @@
           {%- endfor -%}
         </fieldset>
         {%- endunless -%}
+        <div class="shipnote"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/></svg><div><strong>Free shipping</strong><span>Tracked delivery from a US warehouse</span></div></div>
 
         {%- if has_plans -%}
         {%- assign plan = p.selling_plan_groups.first.selling_plans.first -%}
@@ -120,11 +125,11 @@
         <p class="buy__msg" role="status" aria-live="polite" data-buy-msg></p>
       {%- endform -%}
 
-      <div class="assure">
-        <div><strong>Free shipping</strong>every order</div>
-        <div><strong>Ships fast</strong>from the US</div>
-        <div><strong>Secure checkout</strong>Shop Pay, Apple Pay</div>
-      </div>
+      <ul class="trust">
+        <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/></svg>Secure checkout</li>
+        <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12l4 4 10-10"/></svg>30-day returns</li>
+        <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/></svg>Free US shipping</li>
+      </ul>
 
       <details class="acc" open><summary>How to make it</summary><div class="acc__b"><p>Hot: pour 1 part concentrate and 1 part water into a mug, microwave 60 to 90 seconds, stir.</p><p>Iced: pour over ice, top with cold water or lemonade.</p></div></details>
       <details class="acc"><summary>Ingredients</summary><div class="acc__b"><p>Green tea, lemon verbena, spearmint, lemongrass, honey, cane sugar, citric acid and natural flavors. Contains caffeine from green tea. Check the carton for the current full ingredient list.</p></div></details>
@@ -160,6 +165,7 @@
   </div>
 </section>
 
+{%- unless section.settings.classic -%}
 <section class="sec sec--green">
   <div class="wrap">
     <div class="sec__head">
@@ -174,7 +180,9 @@
     </div>
   </div>
 </section>
+{%- endunless -%}
 
+{%- unless section.settings.classic -%}
 <section class="sec" id="expect">
   <div class="wrap expect">
     <div>
@@ -199,7 +207,9 @@
     </div>
   </div>
 </section>
+{%- endunless -%}
 
+{%- unless section.settings.classic -%}
 <section class="sec sec--green">
   <div class="wrap">
     <h2 class="sec__h">Everything in the carton, printed on the front.</h2>
@@ -211,6 +221,7 @@
     </div>
   </div>
 </section>
+{%- endunless -%}
 
 <section class="sec" id="how">
   <div class="wrap">
@@ -228,6 +239,31 @@
   </div>
 </section>
 
+<section class="sec sec--cream" id="why">
+  <div class="wrap">
+    <div class="sec__head sec__head--c"><h2 class="sec__h">It's not your tea. It's the steeping.</h2><p class="sec__lead">Same flavors, two very different evenings.</p></div>
+    <div class="tog" data-tog>
+      <div class="tog__btns" role="tablist">
+        <button type="button" role="tab" aria-selected="false" data-tog-btn="0">Tea bags + honey</button>
+        <button type="button" role="tab" aria-selected="true" data-tog-btn="1">LMTY concentrate</button>
+      </div>
+      <ul class="tog__list" data-tog-panel="0" hidden><li>Boil water, steep 5 minutes, fish out the bag</li><li>Measure honey, squeeze lemon, find the mint</li><li>Tastes different every time</li></ul>
+      <ul class="tog__list" data-tog-panel="1"><li>Pour, add water, heat. About 2 minutes</li><li>Honey, citrus and mint already in the carton</li><li>Same café-style cup, every time</li></ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec anchor">
+  <div class="wrap anchor__in">
+    <div><h2 class="sec__h">Less than half the price of a café cup.</h2><p class="sec__lead">One carton makes about 8 cups. That's roughly {{ v.price | divided_by: 8 | money }} a cup at home, versus $5 or more at the counter.</p><a href="#buy" class="btn btn--lg">Get the concentrate</a></div>
+    <div class="anchor__cmp" aria-label="Price per cup comparison">
+      <div><span class="anchor__k">Café cup</span><span class="anchor__bar anchor__bar--cafe"></span><strong>$5+</strong></div>
+      <div><span class="anchor__k">LMTY at home</span><span class="anchor__bar anchor__bar--us" style="--w:{{ v.price | divided_by: 8 | times: 100 | divided_by: 500 }}%"></span><strong>{{ v.price | divided_by: 8 | money }}</strong></div>
+    </div>
+  </div>
+</section>
+
+{%- unless section.settings.classic -%}
 <section class="sec sec--green">
   <div class="wrap split">
     <div class="split__m"><img src="{{ 'gif-cozy.gif' | asset_url }}" alt="Sipping tea under a blanket with a book" width="300" height="400" loading="lazy"></div>
@@ -243,7 +279,9 @@
     </div>
   </div>
 </section>
+{%- endunless -%}
 
+{%- unless section.settings.classic -%}
 <section class="sec" id="inside">
   <div class="wrap inside">
     <div class="inside__m">{%- if section.settings.hero_image != blank -%}<img src="{{ section.settings.hero_image | image_url: width: 900 }}" alt="LMTY Honey Citrus Mint Ball carton with orange, peach and mint" width="900" height="900" loading="lazy">{%- else -%}<img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="Ingredients: lemon verbena, lemongrass, peach flavor, citrus flavor, spearmint and honey" width="1024" height="1024" loading="lazy">{%- endif -%}</div>
@@ -261,7 +299,9 @@
     </div>
   </div>
 </section>
+{%- endunless -%}
 
+{%- unless section.settings.classic -%}
 <section class="sec sec--cream">
   <div class="wrap">
     <div class="sec__head sec__head--c"><h2 class="sec__h">Home vs. the drive-thru</h2></div>
@@ -277,6 +317,7 @@
     </table>
   </div>
 </section>
+{%- endunless -%}
 
 <section class="sec" id="reviews">
   <div class="wrap">
@@ -352,6 +393,7 @@
   </div>
 </section>
 
+{%- unless section.settings.classic -%}
 <section class="sec">
   <div class="wrap note">
     <div class="note__m"><img src="{{ 'lmty-ingredients.jpg' | asset_url }}" alt="LMTY carton surrounded by lemon verbena, lemongrass, peach, citrus, spearmint and honey" width="1024" height="1024" loading="lazy"></div>
@@ -364,6 +406,7 @@
     </div>
   </div>
 </section>
+{%- endunless -%}
 
 <section class="sec" style="padding-top:0">
   <div class="wrap">
@@ -396,6 +439,7 @@
   "name": "Steep landing",
   "settings": [
     {"type": "checkbox", "id": "show_hero", "label": "Show hero + proof strip", "default": true},
+    {"type": "checkbox", "id": "classic", "label": "Classic (shorter) layout", "default": false},
     {"type": "image_picker", "id": "hero_image", "label": "Hero image", "info": "Square product shot. Falls back to the product's first image."},
     {"type": "product", "id": "product", "label": "Product (home page only)"},
     {"type": "text", "id": "comments_eyebrow", "label": "Comments: eyebrow", "default": "From our Facebook ad comments"},

@@ -20,8 +20,19 @@
   <div class="wrap foot__grid">
     <div class="foot__brand"><span class="wordmark">{{ shop.name }}</span><p>The honey citrus mint tea you line up for, made in your own kitchen.</p></div>
     <div class="foot__col"><h3>Shop</h3><a href="{{ fp_url }}">Honey Citrus Mint</a><a href="{{ routes.all_products_collection_url }}">All products</a><a href="{{ routes.cart_url }}">Cart</a></div>
-    <div class="foot__col"><h3>Learn</h3><a href="{{ routes.root_url }}#how">How to make it</a><a href="{{ routes.root_url }}#inside">What's inside</a><a href="{{ routes.root_url }}#faq">FAQ</a></div>
+    <div class="foot__col"><h3>Learn</h3><a href="{{ fp_url }}#how">How to make it</a><a href="{{ fp_url }}#inside">What's inside</a><a href="{{ fp_url }}#faq">FAQ</a></div>
     <div class="foot__col"><h3>Help</h3><a href="{{ contact_url }}">Contact</a><a href="{{ ship_url }}">Shipping &amp; returns</a><a href="{{ routes.account_url }}">Account</a><a href="{{ routes.search_url }}">Search</a></div>
+  </div>
+  <div class="wrap foot__more">
+    <h3>More information</h3>
+    <nav aria-label="Policies">
+      {%- if shop.terms_of_service -%}<a href="{{ shop.terms_of_service.url }}">Terms of Service</a>{%- endif -%}
+      {%- if shop.privacy_policy -%}<a href="{{ shop.privacy_policy.url }}">Privacy Policy</a>{%- endif -%}
+      {%- if shop.refund_policy -%}<a href="{{ shop.refund_policy.url }}">Refund Policy</a>{%- endif -%}
+      {%- if shop.shipping_policy -%}<a href="{{ shop.shipping_policy.url }}">Shipping Policy</a>{%- endif -%}
+      <a href="{{ contact_url }}">Contact Us</a>
+    </nav>
+    <ul class="pays" aria-label="Accepted payments">{%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag }}</li>{%- endfor -%}</ul>
   </div>
   <div class="wrap foot__legal"><p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}.</p><p>Contains green tea (caffeine). Not intended to diagnose, treat, cure or prevent any disease.</p></div>
 </footer>
