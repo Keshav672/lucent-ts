@@ -586,3 +586,4 @@ html,body{overflow-x:clip}
 .trust{gap:16px;margin:10px 0 22px;font-size:.76rem;font-weight:600;color:var(--ink)}
 .trust svg{width:15px;height:15px}
 @media (max-width:600px){.feats{grid-template-columns:1fr 1fr;font-size:.8rem}}
+.atc__main{font-size:1.15rem}

@@ -22,7 +22,7 @@
       <p class="hero__lead">Bright citrus, cool mint, smooth green tea and honey sweetness in an easy-to-prepare concentrate. Enjoy it warm or iced, without the long line.</p>
       <ul class="chips"><li>32 oz concentrate</li><li>Green tea</li><li>Hot or iced</li><li>~5 servings</li></ul>
       <div class="hero__row">
-        <a href="#buy" class="btn btn--lg btn--light">Add to cart · {{ v.price | money }}</a>
+        <a href="#buy" class="btn btn--lg btn--light">Add to cart</a>
         <a href="#buy" class="btn btn--lg btn--outline">Choose your pack</a>
       </div>
       <p class="hero__note">Free shipping on orders $40+ · Ships from the US</p>
@@ -91,10 +91,10 @@
       {%- if section.settings.show_hero -%}<h2 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</h2>{%- else -%}<h1 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</h1>{%- endif -%}
       <p class="buy__sub">Green tea, honey, citrus, mint and a hint of peach. Mix with an equal amount of water for a cozy café-style cup, warm or iced.</p>
       <ul class="feats">
-        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/></svg>Café-Style Honey Citrus Mint</li>
-        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10l-1.5 16h-7z"/><path d="M8 9h8"/></svg>Hot Or Iced, Same Carton</li>
-        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Ready In About 2 Minutes</li>
-        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>Damage-Free Delivery Guarantee</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v3l2 3v9a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-9l2-3z"/><path d="M6 13h12"/></svg>Sweetened With Real Honey</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18c6 0 12-5 12-13-8 0-12 5-12 13zM6 18l6-6"/></svg>Spearmint &amp; Lemon Verbena</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>85 Calories Per Serving</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/></svg>Low Caffeine Green Tea</li>
       </ul>
       {%- assign vn = v.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if vn < 1 -%}{%- assign vn = 1 -%}{%- endif -%}
       {%- assign vcmp = v.compare_at_price | default: v.price -%}
@@ -124,7 +124,7 @@
               {%- assign t_id = tv.id -%}{%- assign t_qty = 1 -%}{%- assign t_price = tv.price -%}{%- assign t_cmp = tv.compare_at_price | default: tv.price -%}{%- assign t_code = '' -%}{%- assign t_ok = tv.available -%}
               {%- assign t_plan = tv.price -%}{%- if has_plans and tv.selling_plan_allocations.size > 0 -%}{%- assign t_plan = tv.selling_plan_allocations.first.price -%}{%- endif -%}
             {%- else -%}
-              {%- assign t_id = base.id -%}{%- assign t_qty = cnt -%}{%- assign t_price = base.price | times: pay -%}{%- assign t_cmp = base_cmp | times: cnt -%}{%- assign t_code = code -%}{%- assign t_ok = base.available -%}
+              {%- assign t_id = base.id -%}{%- assign t_qty = cnt -%}{%- assign t_price = base.price | times: pay -%}{%- if cnt == 3 -%}{%- assign t_price = section.settings.unit_3 | default: '13.99' | times: 100 | round | times: cnt -%}{%- elsif cnt == 6 -%}{%- assign t_price = section.settings.unit_6 | default: '10.99' | times: 100 | round | times: cnt -%}{%- endif -%}{%- assign t_cmp = base_cmp | times: cnt -%}{%- assign t_code = code -%}{%- assign t_ok = base.available -%}
               {%- assign t_plan = t_price -%}
             {%- endif -%}
             {%- assign unit = t_price | divided_by: cnt -%}{%- assign cmp_unit = t_cmp | divided_by: cnt -%}
@@ -165,7 +165,7 @@
         <input type="hidden" name="quantity" value="1" data-qty-input>
         <button type="submit" class="btn btn--block atc" data-add{% unless v.available %} disabled{% endunless %}>
           {%- if v.available -%}
-          <span class="atc__main">Add to cart <i aria-hidden="true">|</i> <span data-atc-unit>{%- assign vn = v.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if vn < 1 -%}{%- assign vn = 1 -%}{%- endif -%}{{ v.price | divided_by: vn | money }}</span>/carton</span>
+          <span class="atc__main">Add to cart</span>
           <span class="atc__sub"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/></svg>Free replacement if it arrives damaged</span>
           {%- else -%}Sold out{%- endif -%}
         </button>
@@ -292,20 +292,12 @@
   <div class="wrap">
     <div class="guar">
       <div><h2 class="sec__h">Try a carton. If it arrives damaged, it's on us.</h2><p>Unopened cartons can be returned within 30 days. Damaged in transit? Email us a photo and we'll send a replacement.</p></div>
-      <div class="guar__cta"><a href="#buy" class="btn btn--lg">Add to cart · {{ v.price | money }}</a><small>Free shipping on orders $40+</small></div>
+      <div class="guar__cta"><a href="#buy" class="btn btn--lg">Add to cart</a><small>Free shipping on orders $40+</small></div>
     </div>
   </div>
 </section>
 
-<section class="sec anchor">
-  <div class="wrap anchor__in">
-    <div><h2 class="sec__h">Café-style, for less than the café.</h2><p class="sec__lead">One carton makes about 5 servings. With the biggest bundle, that's about {{ per_serv | money }} a serving at home, versus $5 or more at the counter.</p></div>
-    <div class="anchor__cmp" aria-label="Price per cup comparison">
-      <div><span class="anchor__k">Café cup</span><span class="anchor__bar anchor__bar--cafe"></span><strong>$5+</strong></div>
-      <div><span class="anchor__k">LMTY at home</span><span class="anchor__bar anchor__bar--us" style="--w:{{ per_serv | times: 100 | divided_by: 500 }}%"></span><strong>{{ per_serv | money }}</strong></div>
-    </div>
-  </div>
-</section>
+
 
 {%- unless section.settings.classic -%}
 <section class="sec" id="inside">
@@ -421,7 +413,7 @@
 
 <section class="sec sec--cream" id="faq">
   <div class="wrap">
-    <div class="sec__head sec__head--c"><h2 class="sec__h">Good questions</h2></div>
+    <div class="sec__head sec__head--c"><h2 class="sec__h">Frequently Asked Questions</h2></div>
     <div class="faq">
       <details class="acc"><summary>Is this the same tea the cafés use?</summary><div class="acc__b"><p>It's a honey citrus mint green tea concentrate made for café-style drinks at home. Mix ¾ cup with ¾ cup hot water; for the full café version, add a splash of hot lemonade.</p></div></details>
       <details class="acc"><summary>How many servings are in a carton?</summary><div class="acc__b"><p>About 5 servings: each is ¾ cup concentrate plus ¾ cup water (1½ cups total).</p></div></details>
@@ -458,8 +450,10 @@
     {"type": "text", "id": "perk_2", "label": "Extra perk on the biggest bundle", "default": "Free Mystery Gift"},
     {"type": "text", "id": "perk_3", "label": "Second extra perk on the biggest bundle", "default": "Free Shipping Protection"},
     {"type": "text", "id": "sale_label", "label": "Label before SAVE % (e.g. Fall Sale)", "default": "Fall Sale"},
-    {"type": "text", "id": "code_3", "label": "Discount code for Buy 2 Get 1 FREE", "default": "BUY2GET1", "info": "Only used if the product has no 3-carton variant. Create this code in Discounts: 33.33% off when buying 3."},
-    {"type": "text", "id": "code_6", "label": "Discount code for Buy 3 Get 3 FREE", "default": "BUY3GET3", "info": "Only used if the product has no 6-carton variant. Create this code in Discounts: 50% off when buying 6."},
+    {"type": "text", "id": "unit_3", "label": "Buy 2 Get 1 price per carton", "default": "13.99", "info": "Only used when the product has no 3-carton variant. 3 x 13.99 = $41.97."},
+    {"type": "text", "id": "unit_6", "label": "Buy 3 Get 3 price per carton", "default": "10.99", "info": "Only used when the product has no 6-carton variant. 6 x 10.99 = $65.94."},
+    {"type": "text", "id": "code_3", "label": "Discount code for Buy 2 Get 1 FREE", "default": "BUY2GET1", "info": "Only used if the product has no 3-carton variant. Create it in Discounts as a fixed amount off: (3 x your 1-carton price) minus $41.97. At $20.99 that is $21.00 off, minimum quantity 3."},
+    {"type": "text", "id": "code_6", "label": "Discount code for Buy 3 Get 3 FREE", "default": "BUY3GET3", "info": "Only used if the product has no 6-carton variant. Create it in Discounts as a fixed amount off: (6 x your 1-carton price) minus $65.94. At $20.99 that is $60.00 off, minimum quantity 6."},
     {"type": "number", "id": "delivery_days", "label": "Business days to delivery (for the delivery date)", "default": 5},
     {"type": "header", "content": "Rating badge (real numbers only)"},
     {"type": "text", "id": "rating_value", "label": "Average rating (e.g. 4.8)", "info": "Copy from your review app or TikTok Shop. Leave blank to hide."},
