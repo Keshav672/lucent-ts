@@ -404,7 +404,7 @@
       <div style="margin-left:auto"><h2 class="sec__h">What people are saying</h2></div>
     </div>
     <div class="revs" data-revs>
-      {%- assign revs = 'It tastes just as good|The same lemony minty goodness, but without the long line. It smells so good, and yes, it tastes just as good.|TikTok creator~An evening favorite|I love this in the evening if I just want something warm and tasty.|TikTok creator~Smells delicious|It smells delicious, it tastes even better. You can drink it hot or iced.|TikTok creator~Cozy in a cup|If cozy in a cup had a name, this would be it. Your future self will thank you.|TikTok creator~Hits the spot|Since it’s a concentrate you can make multiple cups. It just hits the spot.|TikTok creator' | split: '~' -%}
+      {%- assign revs = 'It tastes just as good|The same lemony minty goodness, but without the long line. It smells so good, and yes, it tastes just as good.|Customer~An evening favorite|I love this in the evening if I just want something warm and tasty.|Customer~Smells delicious|It smells delicious, it tastes even better. You can drink it hot or iced.|Customer~Cozy in a cup|If cozy in a cup had a name, this would be it. Your future self will thank you.|Customer~Hits the spot|Since it’s a concentrate you can make multiple cups. It just hits the spot.|Customer' | split: '~' -%}
       {%- for r in revs -%}{%- assign rp = r | split: '|' -%}
       <article class="rev"><span class="rev__real">Real review</span><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><h3>{{ rp[0] }}</h3><p>{{ rp[1] }}</p></article>
       {%- endfor -%}
@@ -490,9 +490,9 @@
     {"type": "text", "id": "code_6", "label": "Discount code applied for Buy 3 Get 3 FREE", "default": "BUY3GET3", "info": "Fixed amount = 6 x your 1-carton price minus $65.94."},
     {"type": "number", "id": "delivery_days", "label": "Business days to delivery (for the delivery date)", "default": 5},
     {"type": "header", "content": "Rating badge (real numbers only)"},
-    {"type": "text", "id": "rating_value", "label": "Average rating (e.g. 4.8)", "info": "Copy from your review app or TikTok Shop. Leave blank to hide."},
+    {"type": "text", "id": "rating_value", "label": "Average rating (e.g. 4.8)", "info": "Copy from your review app. Leave blank to hide."},
     {"type": "number", "id": "rating_count", "label": "Number of reviews"},
-    {"type": "text", "id": "rating_source", "label": "Where the reviews are from (e.g. TikTok Shop, Judge.me)"},
+    {"type": "text", "id": "rating_source", "label": "Where the reviews are from (e.g. Judge.me)"},
     {"type": "html", "id": "trustbox", "label": "Trustpilot TrustBox code", "info": "Paste the TrustBox snippet from your Trustpilot business account."},
     {"type": "number", "id": "review_count", "label": "Order count shown next to rating", "default": 1000}
   ],
