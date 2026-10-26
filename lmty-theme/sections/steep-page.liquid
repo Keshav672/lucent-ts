@@ -78,16 +78,17 @@
     </div>
 
     <div>
+      <p class="buy__rating">{{ reviews_n }}+ cartons sold</p>
       {%- assign rc = section.settings.rating_count | plus: 0 -%}
       {%- if rc > 0 and section.settings.rating_value != blank -%}
       {%- assign rv = section.settings.rating_value | plus: 0 -%}
-      <a href="#reviews" class="rating" aria-label="Rated {{ rv }} out of 5 from {{ rc }} reviews">
-        <span class="rating__stars" style="--r:{{ rv | times: 20 }}%" aria-hidden="true"><span>★★★★★</span></span>
-        <strong>{{ rv }}/5</strong><span>· {{ rc }} reviews{% if section.settings.rating_source != blank %} on {{ section.settings.rating_source }}{% endif %}</span>
+      {%- if rv >= 4.5 -%}{%- assign rword = 'Excellent' -%}{%- elsif rv >= 4 -%}{%- assign rword = 'Great' -%}{%- else -%}{%- assign rword = 'Rated' -%}{%- endif -%}
+      <a href="#reviews" class="rbar" aria-label="Rated {{ rv }} out of 5 from {{ rc }} reviews">
+        <span class="rbar__boxes" style="--r:{{ rv | times: 20 }}%" aria-hidden="true">{%- for i in (1..5) -%}<i></i>{%- endfor -%}</span>
+        <strong>{{ rword }}</strong><span>{{ rv }} · {{ rc }} reviews{% if section.settings.rating_source != blank %} on {{ section.settings.rating_source }}{% endif %}</span>
       </a>
       {%- endif -%}
       {%- if section.settings.trustbox != blank -%}<div class="trustbox">{{ section.settings.trustbox }}</div>{%- endif -%}
-      <p class="buy__rating">{{ reviews_n }}+ cartons sold</p>
       {%- if section.settings.show_hero -%}<h2 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</h2>{%- else -%}<h1 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</h1>{%- endif -%}
       <p class="buy__sub">Green tea, honey, citrus, mint and a hint of peach. Mix with an equal amount of water for a cozy café-style cup, warm or iced.</p>
       <ul class="feats">
