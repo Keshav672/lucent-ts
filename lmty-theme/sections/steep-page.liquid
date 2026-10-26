@@ -132,7 +132,7 @@
           <label class="tier">
             {%- if n == 3 -%}<span class="tier__flag">Best value</span>{%- endif -%}
             <span class="tier__row">
-              <input type="radio" name="steep-tier" value="{{ t_id }}" data-qty="{{ t_qty }}" data-code="{{ t_code | escape }}" data-price="{{ t_price }}" data-plan-price="{{ t_plan }}" data-compare="{{ t_cmp }}" data-n="{{ cnt }}"{% if n == 2 %} checked{% endif %}{% unless t_ok %} disabled{% endunless %}>
+              <input type="radio" name="steep-tier" value="{{ t_id }}" data-qty="{{ t_qty }}" data-code="{{ t_code | escape }}" data-price="{{ t_price }}" data-plan-price="{{ t_plan }}" data-compare="{{ t_cmp }}" data-n="{{ cnt }}"{% if n == 3 %} checked{% endif %}{% unless t_ok %} disabled{% endunless %}>
               <img class="tier__img" src="{{ pimg | asset_url }}" alt="" width="60" height="60" loading="lazy">
               <span class="tier__b"><span class="tier__t">{{ tname }}</span><span class="tier__s">{{ cnt }} Carton{% if cnt > 1 %}s{% endif %}{% if saved > 0 %} · You save $<span data-saved>{{ saved }}</span>{% endif %}{% unless t_ok %} · Sold out{% endunless %}</span></span>
               <span class="tier__p"><strong><span data-unit>{{ unit | money }}</span><small>/carton</small></strong>{% if cmp_unit > unit %}<s>{{ cmp_unit | money }}</s>{% endif %}</span>
