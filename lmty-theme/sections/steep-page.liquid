@@ -110,13 +110,16 @@
         {%- assign base = p.selected_or_first_available_variant -%}
         {%- for var in p.variants -%}{%- assign bn = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if bn == 1 -%}{%- assign base = var -%}{%- endif -%}{%- endfor -%}
         {%- assign base_cmp = base.compare_at_price | default: base.price -%}
+        {%- assign default_n = 3 -%}{%- assign checked_done = false -%}
+        {%- assign has6 = false -%}{%- for var in p.variants -%}{%- assign vn6 = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if vn6 == 6 and var.available -%}{%- assign has6 = true -%}{%- endif -%}{%- endfor -%}
+        {%- unless has6 -%}{%- assign default_n = 1 -%}{%- endunless -%}
         <fieldset class="tiers" data-tiers>
           <legend class="sr">Choose your bundle</legend>
           {%- for n in (1..3) -%}
             {%- case n -%}
-              {%- when 1 -%}{%- assign cnt = 1 -%}{%- assign pay = 1 -%}{%- assign tname = 'Buy One' -%}{%- assign code = '' -%}{%- assign pimg = 'pack-1.jpg' -%}
-              {%- when 2 -%}{%- assign cnt = 3 -%}{%- assign pay = 2 -%}{%- assign tname = 'Buy 2 Get 1 FREE' -%}{%- assign code = section.settings.code_3 -%}{%- assign pimg = 'pack-3.jpg' -%}
-              {%- else -%}{%- assign cnt = 6 -%}{%- assign pay = 3 -%}{%- assign tname = 'Buy 3 Get 3 FREE' -%}{%- assign code = section.settings.code_6 -%}{%- assign pimg = 'pack-6.jpg' -%}
+              {%- when 1 -%}{%- assign cnt = 1 -%}{%- assign pay = 1 -%}{%- assign tname = 'Buy One' -%}{%- assign pimg = 'pack-1.jpg' -%}
+              {%- when 2 -%}{%- assign cnt = 3 -%}{%- assign pay = 2 -%}{%- assign tname = 'Buy 2 Get 1 FREE' -%}{%- assign pimg = 'pack-3.jpg' -%}
+              {%- else -%}{%- assign cnt = 6 -%}{%- assign pay = 3 -%}{%- assign tname = 'Buy 3 Get 3 FREE' -%}{%- assign pimg = 'pack-6.jpg' -%}
             {%- endcase -%}
             {%- assign tv = nil -%}
             {%- for var in p.variants -%}{%- assign vn2 = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if vn2 == cnt -%}{%- assign tv = var -%}{%- endif -%}{%- endfor -%}
@@ -124,17 +127,16 @@
               {%- assign t_id = tv.id -%}{%- assign t_qty = 1 -%}{%- assign t_price = tv.price -%}{%- assign t_cmp = tv.compare_at_price | default: tv.price -%}{%- assign t_code = '' -%}{%- assign t_ok = tv.available -%}
               {%- assign t_plan = tv.price -%}{%- if has_plans and tv.selling_plan_allocations.size > 0 -%}{%- assign t_plan = tv.selling_plan_allocations.first.price -%}{%- endif -%}
             {%- else -%}
-              {%- assign t_id = base.id -%}{%- assign t_qty = cnt -%}{%- assign t_price = base.price | times: pay -%}{%- if cnt == 3 -%}{%- assign t_price = section.settings.unit_3 | default: '13.99' | times: 100 | round | times: cnt -%}{%- elsif cnt == 6 -%}{%- assign t_price = section.settings.unit_6 | default: '10.99' | times: 100 | round | times: cnt -%}{%- endif -%}{%- assign t_cmp = base_cmp | times: cnt -%}{%- assign t_code = code -%}{%- assign t_ok = base.available -%}
-              {%- assign t_plan = t_price -%}
+              {%- assign t_id = base.id -%}{%- assign t_qty = 1 -%}{%- assign t_price = base.price | times: cnt -%}{%- assign t_cmp = base_cmp | times: cnt -%}{%- assign t_code = '' -%}{%- assign t_ok = false -%}{%- assign t_plan = t_price -%}
             {%- endif -%}
             {%- assign unit = t_price | divided_by: cnt -%}{%- assign cmp_unit = t_cmp | divided_by: cnt -%}
-            {%- assign saved = t_cmp | minus: t_price | divided_by: 100.0 | round -%}
+            {%- assign saved = t_cmp | minus: t_price -%}
           <label class="tier">
             {%- if n == 3 -%}<span class="tier__flag">Best value</span>{%- endif -%}
             <span class="tier__row">
-              <input type="radio" name="steep-tier" value="{{ t_id }}" data-qty="{{ t_qty }}" data-code="{{ t_code | escape }}" data-price="{{ t_price }}" data-plan-price="{{ t_plan }}" data-compare="{{ t_cmp }}" data-n="{{ cnt }}"{% if n == 3 %} checked{% endif %}{% unless t_ok %} disabled{% endunless %}>
+              <input type="radio" name="steep-tier" value="{{ t_id }}" data-qty="{{ t_qty }}" data-code="{{ t_code | escape }}" data-price="{{ t_price }}" data-plan-price="{{ t_plan }}" data-compare="{{ t_cmp }}" data-n="{{ cnt }}"{% if t_ok and checked_done != true %}{% if n == 3 or n == default_n %} checked{% assign checked_done = true %}{% endif %}{% endif %}{% unless t_ok %} disabled{% endunless %}>
               <img class="tier__img" src="{{ pimg | asset_url }}" alt="" width="60" height="60" loading="lazy">
-              <span class="tier__b"><span class="tier__t">{{ tname }}</span><span class="tier__s">{{ cnt }} Carton{% if cnt > 1 %}s{% endif %}{% if saved > 0 %} · You save $<span data-saved>{{ saved }}</span>{% endif %}{% unless t_ok %} · Sold out{% endunless %}</span></span>
+              <span class="tier__b"><span class="tier__t">{{ tname }}</span><span class="tier__s">{{ cnt }} Carton{% if cnt > 1 %}s{% endif %}{% if t_ok and saved > 0 %} · You save <span data-saved>{{ saved | money_without_trailing_zeros }}</span>{% endif %}{% unless t_ok %} · Not set up yet{% endunless %}</span></span>
               <span class="tier__p"><strong><span data-unit>{{ unit | money }}</span><small>/carton</small></strong>{% if cmp_unit > unit %}<s>{{ cmp_unit | money }}</s>{% endif %}</span>
             </span>
             {%- if n > 1 -%}
@@ -450,10 +452,6 @@
     {"type": "text", "id": "perk_2", "label": "Extra perk on the biggest bundle", "default": "Free Mystery Gift"},
     {"type": "text", "id": "perk_3", "label": "Second extra perk on the biggest bundle", "default": "Free Shipping Protection"},
     {"type": "text", "id": "sale_label", "label": "Label before SAVE % (e.g. Fall Sale)", "default": "Fall Sale"},
-    {"type": "text", "id": "unit_3", "label": "Buy 2 Get 1 price per carton", "default": "13.99", "info": "Only used when the product has no 3-carton variant. 3 x 13.99 = $41.97."},
-    {"type": "text", "id": "unit_6", "label": "Buy 3 Get 3 price per carton", "default": "10.99", "info": "Only used when the product has no 6-carton variant. 6 x 10.99 = $65.94."},
-    {"type": "text", "id": "code_3", "label": "Discount code for Buy 2 Get 1 FREE", "default": "BUY2GET1", "info": "Only used if the product has no 3-carton variant. Create it in Discounts as a fixed amount off: (3 x your 1-carton price) minus $41.97. At $20.99 that is $21.00 off, minimum quantity 3."},
-    {"type": "text", "id": "code_6", "label": "Discount code for Buy 3 Get 3 FREE", "default": "BUY3GET3", "info": "Only used if the product has no 6-carton variant. Create it in Discounts as a fixed amount off: (6 x your 1-carton price) minus $65.94. At $20.99 that is $60.00 off, minimum quantity 6."},
     {"type": "text", "id": "save_override", "label": "SAVE % shown when Buy 3 Get 3 FREE is selected", "default": "60", "info": "Other bundles always show their real saving. Leave blank to show the real saving here too."},
     {"type": "number", "id": "delivery_days", "label": "Business days to delivery (for the delivery date)", "default": 5},
     {"type": "header", "content": "Rating badge (real numbers only)"},

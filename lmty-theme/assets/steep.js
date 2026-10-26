@@ -97,7 +97,7 @@
       $$('input[name="steep-tier"], input[name="steep-variant"]', form).forEach(function (o) {
         var on2 = sub ? Number(o.dataset.planPrice) : Number(o.dataset.price), k = Number(o.dataset.n) || 1, card = o.closest('.tier');
         var u = $('[data-unit]', card); if (u) u.textContent = money(Math.round(on2 / k));
-        var sv = $('[data-saved]', card); if (sv) sv.textContent = Math.round((Number(o.dataset.compare) - on2) / 100);
+        var sv = $('[data-saved]', card); if (sv) sv.textContent = money(Number(o.dataset.compare) - on2).replace(/\.00$/, '');
       });
       if (planInput) planInput.value = sub ? planInput.dataset.planId : '';
       if (planNote) planNote.hidden = !sub;
@@ -122,11 +122,9 @@
       addBtn.disabled = true; addBtn.textContent = 'Adding…'; msg.textContent = '';
       var tier = $('input[name="steep-tier"]:checked', form);
       var body = { items: [{ id: Number(idInput.value), quantity: Number(tier ? tier.dataset.qty : 1) || 1 }] };
-      var code = tier ? tier.dataset.code : '';
       if (planInput && planInput.value) body.items[0].selling_plan = Number(planInput.value);
       fetch(root + 'cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) })
         .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw j; return j; }); })
-        .then(function () { return code ? fetch(root + 'discount/' + encodeURIComponent(code) + '?redirect=' + encodeURIComponent(root + 'cart.js')).catch(function () {}) : null; })
         .then(function () { return refreshCart(); })
         .then(function () { setCart(true); })
         .catch(function (err) { msg.textContent = (err && (err.description || err.message)) || 'Could not add to cart. Please try again.'; })

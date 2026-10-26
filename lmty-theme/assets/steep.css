@@ -587,3 +587,4 @@ html,body{overflow-x:clip}
 .trust svg{width:15px;height:15px}
 @media (max-width:600px){.feats{grid-template-columns:1fr 1fr;font-size:.8rem}}
 .atc__main{font-size:1.15rem}
+.tier:has(input:disabled){opacity:.5;cursor:not-allowed}
