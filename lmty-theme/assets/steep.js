@@ -93,7 +93,7 @@
       setText('[data-hero-unit]', money(Math.round(price / n)));
       var was = $('[data-hero-was]'), pill = $('[data-hero-pill]'), on = cmp > price;
       if (was) { was.hidden = !on; was.textContent = money(Math.round(cmp / n)); }
-      if (pill) { pill.hidden = !on; pill.textContent = 'Save ' + Math.floor((cmp - price) * 100 / cmp) + '%'; }
+      if (pill) { pill.hidden = !on; pill.textContent = pill.textContent.split(' - ')[0] + ' - SAVE ' + Math.floor((cmp - price) * 100 / cmp) + '%'; }
       $$('input[name="steep-variant"]', form).forEach(function (o) {
         var on2 = sub ? Number(o.dataset.planPrice) : Number(o.dataset.price), k = Number(o.dataset.n) || 1, card = o.closest('.tier');
         var u = $('[data-unit]', card); if (u) u.textContent = money(Math.round(on2 / k));

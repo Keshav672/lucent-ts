@@ -60,7 +60,6 @@
         {%- endif -%}
           <img src="{{ 'lmty-iced.jpg' | asset_url }}" alt="LMTY poured over ice with orange, mint and honey" width="1024" height="1024" data-slide hidden loading="lazy">
           <img src="{{ 'lmty-nutrition.jpg' | asset_url }}" alt="Nutrition Facts: about 5 servings, 85 calories, 19g added sugars per serving. Ingredients: green tea infusion (water, green tea, lemon verbena, spearmint, lemongrass), honey, cane sugar, citric acid, natural flavor." width="1024" height="1024" data-slide hidden loading="lazy">
-          <img src="{{ 'gif-glass.gif' | asset_url }}" alt="A warm glass of honey citrus mint tea" width="300" height="400" data-slide hidden loading="lazy">
         <button type="button" class="gal__nav gal__nav--p" aria-label="Previous image" data-prev>&lsaquo;</button>
         <button type="button" class="gal__nav gal__nav--n" aria-label="Next image" data-next>&rsaquo;</button>
       </div>
@@ -75,7 +74,6 @@
           {%- endif -%}
           <button type="button" aria-label="Show iced drink photo"><img src="{{ 'lmty-iced.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
           <button type="button" aria-label="Show nutrition facts"><img src="{{ 'lmty-nutrition.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
-          <button type="button" aria-label="Show warm glass"><img src="{{ 'gif-glass.gif' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
       </div>
     </div>
 
@@ -92,17 +90,18 @@
       <p class="buy__rating">{{ reviews_n }}+ cartons sold</p>
       {%- if section.settings.show_hero -%}<h2 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</h2>{%- else -%}<h1 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</h1>{%- endif -%}
       <p class="buy__sub">Green tea, honey, citrus, mint and a hint of peach. Mix with an equal amount of water for a cozy café-style cup, warm or iced.</p>
-      <ul class="ticks">
-        <li>Tastes just as good as the café version</li>
-        <li>About 5 café-size servings per carton</li>
-        <li>Drink it hot or iced</li>
+      <ul class="feats">
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/></svg>Café-Style Honey Citrus Mint</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10l-1.5 16h-7z"/><path d="M8 9h8"/></svg>Hot Or Iced, Same Carton</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Ready In About 2 Minutes</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>Damage-Free Delivery Guarantee</li>
       </ul>
       {%- assign vn = v.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if vn < 1 -%}{%- assign vn = 1 -%}{%- endif -%}
       {%- assign vcmp = v.compare_at_price | default: v.price -%}
       <div class="pricerow">
         <span class="pricerow__now"><span data-hero-unit>{{ v.price | divided_by: vn | money }}</span><small>/carton</small></span>
         <s class="pricerow__was" data-hero-was{% unless vcmp > v.price %} hidden{% endunless %}>{{ vcmp | divided_by: vn | money }}</s>
-        <span class="pill" data-hero-pill{% unless vcmp > v.price %} hidden{% endunless %}>Save {{ vcmp | minus: v.price | times: 100 | divided_by: vcmp | floor }}%</span>
+        <span class="pill" data-hero-pill{% unless vcmp > v.price %} hidden{% endunless %}>{{ section.settings.sale_label | default: 'Sale' | upcase }} - SAVE {{ vcmp | minus: v.price | times: 100 | divided_by: vcmp | floor }}%</span>
       </div>
 
       {%- form 'product', p, data-buy-form: '', novalidate: 'novalidate' -%}
@@ -170,9 +169,10 @@
       {%- endform -%}
 
       <ul class="trust">
-        <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/></svg>Secure checkout</li>
-        <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12l4 4 10-10"/></svg>30-day returns</li>
-        <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/></svg>Free US shipping</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/></svg>Damage Guarantee</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18c6 0 12-5 12-13-8 0-12 5-12 13zM6 18l6-6"/></svg>Real Green Tea</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4v3h6V4M9 12h6M9 16h4"/></svg>Real Honey</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/></svg>Ships From US</li>
       </ul>
 
       <details class="acc" open><summary>How to make it</summary><div class="acc__b"><p>Hot: ¾ cup concentrate plus ¾ cup water in a mug, microwave 60 to 90 seconds, stir.</p><p>Iced: pour over ice, top with cold water or lemonade.</p></div></details>
@@ -453,6 +453,7 @@
     {"type": "text", "id": "perk_1", "label": "Perk on every bundle above 1 carton", "default": "Free Express Shipping"},
     {"type": "text", "id": "perk_2", "label": "Extra perk on the biggest bundle", "default": "Free Mystery Gift"},
     {"type": "text", "id": "perk_3", "label": "Second extra perk on the biggest bundle", "default": "Free Shipping Protection"},
+    {"type": "text", "id": "sale_label", "label": "Label before SAVE % (e.g. Fall Sale)", "default": "Fall Sale"},
     {"type": "number", "id": "delivery_days", "label": "Business days to delivery (for the delivery date)", "default": 5},
     {"type": "header", "content": "Rating badge (real numbers only)"},
     {"type": "text", "id": "rating_value", "label": "Average rating (e.g. 4.8)", "info": "Copy from your review app or TikTok Shop. Leave blank to hide."},
