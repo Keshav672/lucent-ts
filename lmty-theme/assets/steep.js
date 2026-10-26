@@ -124,9 +124,11 @@
       addBtn.disabled = true; addBtn.textContent = 'Adding…'; msg.textContent = '';
       var tier = $('input[name="steep-tier"]:checked', form);
       var body = { items: [{ id: Number(idInput.value), quantity: Number(tier ? tier.dataset.qty : 1) || 1 }] };
+      var code = tier ? tier.dataset.code : '';
       if (planInput && planInput.value) body.items[0].selling_plan = Number(planInput.value);
       fetch(root + 'cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) })
         .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw j; return j; }); })
+        .then(function () { return code ? fetch(root + 'discount/' + encodeURIComponent(code) + '?redirect=' + encodeURIComponent(root + 'cart.js')).catch(function () {}) : null; })
         .then(function () { return refreshCart(); })
         .then(function () { setCart(true); })
         .catch(function (err) { msg.textContent = (err && (err.description || err.message)) || 'Could not add to cart. Please try again.'; })
