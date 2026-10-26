@@ -215,3 +215,4 @@
 
   refreshCart();
 })();
+try { if (/lmty-debug=1/.test(location.search)) document.querySelectorAll('[data-lmty-debug]').forEach(function (d) { d.hidden = false; }); } catch (e) {}

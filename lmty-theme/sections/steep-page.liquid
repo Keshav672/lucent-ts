@@ -165,6 +165,15 @@
           </label>
           {%- endfor -%}
         </fieldset>
+        <div class="lmty-debug" data-lmty-debug hidden>
+          <strong>Bundle diagnostics (only visible with ?lmty-debug=1)</strong>
+          <p>Product options in Shopify:</p>
+          <ul>{%- for var in p.variants -%}<li>"{{ var.title }}": {{ var.price | money }}{% unless var.available %} (unavailable){% endunless %}</li>{%- endfor -%}</ul>
+          <p>Buy One uses: "{{ base.title }}" at {{ base.price | money }}</p>
+          {%- assign need3 = base.price | times: 3 | minus: 4197 -%}{%- assign need6 = base.price | times: 6 | minus: 6594 -%}
+          <p>If there is no 3-carton option, code <b>{{ section.settings.code_3 }}</b> must be a fixed amount of <b>{{ need3 | money }}</b> off, minimum quantity 3 (3 x {{ base.price | money }} = {{ base.price | times: 3 | money }} &rarr; $41.97).</p>
+          <p>If there is no 6-carton option, code <b>{{ section.settings.code_6 }}</b> must be a fixed amount of <b>{{ need6 | money }}</b> off, minimum quantity 6 (6 x {{ base.price | money }} = {{ base.price | times: 6 | money }} &rarr; $65.94).</p>
+        </div>
 
         {%- if has_plans -%}
         {%- assign plan = p.selling_plan_groups.first.selling_plans.first -%}
