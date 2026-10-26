@@ -131,6 +131,13 @@
                 {%- assign digits = var.title | replace: '-', ' ' | replace: 'x', ' ' | split: ' ' -%}
                 {%- for d in digits -%}{%- assign dn = d | plus: 0 -%}{%- if dn == cnt and found == false -%}{%- assign found = true -%}{%- assign tvar = var -%}{%- endif -%}{%- endfor -%}
               {%- endfor -%}
+              {%- comment -%} "Buy 2 Get 1" may be set up as a variant named "2 Pack" {%- endcomment -%}
+              {%- if found == false and cnt == 3 -%}
+                {%- for var in p.variants -%}
+                  {%- assign digits = var.title | replace: '-', ' ' | replace: 'x', ' ' | split: ' ' -%}
+                  {%- for d in digits -%}{%- assign dn = d | plus: 0 -%}{%- if dn == 2 and found == false -%}{%- assign found = true -%}{%- assign tvar = var -%}{%- endif -%}{%- endfor -%}
+                {%- endfor -%}
+              {%- endif -%}
             {%- endif -%}
             {%- if found -%}
               {%- assign t_id = tvar.id -%}{%- assign t_price = tvar.price -%}{%- assign t_cmp = tvar.compare_at_price | default: tvar.price -%}{%- assign t_ok = tvar.available -%}
