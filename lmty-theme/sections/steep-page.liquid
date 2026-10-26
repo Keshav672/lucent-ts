@@ -136,10 +136,10 @@
               {%- assign t_id = tvar.id -%}{%- assign t_price = tvar.price -%}{%- assign t_cmp = tvar.compare_at_price | default: tvar.price -%}{%- assign t_ok = tvar.available -%}
               {%- assign t_plan = tvar.price -%}{%- if has_plans and tvar.selling_plan_allocations.size > 0 -%}{%- assign t_plan = tvar.selling_plan_allocations.first.price -%}{%- endif -%}
             {%- else -%}
-              {%- assign t_id = base.id -%}{%- assign t_price = base.price | times: cnt -%}{%- assign t_cmp = base_cmp | times: cnt -%}{%- assign t_ok = false -%}{%- assign t_plan = t_price -%}
+              {%- assign t_id = base.id -%}{%- assign t_price = base.price | times: cnt -%}{%- assign t_cmp = base_cmp | times: cnt -%}{%- assign t_ok = base.available -%}{%- assign t_plan = t_price -%}
             {%- endif -%}
             {%- if t_ok -%}{%- assign checked_n = n -%}{%- endif -%}
-            {%- assign t_qty = 1 -%}
+            {%- if found -%}{%- assign t_qty = 1 -%}{%- else -%}{%- assign t_qty = cnt -%}{%- endif -%}
             {%- assign unit = t_price | divided_by: cnt -%}{%- assign cmp_unit = t_cmp | divided_by: cnt -%}
             {%- assign saved = t_cmp | minus: t_price -%}
           <label class="tier">
@@ -147,7 +147,7 @@
             <span class="tier__row">
               <input type="radio" name="steep-tier" value="{{ t_id }}" data-qty="{{ t_qty }}" data-code="{{ t_code | escape }}" data-price="{{ t_price }}" data-plan-price="{{ t_plan }}" data-compare="{{ t_cmp }}" data-n="{{ cnt }}"{% unless t_ok %} disabled{% endunless %}>
               <img class="tier__img" src="{{ pimg | asset_url }}" alt="" width="60" height="60" loading="lazy">
-              <span class="tier__b"><span class="tier__t">{{ tname }}</span><span class="tier__s">{{ cnt }} Carton{% if cnt > 1 %}s{% endif %}{% if t_ok and saved > 0 %} · You save <span data-saved>{{ saved | money_without_trailing_zeros }}</span>{% endif %}{% unless t_ok %}{% if found %} · Sold out{% else %} · Not set up yet{% endif %}{% endunless %}</span></span>
+              <span class="tier__b"><span class="tier__t">{{ tname }}</span><span class="tier__s">{{ cnt }} Carton{% if cnt > 1 %}s{% endif %}{% if t_ok and saved > 0 %} · You save <span data-saved>{{ saved | money_without_trailing_zeros }}</span>{% endif %}{% unless t_ok %} · Sold out{% endunless %}</span></span>
               <span class="tier__p"><strong><span data-unit>{{ unit | money }}</span><small>/carton</small></strong>{% if cmp_unit > unit %}<s>{{ cmp_unit | money }}</s>{% endif %}</span>
             </span>
             {%- if n > 1 -%}
