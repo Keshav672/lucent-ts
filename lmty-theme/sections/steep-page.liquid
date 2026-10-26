@@ -198,7 +198,7 @@
         <input type="hidden" name="quantity" value="1" data-qty-input>
         <button type="submit" class="btn btn--block atc" data-add{% unless v.available %} disabled{% endunless %}>
           {%- if v.available -%}
-          <span class="atc__main">Add to cart</span>
+          <span class="atc__main">Add to cart <i aria-hidden="true">|</i> <span data-atc-total>{{ v.price | money }}</span></span>
           <span class="atc__sub"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/></svg>Free replacement if it arrives damaged</span>
           {%- else -%}Sold out{%- endif -%}
         </button>
