@@ -13,7 +13,7 @@
   <div class="wrap">
     <div class="home__card">
       <h1 class="home__h">{{ section.settings.heading | default: 'Café-style comfort. Made at home.' }}</h1>
-      <p class="home__sub">{{ section.settings.sub | default: 'Honey, citrus and mint green tea in about 2 minutes. Free shipping on every order.' }}</p>
+      <p class="home__sub">{{ section.settings.sub | default: 'Honey, citrus and mint green tea in about 2 minutes. Free shipping on orders $40+.' }}</p>
       <a href="{{ p_url }}" class="btn btn--lg">{{ section.settings.cta | default: 'Shop now' }}</a>
     </div>
   </div>
@@ -24,7 +24,7 @@
     <div class="proof__i"><div class="proof__n">1,000+</div><div class="proof__l">cartons sold</div></div>
     <div class="proof__i"><div class="proof__n">~5</div><div class="proof__l">servings per carton</div></div>
     <div class="proof__i"><div class="proof__n">2 min</div><div class="proof__l">carton to mug</div></div>
-    <div class="proof__i"><div class="proof__n">$0</div><div class="proof__l">shipping, every order</div></div>
+    <div class="proof__i"><div class="proof__n">$40+</div><div class="proof__l">ships free</div></div>
   </div>
 </div>
 
@@ -66,7 +66,7 @@
 <section class="sec sec--green final">
   <div class="wrap">
     <h2 class="sec__h">Skip the line. Keep the cozy.</h2>
-    <p>About 5 servings per carton, free shipping on every order.</p>
+    <p>About 5 servings per carton, free shipping on orders $40+.</p>
     <a href="{{ p_url }}" class="btn btn--lg btn--light">Shop LMTY</a>
   </div>
 </section>
@@ -77,7 +77,7 @@
     {"type": "image_picker", "id": "image", "label": "Hero image"},
     {"type": "product", "id": "product", "label": "Shop Now goes to"},
     {"type": "text", "id": "heading", "label": "Heading", "default": "Café-style comfort. Made at home."},
-    {"type": "text", "id": "sub", "label": "Subheading", "default": "Honey, citrus and mint green tea in about 2 minutes. Free shipping on every order."},
+    {"type": "text", "id": "sub", "label": "Subheading", "default": "Honey, citrus and mint green tea in about 2 minutes. Free shipping on orders $40+."},
     {"type": "text", "id": "cta", "label": "Button", "default": "Shop now"}
   ],
   "presets": [{"name": "Home offer"}]

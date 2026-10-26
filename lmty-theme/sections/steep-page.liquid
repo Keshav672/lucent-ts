@@ -25,7 +25,7 @@
         <a href="#buy" class="btn btn--lg btn--light">Add to cart · {{ v.price | money }}</a>
         <a href="#buy" class="btn btn--lg btn--outline">Choose your pack</a>
       </div>
-      <p class="hero__note">Free shipping on every order · Ships from the US</p>
+      <p class="hero__note">Free shipping on orders $40+ · Ships from the US</p>
     </div>
     <div class="hero__media hero__media--img">
       {%- if section.settings.hero_image != blank -%}
@@ -41,7 +41,7 @@
     <div class="proof__i"><div class="proof__n">1,000+</div><div class="proof__l">cartons sold this season</div></div>
     <div class="proof__i"><div class="proof__n">32 oz</div><div class="proof__l">concentrate per carton</div></div>
     <div class="proof__i"><div class="proof__n">2 min</div><div class="proof__l">from carton to mug</div></div>
-    <div class="proof__i"><div class="proof__n">$0</div><div class="proof__l">shipping, every order</div></div>
+    <div class="proof__i"><div class="proof__n">$40+</div><div class="proof__l">ships free</div></div>
   </div>
 </div>
 {%- endif -%}
@@ -182,7 +182,7 @@
       <details class="acc" open><summary>How to make it</summary><div class="acc__b"><p>Hot: ¾ cup concentrate plus ¾ cup water in a mug, microwave 60 to 90 seconds, stir.</p><p>Iced: pour over ice, top with cold water or lemonade.</p></div></details>
       <details class="acc"><summary>Ingredients</summary><div class="acc__b"><p>Green tea, lemon verbena, spearmint, lemongrass, honey, cane sugar, citric acid and natural flavors. Contains caffeine from green tea. Check the carton for the current full ingredient list.</p></div></details>
       <details class="acc"><summary>Size &amp; nutrition</summary><div class="acc__b"><p>32 fl oz (946 mL) carton, about 5 servings. One serving is ¾ cup concentrate mixed with ¾ cup water. Full Nutrition Facts are below.</p></div></details>
-      <details class="acc"><summary>Shipping &amp; returns</summary><div class="acc__b"><p>Free shipping on every order. Unopened cartons can be returned within 30 days of delivery.</p></div></details>
+      <details class="acc"><summary>Shipping &amp; returns</summary><div class="acc__b"><p>Free shipping on orders $40+. Unopened cartons can be returned within 30 days of delivery.</p></div></details>
     </div>
   </div>
 </section>
@@ -292,7 +292,7 @@
   <div class="wrap">
     <div class="guar">
       <div><h2 class="sec__h">Try a carton. If it arrives damaged, it's on us.</h2><p>Unopened cartons can be returned within 30 days. Damaged in transit? Email us a photo and we'll send a replacement.</p></div>
-      <div class="guar__cta"><a href="#buy" class="btn btn--lg">Add to cart · {{ v.price | money }}</a><small>Free shipping on every order</small></div>
+      <div class="guar__cta"><a href="#buy" class="btn btn--lg">Add to cart · {{ v.price | money }}</a><small>Free shipping on orders $40+</small></div>
     </div>
   </div>
 </section>
@@ -428,7 +428,7 @@
       <details class="acc"><summary>Does it have caffeine?</summary><div class="acc__b"><p>Yes, a little, from the green tea. Less than a cup of coffee.</p></div></details>
       <details class="acc"><summary>How do I store it?</summary><div class="acc__b"><p>Unopened cartons keep in the pantry. Once open, keep it in the fridge and follow the storage note on the carton.</p></div></details>
       <details class="acc"><summary>Can I drink it iced?</summary><div class="acc__b"><p>Absolutely. Pour over ice and top with cold water or lemonade.</p></div></details>
-      <details class="acc"><summary>How long does shipping take?</summary><div class="acc__b"><p>Orders ship from a US warehouse within 1 to 2 business days and usually arrive in 3 to 5. Shipping is free.</p></div></details>
+      <details class="acc"><summary>How long does shipping take?</summary><div class="acc__b"><p>Orders ship from a US warehouse within 1 to 2 business days and usually arrive in 3 to 5. Shipping is free on orders $40 and up.</p></div></details>
     </div>
   </div>
 </section>
@@ -436,7 +436,7 @@
 <div class="sticky" data-sticky aria-hidden="true">
   <div class="wrap sticky__in">
     {%- if own and p.featured_image -%}<img src="{{ p.featured_image | image_url: width: 120 }}" alt="" width="48" height="48">{%- endif -%}
-    <div><div class="sticky__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</div><div class="sticky__p"><span data-price-label>{{ v.price | money }}</span> · Free shipping</div></div>
+    <div><div class="sticky__t">{% if own %}{{ p.title }}{% else %}LMTY Honey Citrus Mint Ball{% endif %}</div><div class="sticky__p"><span data-price-label>{{ v.price | money }}</span> · Free shipping $40+</div></div>
     <button type="button" class="btn" data-sticky-add tabindex="-1"{% unless v.available %} disabled{% endunless %}>Add to cart</button>
   </div>
 </div>
