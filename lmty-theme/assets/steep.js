@@ -83,26 +83,27 @@
     var planToggle = $('[data-plan-toggle]', form), planInput = $('[data-plan-input]', form), planNote = $('[data-plan-note]', form);
     function setText(sel, txt) { $$(sel).forEach(function (n) { n.textContent = txt; }); }
     function syncTier() {
-      var r = $('input[name="steep-variant"]:checked', form);
+      var r = $('input[name="steep-tier"]:checked', form) || $('input[name="steep-variant"]:checked', form);
       if (!r) return;
       var sub = planToggle && planToggle.checked;
       var n = Number(r.dataset.n) || 1, price = Number(sub ? r.dataset.planPrice : r.dataset.price), cmp = Number(r.dataset.compare);
       idInput.value = r.value;
+      var qIn = $('[data-qty-input]', form); if (qIn) qIn.value = r.dataset.qty || 1;
       setText('[data-price-label]', money(price));
       setText('[data-atc-unit]', money(Math.round(price / n)));
       setText('[data-hero-unit]', money(Math.round(price / n)));
       var was = $('[data-hero-was]'), pill = $('[data-hero-pill]'), on = cmp > price;
       if (was) { was.hidden = !on; was.textContent = money(Math.round(cmp / n)); }
       if (pill) { pill.hidden = !on; pill.textContent = pill.textContent.split(' - ')[0] + ' - SAVE ' + Math.floor((cmp - price) * 100 / cmp) + '%'; }
-      $$('input[name="steep-variant"]', form).forEach(function (o) {
+      $$('input[name="steep-tier"], input[name="steep-variant"]', form).forEach(function (o) {
         var on2 = sub ? Number(o.dataset.planPrice) : Number(o.dataset.price), k = Number(o.dataset.n) || 1, card = o.closest('.tier');
         var u = $('[data-unit]', card); if (u) u.textContent = money(Math.round(on2 / k));
-        var sv = $('[data-saved]', card); if (sv) sv.textContent = money(Number(o.dataset.compare) - on2).replace(/\.00$/, '');
+        var sv = $('[data-saved]', card); if (sv) sv.textContent = Math.round((Number(o.dataset.compare) - on2) / 100);
       });
       if (planInput) planInput.value = sub ? planInput.dataset.planId : '';
       if (planNote) planNote.hidden = !sub;
     }
-    $$('input[name="steep-variant"]', form).forEach(function (r) { r.addEventListener('change', syncTier); });
+    $$('input[name="steep-tier"], input[name="steep-variant"]', form).forEach(function (r) { r.addEventListener('change', syncTier); });
     if (planToggle) planToggle.addEventListener('change', syncTier);
     syncTier();
 
@@ -120,10 +121,13 @@
       if (addBtn.disabled) return;
       var label = addBtn.innerHTML;
       addBtn.disabled = true; addBtn.textContent = 'Adding…'; msg.textContent = '';
-      var body = { items: [{ id: Number(idInput.value), quantity: 1 }] };
+      var tier = $('input[name="steep-tier"]:checked', form);
+      var body = { items: [{ id: Number(idInput.value), quantity: Number(tier ? tier.dataset.qty : 1) || 1 }] };
+      var code = tier ? tier.dataset.code : '';
       if (planInput && planInput.value) body.items[0].selling_plan = Number(planInput.value);
       fetch(root + 'cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) })
         .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw j; return j; }); })
+        .then(function () { return code ? fetch(root + 'discount/' + encodeURIComponent(code) + '?redirect=' + encodeURIComponent(root + 'cart.js')).catch(function () {}) : null; })
         .then(function () { return refreshCart(); })
         .then(function () { setCart(true); })
         .catch(function (err) { msg.textContent = (err && (err.description || err.message)) || 'Could not add to cart. Please try again.'; })
