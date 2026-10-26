@@ -106,37 +106,48 @@
 
       {%- form 'product', p, data-buy-form: '', novalidate: 'novalidate' -%}
         <input type="hidden" name="id" value="{{ v.id }}" data-variant-id>
-        {%- comment -%} Three fixed Pinemoor tiers. A tier uses a matching 3/6-carton variant when the product has one; otherwise it adds that many single cartons and the tier's discount code prices it at checkout. {%- endcomment -%}
-        {%- assign base = p.selected_or_first_available_variant -%}
-        {%- for var in p.variants -%}{%- assign bn = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if bn == 1 -%}{%- assign base = var -%}{%- endif -%}{%- endfor -%}
+        {%- comment -%} Three fixed Pinemoor tiers. Each tier is the product variant whose title holds its carton count (1 / 3 / 6). Buy One falls back to the cheapest variant so it is always buyable. {%- endcomment -%}
+        {%- assign base = p.variants.first -%}{%- assign base_found = false -%}
+        {%- for var in p.variants -%}
+          {%- assign digits = var.title | replace: '-', ' ' | replace: 'x', ' ' | split: ' ' -%}
+          {%- for d in digits -%}{%- assign dn = d | plus: 0 -%}{%- if dn == 1 and base_found == false -%}{%- assign base = var -%}{%- assign base_found = true -%}{%- endif -%}{%- endfor -%}
+        {%- endfor -%}
+        {%- unless base_found -%}{%- for var in p.variants -%}{%- if var.price < base.price -%}{%- assign base = var -%}{%- endif -%}{%- endfor -%}{%- endunless -%}
         {%- assign base_cmp = base.compare_at_price | default: base.price -%}
-        {%- assign default_n = 3 -%}{%- assign checked_done = false -%}
-        {%- assign has6 = false -%}{%- for var in p.variants -%}{%- assign vn6 = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if vn6 == 6 and var.available -%}{%- assign has6 = true -%}{%- endif -%}{%- endfor -%}
-        {%- unless has6 -%}{%- assign default_n = 1 -%}{%- endunless -%}
+        {%- assign checked_n = 1 -%}
         <fieldset class="tiers" data-tiers>
           <legend class="sr">Choose your bundle</legend>
           {%- for n in (1..3) -%}
             {%- case n -%}
-              {%- when 1 -%}{%- assign cnt = 1 -%}{%- assign pay = 1 -%}{%- assign tname = 'Buy One' -%}{%- assign pimg = 'pack-1.jpg' -%}
-              {%- when 2 -%}{%- assign cnt = 3 -%}{%- assign pay = 2 -%}{%- assign tname = 'Buy 2 Get 1 FREE' -%}{%- assign pimg = 'pack-3.jpg' -%}
-              {%- else -%}{%- assign cnt = 6 -%}{%- assign pay = 3 -%}{%- assign tname = 'Buy 3 Get 3 FREE' -%}{%- assign pimg = 'pack-6.jpg' -%}
+              {%- when 1 -%}{%- assign cnt = 1 -%}{%- assign tname = 'Buy One' -%}{%- assign pimg = 'pack-1.jpg' -%}
+              {%- when 2 -%}{%- assign cnt = 3 -%}{%- assign tname = 'Buy 2 Get 1 FREE' -%}{%- assign pimg = 'pack-3.jpg' -%}
+              {%- else -%}{%- assign cnt = 6 -%}{%- assign tname = 'Buy 3 Get 3 FREE' -%}{%- assign pimg = 'pack-6.jpg' -%}
             {%- endcase -%}
-            {%- assign tv = nil -%}
-            {%- for var in p.variants -%}{%- assign vn2 = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if vn2 == cnt -%}{%- assign tv = var -%}{%- endif -%}{%- endfor -%}
-            {%- if tv -%}
-              {%- assign t_id = tv.id -%}{%- assign t_qty = 1 -%}{%- assign t_price = tv.price -%}{%- assign t_cmp = tv.compare_at_price | default: tv.price -%}{%- assign t_code = '' -%}{%- assign t_ok = tv.available -%}
-              {%- assign t_plan = tv.price -%}{%- if has_plans and tv.selling_plan_allocations.size > 0 -%}{%- assign t_plan = tv.selling_plan_allocations.first.price -%}{%- endif -%}
+            {%- assign found = false -%}
+            {%- if n == 1 -%}
+              {%- assign found = true -%}{%- assign tvar = base -%}
             {%- else -%}
-              {%- assign t_id = base.id -%}{%- assign t_qty = 1 -%}{%- assign t_price = base.price | times: cnt -%}{%- assign t_cmp = base_cmp | times: cnt -%}{%- assign t_code = '' -%}{%- assign t_ok = false -%}{%- assign t_plan = t_price -%}
+              {%- for var in p.variants -%}
+                {%- assign digits = var.title | replace: '-', ' ' | replace: 'x', ' ' | split: ' ' -%}
+                {%- for d in digits -%}{%- assign dn = d | plus: 0 -%}{%- if dn == cnt and found == false -%}{%- assign found = true -%}{%- assign tvar = var -%}{%- endif -%}{%- endfor -%}
+              {%- endfor -%}
             {%- endif -%}
+            {%- if found -%}
+              {%- assign t_id = tvar.id -%}{%- assign t_price = tvar.price -%}{%- assign t_cmp = tvar.compare_at_price | default: tvar.price -%}{%- assign t_ok = tvar.available -%}
+              {%- assign t_plan = tvar.price -%}{%- if has_plans and tvar.selling_plan_allocations.size > 0 -%}{%- assign t_plan = tvar.selling_plan_allocations.first.price -%}{%- endif -%}
+            {%- else -%}
+              {%- assign t_id = base.id -%}{%- assign t_price = base.price | times: cnt -%}{%- assign t_cmp = base_cmp | times: cnt -%}{%- assign t_ok = false -%}{%- assign t_plan = t_price -%}
+            {%- endif -%}
+            {%- if t_ok -%}{%- assign checked_n = n -%}{%- endif -%}
+            {%- assign t_qty = 1 -%}
             {%- assign unit = t_price | divided_by: cnt -%}{%- assign cmp_unit = t_cmp | divided_by: cnt -%}
             {%- assign saved = t_cmp | minus: t_price -%}
           <label class="tier">
             {%- if n == 3 -%}<span class="tier__flag">Best value</span>{%- endif -%}
             <span class="tier__row">
-              <input type="radio" name="steep-tier" value="{{ t_id }}" data-qty="{{ t_qty }}" data-code="{{ t_code | escape }}" data-price="{{ t_price }}" data-plan-price="{{ t_plan }}" data-compare="{{ t_cmp }}" data-n="{{ cnt }}"{% if t_ok and checked_done != true %}{% if n == 3 or n == default_n %} checked{% assign checked_done = true %}{% endif %}{% endif %}{% unless t_ok %} disabled{% endunless %}>
+              <input type="radio" name="steep-tier" value="{{ t_id }}" data-qty="{{ t_qty }}" data-code="{{ t_code | escape }}" data-price="{{ t_price }}" data-plan-price="{{ t_plan }}" data-compare="{{ t_cmp }}" data-n="{{ cnt }}"{% unless t_ok %} disabled{% endunless %}>
               <img class="tier__img" src="{{ pimg | asset_url }}" alt="" width="60" height="60" loading="lazy">
-              <span class="tier__b"><span class="tier__t">{{ tname }}</span><span class="tier__s">{{ cnt }} Carton{% if cnt > 1 %}s{% endif %}{% if t_ok and saved > 0 %} · You save <span data-saved>{{ saved | money_without_trailing_zeros }}</span>{% endif %}{% unless t_ok %} · Not set up yet{% endunless %}</span></span>
+              <span class="tier__b"><span class="tier__t">{{ tname }}</span><span class="tier__s">{{ cnt }} Carton{% if cnt > 1 %}s{% endif %}{% if t_ok and saved > 0 %} · You save <span data-saved>{{ saved | money_without_trailing_zeros }}</span>{% endif %}{% unless t_ok %}{% if found %} · Sold out{% else %} · Not set up yet{% endif %}{% endunless %}</span></span>
               <span class="tier__p"><strong><span data-unit>{{ unit | money }}</span><small>/carton</small></strong>{% if cmp_unit > unit %}<s>{{ cmp_unit | money }}</s>{% endif %}</span>
             </span>
             {%- if n > 1 -%}

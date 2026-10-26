@@ -102,6 +102,8 @@
       if (planInput) planInput.value = sub ? planInput.dataset.planId : '';
       if (planNote) planNote.hidden = !sub;
     }
+    var tierInputs = $$('input[name="steep-tier"]:not(:disabled)', form);
+    if (tierInputs.length && !$('input[name="steep-tier"]:checked', form)) tierInputs[tierInputs.length - 1].checked = true;
     $$('input[name="steep-tier"], input[name="steep-variant"]', form).forEach(function (r) { r.addEventListener('change', syncTier); });
     if (planToggle) planToggle.addEventListener('change', syncTier);
     syncTier();
