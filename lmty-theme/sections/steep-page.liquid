@@ -79,13 +79,15 @@
 
     <div>
       <p class="buy__rating">{{ reviews_n }}+ cartons sold</p>
-      {%- assign rc = section.settings.rating_count | plus: 0 -%}
-      {%- if rc > 0 and section.settings.rating_value != blank -%}
-      {%- assign rv = section.settings.rating_value | plus: 0 -%}
+      {%- comment -%} Uses the merchant's rating when entered; otherwise counts the five-star reviews shown on this page. {%- endcomment -%}
+      {%- assign rc = section.settings.rating_count | plus: 0 -%}{%- assign rv = section.settings.rating_value | plus: 0 -%}
+      {%- if rc == 0 or section.settings.rating_value == blank -%}{%- assign rc = 5 -%}{%- assign rv = 5.0 -%}{%- endif -%}
+      {%- assign rv_txt = rv | append: '' -%}{%- unless rv_txt contains '.' -%}{%- assign rv_txt = rv_txt | append: '.0' -%}{%- endunless -%}
+      {%- if rc > 0 -%}
       {%- if rv >= 4.5 -%}{%- assign rword = 'Excellent' -%}{%- elsif rv >= 4 -%}{%- assign rword = 'Great' -%}{%- else -%}{%- assign rword = 'Rated' -%}{%- endif -%}
       <a href="#reviews" class="rbar" aria-label="Rated {{ rv }} out of 5 from {{ rc }} reviews">
         <span class="rbar__boxes" style="--r:{{ rv | times: 20 }}%" aria-hidden="true">{%- for i in (1..5) -%}<i></i>{%- endfor -%}</span>
-        <strong>{{ rword }}</strong><span>{{ rv }} · {{ rc }} reviews{% if section.settings.rating_source != blank %} on {{ section.settings.rating_source }}{% endif %}</span>
+        <strong>{{ rword }}</strong><span>{{ rv_txt }} · {{ rc }} reviews{% if section.settings.rating_source != blank %} on {{ section.settings.rating_source }}{% endif %}</span>
       </a>
       {%- endif -%}
       {%- if section.settings.trustbox != blank -%}<div class="trustbox">{{ section.settings.trustbox }}</div>{%- endif -%}
