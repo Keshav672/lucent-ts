@@ -11,7 +11,7 @@
 <header class="head" data-head>
   <div class="wrap head__in">
     <button class="head__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu" data-menu-open><span></span><span></span></button>
-    <a href="{{ routes.root_url }}" class="wordmark">{{ shop.name }}</a>
+    <a href="{{ routes.root_url }}" class="wordmark">{{ settings.brand_name | default: 'LMTY' }}</a>
     <nav class="head__nav" aria-label="Primary">
       <a href="{{ fp_url }}#how">How to make it</a>
       <a href="{{ fp_url }}#inside">What's inside</a>
@@ -28,7 +28,7 @@
 </header>
 <div class="scrim" data-menu-scrim hidden></div>
 <aside class="menu" id="menu" aria-label="Menu" aria-hidden="true" data-menu>
-  <div class="menu__top"><span class="wordmark">{{ shop.name }}</span><button type="button" class="menu__x" aria-label="Close menu" data-menu-close>&times;</button></div>
+  <div class="menu__top"><span class="wordmark">{{ settings.brand_name | default: 'LMTY' }}</span><button type="button" class="menu__x" aria-label="Close menu" data-menu-close>&times;</button></div>
   <nav class="menu__nav">
     <a href="{{ fp_url }}">Shop the concentrate</a>
     <a href="{{ fp_url }}#how">How to make it</a>

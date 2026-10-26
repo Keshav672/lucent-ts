@@ -79,28 +79,49 @@
   /* buy box */
   var form = $('[data-buy-form]');
   if (form) {
-    var idInput = $('[data-variant-id]', form), addBtn = $('[data-add]', form), msg = $('[data-buy-msg]'), qty = $('[data-qty]', form);
-    function setPrice(cents) { $$('[data-price-label]').forEach(function (l) { l.textContent = money(cents); }); }
-    $$('input[name="steep-variant"]', form).forEach(function (r) {
-      r.addEventListener('change', function () {
-        idInput.value = r.value; setPrice(Number(r.dataset.price));
-        var was = $('.pricerow__was'), pill = $('.pricerow .pill'), cmp = Number(r.dataset.compare), pr = Number(r.dataset.price);
-        if (was && pill) { var on = cmp > pr; was.hidden = pill.hidden = !on; if (on) { was.textContent = money(cmp); pill.textContent = 'Save ' + Math.floor((cmp - pr) * 100 / cmp) + '%'; } }
+    var idInput = $('[data-variant-id]', form), addBtn = $('[data-add]', form), msg = $('[data-buy-msg]');
+    var planToggle = $('[data-plan-toggle]', form), planInput = $('[data-plan-input]', form), planNote = $('[data-plan-note]', form);
+    function setText(sel, txt) { $$(sel).forEach(function (n) { n.textContent = txt; }); }
+    function syncTier() {
+      var r = $('input[name="steep-variant"]:checked', form);
+      if (!r) return;
+      var sub = planToggle && planToggle.checked;
+      var n = Number(r.dataset.n) || 1, price = Number(sub ? r.dataset.planPrice : r.dataset.price), cmp = Number(r.dataset.compare);
+      idInput.value = r.value;
+      setText('[data-price-label]', money(price));
+      setText('[data-atc-unit]', money(Math.round(price / n)));
+      setText('[data-hero-unit]', money(Math.round(price / n)));
+      var was = $('[data-hero-was]'), pill = $('[data-hero-pill]'), on = cmp > price;
+      if (was) { was.hidden = !on; was.textContent = money(Math.round(cmp / n)); }
+      if (pill) { pill.hidden = !on; pill.textContent = 'Save ' + Math.floor((cmp - price) * 100 / cmp) + '%'; }
+      $$('input[name="steep-variant"]', form).forEach(function (o) {
+        var on2 = sub ? Number(o.dataset.planPrice) : Number(o.dataset.price), k = Number(o.dataset.n) || 1, card = o.closest('.tier');
+        var u = $('[data-unit]', card); if (u) u.textContent = money(Math.round(on2 / k));
+        var sv = $('[data-saved]', card); if (sv) sv.textContent = money(Number(o.dataset.compare) - on2).replace(/\.00$/, '');
       });
-    });
-    function clampQty(n) { return Math.max(1, Math.min(20, n || 1)); }
-    $('[data-qty-minus]', form).addEventListener('click', function () { qty.value = clampQty(Number(qty.value) - 1); });
-    $('[data-qty-plus]', form).addEventListener('click', function () { qty.value = clampQty(Number(qty.value) + 1); });
-    qty.addEventListener('change', function () { qty.value = clampQty(Number(qty.value)); });
+      if (planInput) planInput.value = sub ? planInput.dataset.planId : '';
+      if (planNote) planNote.hidden = !sub;
+    }
+    $$('input[name="steep-variant"]', form).forEach(function (r) { r.addEventListener('change', syncTier); });
+    if (planToggle) planToggle.addEventListener('change', syncTier);
+    syncTier();
+
+    /* delivery estimate: today + N business days */
+    var eta = $('[data-eta]');
+    if (eta) {
+      var d = new Date(), left = Number(eta.dataset.days) || 5;
+      while (left > 0) { d.setDate(d.getDate() + 1); if (d.getDay() % 6 !== 0) left--; }
+      var day = d.getDate(), sfx = (day % 10 === 1 && day !== 11) ? 'st' : (day % 10 === 2 && day !== 12) ? 'nd' : (day % 10 === 3 && day !== 13) ? 'rd' : 'th';
+      eta.textContent = d.toLocaleDateString('en-US', { month: 'long' }) + ' ' + day + sfx;
+    }
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (addBtn.disabled) return;
       var label = addBtn.innerHTML;
       addBtn.disabled = true; addBtn.textContent = 'Adding…'; msg.textContent = '';
-      var body = { items: [{ id: Number(idInput.value), quantity: clampQty(Number(qty.value)) }] };
-      var plan = $('input[name="selling_plan"]:checked', form);
-      if (plan && plan.value) body.items[0].selling_plan = Number(plan.value);
+      var body = { items: [{ id: Number(idInput.value), quantity: 1 }] };
+      if (planInput && planInput.value) body.items[0].selling_plan = Number(planInput.value);
       fetch(root + 'cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) })
         .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw j; return j; }); })
         .then(function () { return refreshCart(); })

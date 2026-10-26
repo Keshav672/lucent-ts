@@ -3,7 +3,10 @@
 {%- if p == blank -%}{%- assign p = settings.featured_product -%}{%- endif -%}
 {%- if p == blank -%}{%- assign p = all_products['lmty-honey-citrus-mint-ball'] -%}{%- endif -%}
 {%- assign v = p.selected_or_first_available_variant -%}
-{%- if p.selected_variant == blank and p.variants.size > 1 and p.variants.last.available -%}{%- assign v = p.variants.last -%}{%- endif -%}
+{%- if p.selected_variant == blank and p.variants.size > 1 -%}
+  {%- assign v = p.variants.last -%}
+  {%- for var in p.variants -%}{%- assign tn = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if tn == 3 and var.available -%}{%- assign v = var -%}{%- endif -%}{%- endfor -%}
+{%- endif -%}
 {%- assign best = v.price -%}{%- for var in p.variants -%}{%- assign nc = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if nc < 1 -%}{%- assign nc = 1 -%}{%- endif -%}{%- assign pc = var.price | divided_by: nc -%}{%- if pc < best -%}{%- assign best = pc -%}{%- endif -%}{%- endfor -%}
 {%- assign per_serv = best | divided_by: 5 -%}
 {%- assign own = false -%}{%- if p.title contains 'LMTY' or p.title contains 'Citrus Mint' -%}{%- assign own = true -%}{%- endif -%}
@@ -94,55 +97,76 @@
         <li>About 5 café-size servings per carton</li>
         <li>Drink it hot or iced</li>
       </ul>
+      {%- assign vn = v.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if vn < 1 -%}{%- assign vn = 1 -%}{%- endif -%}
+      {%- assign vcmp = v.compare_at_price | default: v.price -%}
       <div class="pricerow">
-        <span class="pricerow__now" data-price-label>{{ v.price | money }}</span>
-        {%- if v.compare_at_price > v.price -%}<s class="pricerow__was">{{ v.compare_at_price | money }}</s><span class="pill">Save {{ v.compare_at_price | minus: v.price | times: 100 | divided_by: v.compare_at_price | floor }}%</span>{%- endif -%}
+        <span class="pricerow__now"><span data-hero-unit>{{ v.price | divided_by: vn | money }}</span><small>/carton</small></span>
+        <s class="pricerow__was" data-hero-was{% unless vcmp > v.price %} hidden{% endunless %}>{{ vcmp | divided_by: vn | money }}</s>
+        <span class="pill" data-hero-pill{% unless vcmp > v.price %} hidden{% endunless %}>Save {{ vcmp | minus: v.price | times: 100 | divided_by: vcmp | floor }}%</span>
       </div>
 
       {%- form 'product', p, data-buy-form: '', novalidate: 'novalidate' -%}
         <input type="hidden" name="id" value="{{ v.id }}" data-variant-id>
         {%- unless p.has_only_default_variant -%}
-        <fieldset class="opts">
-          <legend class="opt-l">Size</legend>
+        {%- assign best_idx = p.variants.size -%}
+        <fieldset class="tiers" data-tiers>
+          <legend class="sr">Choose your bundle</legend>
           {%- for var in p.variants -%}
-          <label class="opt{% if forloop.last and p.variants.size > 1 %} opt--pop{% endif %}">
-            {%- if forloop.last and p.variants.size > 1 -%}<span class="opt__flag">Most popular</span>{%- endif -%}
-            <input type="radio" name="steep-variant" value="{{ var.id }}" data-price="{{ var.price }}" data-compare="{{ var.compare_at_price | default: 0 }}"{% if var.id == v.id %} checked{% endif %}{% unless var.available %} disabled{% endunless %}>
-            <span class="opt__b"><span class="opt__t">{{ var.title }}</span>{% unless var.available %}<span class="opt__s"> · Sold out</span>{% endunless %}</span>
-            {%- assign n_cart = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}
-            <span class="opt__p">{{ var.price | money }}{% if n_cart > 1 %}<small class="opt__per">{{ var.price | divided_by: n_cart | money }} per carton</small>{% endif %}{% if var.compare_at_price > var.price %}<s>{{ var.compare_at_price | money }}</s>{% endif %}</span>
+          {%- assign n = var.title | remove_first: 'Pack' | remove_first: 'pack' | remove_first: 'Cartons' | remove_first: 'Carton' | strip | plus: 0 -%}{%- if n < 1 -%}{%- assign n = 1 -%}{%- endif -%}
+          {%- case n -%}
+            {%- when 1 -%}{%- assign tname = 'Buy One' -%}
+            {%- when 3 -%}{%- assign tname = 'Buy 2 Get 1 FREE' -%}
+            {%- when 6 -%}{%- assign tname = 'Buy 3 Get 3 FREE' -%}
+            {%- else -%}{%- assign tname = 'Buy ' | append: n -%}
+          {%- endcase -%}
+          {%- assign unit = var.price | divided_by: n -%}
+          {%- assign cmp_total = var.compare_at_price | default: var.price -%}
+          {%- assign cmp_unit = cmp_total | divided_by: n -%}
+          {%- assign saved = cmp_total | minus: var.price -%}
+          {%- assign plan_price = var.price -%}{%- if has_plans and var.selling_plan_allocations.size > 0 -%}{%- assign plan_price = var.selling_plan_allocations.first.price -%}{%- endif -%}
+          {%- assign pimg = 'pack-1.jpg' -%}{%- if n == 2 -%}{%- assign pimg = 'pack-2.jpg' -%}{%- elsif n >= 3 and n < 6 -%}{%- assign pimg = 'pack-3.jpg' -%}{%- elsif n >= 6 -%}{%- assign pimg = 'pack-6.jpg' -%}{%- endif -%}
+          <label class="tier">
+            {%- if forloop.last and p.variants.size > 2 -%}<span class="tier__flag">Best value</span>{%- endif -%}
+            <span class="tier__row">
+              <input type="radio" name="steep-variant" value="{{ var.id }}" data-price="{{ var.price }}" data-plan-price="{{ plan_price }}" data-compare="{{ cmp_total }}" data-n="{{ n }}"{% if var.id == v.id %} checked{% endif %}{% unless var.available %} disabled{% endunless %}>
+              <img class="tier__img" src="{{ pimg | asset_url }}" alt="" width="60" height="60" loading="lazy">
+              <span class="tier__b"><span class="tier__t">{{ tname }}</span><span class="tier__s">{{ n }} Carton{% if n > 1 %}s{% endif %}{% if saved > 0 %} · You save <span data-saved>{{ saved | money_without_trailing_zeros }}</span>{% endif %}{% unless var.available %} · Sold out{% endunless %}</span></span>
+              <span class="tier__p"><strong><span data-unit>{{ unit | money }}</span><small>/carton</small></strong>{% if cmp_unit > unit %}<s>{{ cmp_unit | money }}</s>{% endif %}</span>
+            </span>
+            {%- if forloop.index > 1 -%}
+            <span class="tier__perks">
+              <span><b>+</b><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/></svg>{{ section.settings.perk_1 }}</span>
+              {%- if forloop.last and p.variants.size > 2 -%}
+              {%- if section.settings.perk_2 != blank -%}<span><b>+</b><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M3 9h18M12 9v11M12 9c-2-4-6-4-6-1s6 1 6 1 6 2 6-1-4-3-6 1"/></svg>{{ section.settings.perk_2 }}</span>{%- endif -%}
+              {%- if section.settings.perk_3 != blank -%}<span><b>+</b><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>{{ section.settings.perk_3 }}</span>{%- endif -%}
+              {%- endif -%}
+            </span>
+            {%- endif -%}
           </label>
           {%- endfor -%}
         </fieldset>
         {%- endunless -%}
-        <div class="shipnote"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/></svg><div><strong>Free shipping</strong><span>Tracked delivery from a US warehouse</span></div></div>
 
         {%- if has_plans -%}
         {%- assign plan = p.selling_plan_groups.first.selling_plans.first -%}
-        <fieldset class="opts" data-plans>
-          <legend class="opt-l">Purchase type</legend>
-          <label class="opt">
-            <input type="radio" name="selling_plan" value="{{ plan.id }}" checked>
-            <span class="opt__b"><span class="opt__t">Subscribe &amp; save <span class="tag">Best value</span></span><span class="opt__s">{{ plan.name }} · skip or cancel anytime</span></span>
-          </label>
-          <label class="opt">
-            <input type="radio" name="selling_plan" value="">
-            <span class="opt__b"><span class="opt__t">One-time purchase</span></span>
-          </label>
-        </fieldset>
+        <input type="hidden" name="selling_plan" value="" data-plan-input data-plan-id="{{ plan.id }}">
+        <label class="subtog">
+          <input type="checkbox" data-plan-toggle>
+          <span><strong>Subscribe &amp; Save</strong><small>Delivered {{ plan.name | downcase | remove: 'subscribe & save' | strip | default: 'monthly' }} · Cancel anytime · Skip or pause whenever</small></span>
+        </label>
         {%- endif -%}
 
-        <div class="buy__qty">
-          <div class="qty"><button type="button" aria-label="Decrease quantity" data-qty-minus>&minus;</button><input type="number" name="quantity" value="1" min="1" max="20" aria-label="Quantity" data-qty><button type="button" aria-label="Increase quantity" data-qty-plus>+</button></div>
-          <button type="submit" class="btn btn--lg" data-add{% unless v.available %} disabled{% endunless %}>
-            {%- if v.available -%}Add to cart · <span data-price-label>{{ v.price | money }}</span>{%- else -%}Sold out{%- endif -%}
-          </button>
-        </div>
+        <p class="eta"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Order now for delivery by: <strong data-eta data-days="{{ section.settings.delivery_days | default: 5 }}">within {{ section.settings.delivery_days | default: 5 }} business days</strong></p>
+        {%- if has_plans -%}<p class="subnote" data-plan-note hidden>Ships every month at the price shown. Cancel, skip or pause anytime, no fees.</p>{%- endif -%}
+
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="btn btn--block atc" data-add{% unless v.available %} disabled{% endunless %}>
+          {%- if v.available -%}
+          <span class="atc__main">Add to cart <i aria-hidden="true">|</i> <span data-atc-unit>{%- assign vn = v.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if vn < 1 -%}{%- assign vn = 1 -%}{%- endif -%}{{ v.price | divided_by: vn | money }}</span>/carton</span>
+          <span class="atc__sub"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/></svg>Free replacement if it arrives damaged</span>
+          {%- else -%}Sold out{%- endif -%}
+        </button>
         <p class="buy__msg" role="status" aria-live="polite" data-buy-msg></p>
-        <a href="#guarantee" class="guarbadge">
-          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
-          <span><strong>Arrives damaged? We replace it free.</strong>Plus 30-day returns on unopened cartons.</span>
-        </a>
       {%- endform -%}
 
       <ul class="trust">
@@ -271,7 +295,7 @@
 
 <section class="sec anchor">
   <div class="wrap anchor__in">
-    <div><h2 class="sec__h">Café-style, for less than the café.</h2><p class="sec__lead">One carton makes about 5 servings. With the 2 Pack, that's about {{ per_serv | money }} a serving at home, versus $5 or more at the counter.</p></div>
+    <div><h2 class="sec__h">Café-style, for less than the café.</h2><p class="sec__lead">One carton makes about 5 servings. With the biggest bundle, that's about {{ per_serv | money }} a serving at home, versus $5 or more at the counter.</p></div>
     <div class="anchor__cmp" aria-label="Price per cup comparison">
       <div><span class="anchor__k">Café cup</span><span class="anchor__bar anchor__bar--cafe"></span><strong>$5+</strong></div>
       <div><span class="anchor__k">LMTY at home</span><span class="anchor__bar anchor__bar--us" style="--w:{{ per_serv | times: 100 | divided_by: 500 }}%"></span><strong>{{ per_serv | money }}</strong></div>
@@ -425,6 +449,11 @@
     {"type": "text", "id": "comments_eyebrow", "label": "Comments: eyebrow", "default": "From our Facebook ad comments"},
     {"type": "text", "id": "comments_title", "label": "Comments: heading", "default": "Don't take our word for it. Ask the comments."},
     {"type": "text", "id": "comments_lead", "label": "Comments: intro", "default": "Every time someone asks a question under our ads, the answers come from people who already tried it."},
+    {"type": "header", "content": "Bundle perks (only promise what you ship)"},
+    {"type": "text", "id": "perk_1", "label": "Perk on every bundle above 1 carton", "default": "Free Express Shipping"},
+    {"type": "text", "id": "perk_2", "label": "Extra perk on the biggest bundle", "default": "Free Mystery Gift"},
+    {"type": "text", "id": "perk_3", "label": "Second extra perk on the biggest bundle", "default": "Free Shipping Protection"},
+    {"type": "number", "id": "delivery_days", "label": "Business days to delivery (for the delivery date)", "default": 5},
     {"type": "header", "content": "Rating badge (real numbers only)"},
     {"type": "text", "id": "rating_value", "label": "Average rating (e.g. 4.8)", "info": "Copy from your review app or TikTok Shop. Leave blank to hide."},
     {"type": "number", "id": "rating_count", "label": "Number of reviews"},

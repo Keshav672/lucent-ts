@@ -1,6 +1,7 @@
 [
   {"name":"theme_info","theme_name":"LMTY","theme_version":"1.0.0","theme_author":"Store","theme_documentation_url":"https://help.shopify.com","theme_support_url":"https://help.shopify.com"},
   {"name":"Store","settings":[
+    {"type":"text","id":"brand_name","label":"Brand name shown in the logo","default":"LMTY"},
     {"type":"product","id":"featured_product","label":"Featured product","info":"Defaults to handle lmty-honey-citrus-mint-ball."},
     {"type":"image_picker","id":"favicon","label":"Favicon"},
     {"type":"text","id":"announcement","label":"Announcement bar","default":"Free shipping on every order · Ships from a US warehouse · Hot or iced in 2 minutes · About 5 servings per carton"},

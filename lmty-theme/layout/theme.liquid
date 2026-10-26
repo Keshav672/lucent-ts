@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#e39617">
   <link rel="canonical" href="{{ canonical_url }}">
   {%- if settings.favicon != blank -%}<link rel="icon" href="{{ settings.favicon | image_url: width: 64 }}">{%- endif -%}
-  <title>{{ page_title }}{% if current_page != 1 %} &ndash; {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+  <title>{{ page_title }}{% if current_page != 1 %} &ndash; {{ current_page }}{% endif %}{% assign bn = settings.brand_name | default: 'LMTY' %}{% unless page_title contains bn %} &ndash; {{ bn }}{% endunless %}</title>
   {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
   {{ content_for_header }}
   <link rel="preconnect" href="https://fonts.googleapis.com">
