@@ -90,7 +90,7 @@
       idInput.value = r.value;
       var qIn = $('[data-qty-input]', form); if (qIn) qIn.value = r.dataset.qty || 1;
       setText('[data-price-label]', money(price));
-      setText('[data-atc-total]', money(price));
+      setText('[data-atc-unit]', money(Math.round(price / n)));
       setText('[data-hero-unit]', money(Math.round(price / n)));
       var was = $('[data-hero-was]'), pill = $('[data-hero-pill]'), on = cmp > price;
       if (was) { was.hidden = !on; was.textContent = money(Math.round(cmp / n)); }
