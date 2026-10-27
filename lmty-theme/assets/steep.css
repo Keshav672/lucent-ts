@@ -594,3 +594,4 @@ html,body{overflow-x:clip}
 .rbar__boxes{position:relative;display:inline-flex;gap:2px}
 .rbar__boxes i{width:18px;height:18px;background:var(--leaf) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3l2.7 5.6 6.1.8-4.4 4.3 1 6.1L12 17l-5.4 2.8 1-6.1L3.2 9.4l6.1-.8z' fill='%23fff'/%3E%3C/svg%3E") center/14px no-repeat}
 .rbar strong{font-weight:700}
+.atc__main{font-weight:500}
