@@ -1,0 +1,10 @@
+{
+  "general": {
+    "search": { "search": "Search" },
+    "cart": { "title": "Cart" },
+    "404": { "title": "Page not found", "link": "Back to home" }
+  },
+  "products": {
+    "product": { "add_to_cart": "Add to cart", "sold_out": "Sold out" }
+  }
+}

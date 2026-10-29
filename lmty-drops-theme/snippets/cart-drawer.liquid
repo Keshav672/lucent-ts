@@ -1,0 +1,15 @@
+<div class="scrim" data-cart-scrim hidden></div>
+<aside class="drawer" aria-label="Your cart" aria-hidden="true" data-cart-drawer data-free-ship="{{ settings.free_ship_threshold | default: 0 }}">
+  <header class="drawer__top"><h2>Your cart</h2><button type="button" class="menu__x" aria-label="Close cart" data-cart-close>&times;</button></header>
+  <div class="drawer__ship" data-ship hidden><p data-ship-text></p><div class="drawer__bar"><span data-ship-bar></span></div></div>
+  <div class="drawer__body">
+    <p class="drawer__empty" data-cart-empty>Your cart is empty. Your cozy cup is one pour away.</p>
+    <ul class="drawer__lines" data-cart-lines></ul>
+  </div>
+  <footer class="drawer__foot" data-cart-foot hidden>
+    <div class="drawer__row"><span>Subtotal</span><strong data-cart-total></strong></div>
+    <p class="drawer__note">Taxes and shipping calculated at checkout.</p>
+    <form action="{{ routes.cart_url }}" method="post"><button type="submit" name="checkout" class="btn btn--block btn--lg">Checkout</button></form>
+    <a href="{{ routes.cart_url }}" class="drawer__view">View cart</a>
+  </footer>
+</aside>

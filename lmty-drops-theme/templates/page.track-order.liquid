@@ -1,0 +1,11 @@
+<section class="simple-page simple-page--center">
+  <div class="wrap simple-page__narrow">
+    <h1>Track your order</h1>
+    <p>Your confirmation email has a "View your order" button with live tracking. Can't find it? Sign in to see every order, or send us your order number.</p>
+    <div class="track">
+      <a class="btn btn--lg btn--block" href="{{ routes.account_url }}">Sign in to see your orders</a>
+      {%- if pages['contact'] != blank -%}<a class="btn btn--lg btn--block btn--outline" href="{{ pages['contact'].url }}">Ask us about an order</a>{%- else -%}<a class="btn btn--lg btn--block btn--outline" href="mailto:{{ shop.email }}">Email us your order number</a>{%- endif -%}
+    </div>
+    <p class="track__note">Most orders ship within 1 to 2 business days and arrive in 3 to 5.</p>
+  </div>
+</section>

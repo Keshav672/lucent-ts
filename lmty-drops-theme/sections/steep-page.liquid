@@ -1,0 +1,498 @@
+{%- assign p = product -%}
+{%- if p == blank -%}{%- assign p = section.settings.product -%}{%- endif -%}
+{%- if p == blank -%}{%- assign p = settings.featured_product -%}{%- endif -%}
+{%- if p == blank -%}{%- assign p = all_products['lmty-wellness-drops'] -%}{%- endif -%}
+{%- assign v = p.selected_or_first_available_variant -%}
+{%- if p.selected_variant == blank and p.variants.size > 1 -%}
+  {%- assign v = p.variants.last -%}
+  {%- for var in p.variants -%}{%- assign tn = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if tn == 3 and var.available -%}{%- assign v = var -%}{%- endif -%}{%- endfor -%}
+{%- endif -%}
+{%- assign best = v.price -%}{%- for var in p.variants -%}{%- assign nc = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if nc < 1 -%}{%- assign nc = 1 -%}{%- endif -%}{%- assign pc = var.price | divided_by: nc -%}{%- if pc < best -%}{%- assign best = pc -%}{%- endif -%}{%- endfor -%}
+{%- assign per_serv = best | divided_by: 5 -%}
+{%- assign own = false -%}{%- if p.title contains 'Drops' -%}{%- assign own = true -%}{%- endif -%}
+{%- assign has_plans = false -%}{%- if p.selling_plan_groups.size > 0 -%}{%- assign has_plans = true -%}{%- endif -%}
+{%- assign reviews_n = section.settings.review_count -%}
+
+{%- if section.settings.show_hero -%}
+<section class="hero">
+  <div class="wrap hero__in">
+    <div>
+      <p class="eyebrow" style="color:var(--honey)">Lemon · Warm or iced · Zero sugar</p>
+      <h1 class="hero__h">Café-style comfort. <em>Now in a dropper.</em></h1>
+      <p class="hero__lead">The cozy, feel-good cup you used to drive for. One dropper of bright lemon drops in hot water, and it's ready. No steeping, no line, no sugar.</p>
+      <ul class="chips"><li>60 mL bottle</li><li>30 servings</li><li>Zero sugar</li><li>Hot or iced</li></ul>
+      <div class="hero__row">
+        <a href="#buy" class="btn btn--lg btn--light">Add to cart</a>
+        <a href="#buy" class="btn btn--lg btn--outline">Choose your bundle</a>
+      </div>
+      <p class="hero__note">Free shipping on orders $40+ · Ships from the US</p>
+    </div>
+    <div class="hero__media hero__media--img">
+      {%- if section.settings.hero_image != blank -%}
+        <img src="{{ section.settings.hero_image | image_url: width: 1100 }}" alt="{{ section.settings.hero_image.alt | default: 'LMTY Wellness Drops' | escape }}" width="1100" height="1100" fetchpriority="high">
+            {%- else -%}
+        <img src="{{ 'lmty-drops-main.jpg' | asset_url }}" alt="LMTY Wellness Drops lemon dropper bottle with a warm mug and fresh lemon" width="1080" height="1080" fetchpriority="high">
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+<div class="proof">
+  <div class="wrap proof__in">
+    <div class="proof__i"><div class="proof__n">30</div><div class="proof__l">servings per bottle</div></div>
+    <div class="proof__i"><div class="proof__n">0 g</div><div class="proof__l">added sugar</div></div>
+    <div class="proof__i"><div class="proof__n">10 sec</div><div class="proof__l">dropper to mug</div></div>
+    <div class="proof__i"><div class="proof__n">$40+</div><div class="proof__l">ships free</div></div>
+  </div>
+</div>
+{%- endif -%}
+
+<section class="buy" id="buy">
+  <div class="wrap buy__in">
+    <div class="gal" data-gallery>
+      <div class="gal__main">
+          <img src="{{ 'lmty-drops-main.jpg' | asset_url }}" alt="LMTY Wellness Drops bottle with a warm mug and fresh lemon" width="1080" height="1080" data-slide>
+          <img src="{{ 'lmty-drops-benefits.jpg' | asset_url }}" alt="Café-style comfort, zero added sugar, 30 servings per bottle" width="1080" height="1080" data-slide hidden loading="lazy">
+          <img src="{{ 'lmty-life-mug.jpg' | asset_url }}" alt="Adding drops to a warm mug of lemon water" width="1080" height="1080" data-slide hidden loading="lazy">
+          <img src="{{ 'lmty-drops-directions.jpg' | asset_url }}" alt="Directions: shake, one dropper, into your mug, stir and sip" width="1080" height="1080" data-slide hidden loading="lazy">
+          <img src="{{ 'lmty-drops-compare.jpg' | asset_url }}" alt="LMTY Drops compared with tea bags and a café cup" width="1080" height="1080" data-slide hidden loading="lazy">
+          <img src="{{ 'lmty-life-drop.jpg' | asset_url }}" alt="A drop of LMTY going into a glass of iced water" width="1080" height="1080" data-slide hidden loading="lazy">
+          <img src="{{ 'lmty-drops-guarantee.jpg' | asset_url }}" alt="Damage-free delivery guarantee" width="1080" height="1080" data-slide hidden loading="lazy">
+          <img src="{{ 'lmty-drops-3pack.jpg' | asset_url }}" alt="Three bottles of LMTY Wellness Drops" width="1080" height="1080" data-slide hidden loading="lazy">
+          <img src="{{ 'lmty-drops-6pack.jpg' | asset_url }}" alt="Six bottles of LMTY Wellness Drops" width="1080" height="1080" data-slide hidden loading="lazy">
+        <button type="button" class="gal__nav gal__nav--p" aria-label="Previous image" data-prev>&lsaquo;</button>
+        <button type="button" class="gal__nav gal__nav--n" aria-label="Next image" data-next>&rsaquo;</button>
+      </div>
+      <div class="gal__thumbs" data-thumbs>
+          <button type="button" aria-label="Show image 1" aria-current="true"><img src="{{ 'lmty-drops-main.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 2"><img src="{{ 'lmty-drops-benefits.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 3"><img src="{{ 'lmty-life-mug.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 4"><img src="{{ 'lmty-drops-directions.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 5"><img src="{{ 'lmty-drops-compare.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 6"><img src="{{ 'lmty-life-drop.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 7"><img src="{{ 'lmty-drops-guarantee.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 8"><img src="{{ 'lmty-drops-3pack.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+          <button type="button" aria-label="Show image 9"><img src="{{ 'lmty-drops-6pack.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+      </div>
+    </div>
+
+    <div>
+      
+      {%- comment -%} Uses the merchant's rating when entered; otherwise counts the five-star reviews shown on this page. {%- endcomment -%}
+      {%- assign rc = section.settings.rating_count | plus: 0 -%}{%- assign rv = section.settings.rating_value | plus: 0 -%}
+      {%- if section.settings.rating_value == blank -%}{%- assign rc = 0 -%}{%- endif -%}
+      {%- assign rv_txt = rv | append: '' -%}{%- unless rv_txt contains '.' -%}{%- assign rv_txt = rv_txt | append: '.0' -%}{%- endunless -%}
+      {%- if rc > 0 -%}
+      {%- if rv >= 4.5 -%}{%- assign rword = 'Excellent' -%}{%- elsif rv >= 4 -%}{%- assign rword = 'Great' -%}{%- else -%}{%- assign rword = 'Rated' -%}{%- endif -%}
+      <a href="#reviews" class="rbar" aria-label="Rated {{ rv }} out of 5 from {{ rc }} reviews">
+        <span class="rbar__boxes" style="--r:{{ rv | times: 20 }}%" aria-hidden="true">{%- for i in (1..5) -%}<i></i>{%- endfor -%}</span>
+        <strong>{{ rword }}</strong><span>{{ rv_txt }} · {{ rc }} reviews{% if section.settings.rating_source != blank %} on {{ section.settings.rating_source }}{% endif %}</span>
+      </a>
+      {%- endif -%}
+      {%- if section.settings.trustbox != blank -%}<div class="trustbox">{{ section.settings.trustbox }}</div>{%- endif -%}
+      {%- if section.settings.show_hero -%}<h2 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Wellness Drops{% endif %}</h2>{%- else -%}<h1 class="buy__t">{% if own %}{{ p.title }}{% else %}LMTY Wellness Drops{% endif %}</h1>{%- endif -%}
+      <p class="buy__sub">Bright lemon drops with a touch of green tea. One dropper in hot or cold water makes the cozy, café-style cup you crave, without the drive.</p>
+      <ul class="feats">
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v3l2 3v9a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-9l2-3z"/><path d="M6 13h12"/></svg>Zero Added Sugar</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18c6 0 12-5 12-13-8 0-12 5-12 13zM6 18l6-6"/></svg>Bright Lemon Flavor</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>30 Servings Per Bottle</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/></svg>Fits In Your Bag</li>
+      </ul>
+      {%- assign vn = v.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if vn < 1 -%}{%- assign vn = 1 -%}{%- endif -%}
+      {%- assign vcmp = v.compare_at_price | default: v.price -%}
+      <div class="pricerow">
+        <span class="pricerow__now"><span data-hero-unit>{{ v.price | divided_by: vn | money }}</span><small>/bottle</small></span>
+        <s class="pricerow__was" data-hero-was{% unless vcmp > v.price %} hidden{% endunless %}>{{ vcmp | divided_by: vn | money }}</s>
+        <span class="pill" data-hero-pill{% unless vcmp > v.price %} hidden{% endunless %}>{{ section.settings.sale_label | default: 'Sale' | upcase }} - SAVE {{ vcmp | minus: v.price | times: 100 | divided_by: vcmp | floor }}%</span>
+      </div>
+
+      {%- form 'product', p, data-buy-form: '', novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ v.id }}" data-variant-id>
+        {%- comment -%} Three fixed Pinemoor tiers. Each tier is the product variant whose title holds its carton count (1 / 3 / 6). Buy One falls back to the cheapest variant so it is always buyable. {%- endcomment -%}
+        {%- assign base = p.variants.first -%}{%- assign base_found = false -%}
+        {%- for var in p.variants -%}
+          {%- assign digits = var.title | replace: '-', ' ' | replace: 'x', ' ' | split: ' ' -%}
+          {%- for d in digits -%}{%- assign dn = d | plus: 0 -%}{%- if dn == 1 and base_found == false -%}{%- assign base = var -%}{%- assign base_found = true -%}{%- endif -%}{%- endfor -%}
+        {%- endfor -%}
+        {%- unless base_found -%}{%- for var in p.variants -%}{%- if var.price < base.price -%}{%- assign base = var -%}{%- endif -%}{%- endfor -%}{%- endunless -%}
+        {%- assign base_cmp = base.compare_at_price | default: base.price -%}
+        {%- assign checked_n = 1 -%}
+        <fieldset class="tiers" data-tiers>
+          <legend class="sr">Choose your bundle</legend>
+          {%- for n in (1..3) -%}
+            {%- case n -%}
+              {%- when 1 -%}{%- assign cnt = 1 -%}{%- assign tname = 'Buy One' -%}{%- assign pimg = 'pack-1.jpg' -%}
+              {%- when 2 -%}{%- assign cnt = 3 -%}{%- assign tname = 'Buy 2 Get 1 FREE' -%}{%- assign pimg = 'pack-3.jpg' -%}
+              {%- else -%}{%- assign cnt = 6 -%}{%- assign tname = 'Buy 3 Get 3 FREE' -%}{%- assign pimg = 'pack-6.jpg' -%}
+            {%- endcase -%}
+            {%- assign found = false -%}{%- assign t_code = '' -%}
+            {%- if n == 1 -%}
+              {%- assign found = true -%}{%- assign tvar = base -%}
+            {%- else -%}
+              {%- for var in p.variants -%}
+                {%- assign digits = var.title | replace: '-', ' ' | replace: 'x', ' ' | split: ' ' -%}
+                {%- for d in digits -%}{%- assign dn = d | plus: 0 -%}{%- if dn == cnt and found == false -%}{%- assign found = true -%}{%- assign tvar = var -%}{%- endif -%}{%- endfor -%}
+              {%- endfor -%}
+              {%- comment -%} "Buy 2 Get 1" may be set up as a variant named "2 Pack" {%- endcomment -%}
+              {%- if found == false and cnt == 3 -%}
+                {%- for var in p.variants -%}
+                  {%- assign digits = var.title | replace: '-', ' ' | replace: 'x', ' ' | split: ' ' -%}
+                  {%- for d in digits -%}{%- assign dn = d | plus: 0 -%}{%- if dn == 2 and found == false -%}{%- assign found = true -%}{%- assign tvar = var -%}{%- endif -%}{%- endfor -%}
+                {%- endfor -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- if found -%}
+              {%- assign t_id = tvar.id -%}{%- assign t_price = tvar.price -%}{%- assign t_cmp = tvar.compare_at_price | default: tvar.price -%}{%- assign t_ok = tvar.available -%}
+              {%- assign t_plan = tvar.price -%}{%- if has_plans and tvar.selling_plan_allocations.size > 0 -%}{%- assign t_plan = tvar.selling_plan_allocations.first.price -%}{%- endif -%}
+            {%- else -%}
+              {%- assign t_id = base.id -%}{%- assign t_cmp = base_cmp | times: cnt -%}{%- assign t_ok = base.available -%}
+              {%- if cnt == 3 -%}{%- assign t_price = section.settings.unit_3 | default: '13.99' | times: 100 | round | times: cnt -%}{%- assign t_code = section.settings.code_3 -%}
+              {%- else -%}{%- assign t_price = section.settings.unit_6 | default: '10.99' | times: 100 | round | times: cnt -%}{%- assign t_code = section.settings.code_6 -%}{%- endif -%}
+              {%- assign t_plan = t_price -%}
+            {%- endif -%}
+            {%- if t_ok -%}{%- assign checked_n = n -%}{%- endif -%}
+            {%- if found -%}{%- assign t_qty = 1 -%}{%- else -%}{%- assign t_qty = cnt -%}{%- endif -%}
+            {%- assign unit = t_price | divided_by: cnt -%}{%- assign cmp_unit = t_cmp | divided_by: cnt -%}
+            {%- assign saved = t_cmp | minus: t_price -%}
+          <label class="tier">
+            {%- if n == 3 -%}<span class="tier__flag">Best value</span>{%- endif -%}
+            <span class="tier__row">
+              <input type="radio" name="steep-tier" value="{{ t_id }}" data-qty="{{ t_qty }}" data-code="{{ t_code | escape }}" data-price="{{ t_price }}" data-plan-price="{{ t_plan }}" data-compare="{{ t_cmp }}" data-n="{{ cnt }}"{% unless t_ok %} disabled{% endunless %}>
+              <img class="tier__img" src="{{ pimg | asset_url }}" alt="" width="60" height="60" loading="lazy">
+              <span class="tier__b"><span class="tier__t">{{ tname }}</span><span class="tier__s">{{ cnt }} Bottle{% if cnt > 1 %}s{% endif %}{% unless t_ok %} · Sold out{% endunless %}</span></span>
+              <span class="tier__p"><strong><span data-unit>{{ unit | money }}</span><small>/bottle</small></strong>{% if cmp_unit > unit %}<s>{{ cmp_unit | money }}</s>{% endif %}</span>
+            </span>
+            {%- if n > 1 -%}
+            <span class="tier__perks">
+              {%- if section.settings.perk_1 != blank -%}<span><b>+</b><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/></svg>{{ section.settings.perk_1 }}</span>{%- endif -%}
+              {%- if n == 3 -%}
+              {%- if section.settings.perk_2 != blank -%}<span><b>+</b><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M3 9h18M12 9v11M12 9c-2-4-6-4-6-1s6 1 6 1 6 2 6-1-4-3-6 1"/></svg>{{ section.settings.perk_2 }}</span>{%- endif -%}
+              {%- if section.settings.perk_3 != blank -%}<span><b>+</b><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>{{ section.settings.perk_3 }}</span>{%- endif -%}
+              {%- endif -%}
+            </span>
+            {%- endif -%}
+          </label>
+          {%- endfor -%}
+        </fieldset>
+        <div class="lmty-debug" data-lmty-debug hidden>
+          <strong>Bundle diagnostics (only visible with ?lmty-debug=1)</strong>
+          <p>Product options in Shopify:</p>
+          <ul>{%- for var in p.variants -%}<li>"{{ var.title }}": {{ var.price | money }}{% unless var.available %} (unavailable){% endunless %}</li>{%- endfor -%}</ul>
+          <p>Buy One uses: "{{ base.title }}" at {{ base.price | money }}</p>
+          {%- assign need3 = base.price | times: 3 | minus: 4197 -%}{%- assign need6 = base.price | times: 6 | minus: 6594 -%}
+          <p>If there is no 3-bottle option, code <b>{{ section.settings.code_3 }}</b> must be a fixed amount of <b>{{ need3 | money }}</b> off, minimum quantity 3 (3 x {{ base.price | money }} = {{ base.price | times: 3 | money }} &rarr; $41.97).</p>
+          <p>If there is no 6-bottle option, code <b>{{ section.settings.code_6 }}</b> must be a fixed amount of <b>{{ need6 | money }}</b> off, minimum quantity 6 (6 x {{ base.price | money }} = {{ base.price | times: 6 | money }} &rarr; $65.94).</p>
+        </div>
+
+        {%- if has_plans -%}
+        {%- assign plan = p.selling_plan_groups.first.selling_plans.first -%}
+        <input type="hidden" name="selling_plan" value="" data-plan-input data-plan-id="{{ plan.id }}">
+        <label class="subtog">
+          <input type="checkbox" data-plan-toggle checked>
+          <span><strong>Subscribe &amp; Save</strong><small>Delivered {{ plan.name | downcase | remove: 'subscribe & save' | strip | default: 'monthly' }} · Cancel anytime · Skip or pause whenever</small></span>
+        </label>
+        {%- endif -%}
+
+        <p class="eta"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Order now for delivery by: <strong data-eta data-days="{{ section.settings.delivery_days | default: 5 }}">within {{ section.settings.delivery_days | default: 5 }} business days</strong></p>
+        {%- if has_plans -%}<p class="subnote" data-plan-note hidden>Ships every month at the price shown. Cancel, skip or pause anytime, no fees.</p>{%- endif -%}
+
+        <input type="hidden" name="quantity" value="1" data-qty-input>
+        <button type="submit" class="btn btn--block atc" data-add{% unless v.available %} disabled{% endunless %}>
+          {%- if v.available -%}
+          <span class="atc__main">Add to cart <i aria-hidden="true">|</i> <span data-atc-unit>{{ v.price | money }}</span>/bottle</span>
+          <span class="atc__sub"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/></svg>Free replacement if it arrives damaged</span>
+          {%- else -%}Sold out{%- endif -%}
+        </button>
+        <p class="buy__msg" role="status" aria-live="polite" data-buy-msg></p>
+      {%- endform -%}
+
+      <ul class="trust">
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/></svg>Damage Guarantee</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18c6 0 12-5 12-13-8 0-12 5-12 13zM6 18l6-6"/></svg>Zero Sugar</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4v3h6V4M9 12h6M9 16h4"/></svg>30 Servings</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/></svg>Ships From US</li>
+      </ul>
+
+      <details class="acc" open><summary>How to use</summary><div class="acc__b"><p>Shake well. Add one full dropper (about 2 mL) to a mug of hot water, cold water or your favorite tea. Stir and sip.</p><p>One bottle holds about 30 servings.</p></div></details>
+      <details class="acc"><summary>Ingredients</summary><div class="acc__b"><p>Natural lemon flavor with green tea extract. Zero added sugar. The full ingredient list is printed on every bottle.</p></div></details>
+      <details class="acc"><summary>Size &amp; servings</summary><div class="acc__b"><p>2 fl oz (60 mL) glass dropper bottle, about 30 servings of 2 mL each.</p></div></details>
+      <details class="acc"><summary>Shipping &amp; returns</summary><div class="acc__b"><p>Free shipping on orders $40+. Unopened bottles can be returned within 30 days of delivery.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="blend" id="blend">
+  <div class="wrap">
+    <h2 class="blend__h"><span>Know these</span> <em>amazing drops</em></h2>
+    <p class="blend__lead">Everything you want in the cozy cup, nothing you don't.</p>
+    <ul class="blend__list">
+      {%- assign ing_n = 0 -%}{%- for b in section.blocks -%}{%- if b.type == 'ingredient' -%}{%- assign ing_n = ing_n | plus: 1 -%}{%- endif -%}{%- endfor -%}
+      {%- if ing_n > 0 -%}
+        {%- for b in section.blocks -%}{%- if b.type != 'ingredient' -%}{%- continue -%}{%- endif -%}
+        <li class="blend__i" style="--d:{{ forloop.index0 | times: 120 }}ms" {{ b.shopify_attributes }}>
+          <div class="blend__art">{%- if b.settings.image != blank -%}<img src="{{ b.settings.image | image_url: width: 320 }}" alt="{{ b.settings.title | escape }}" width="160" height="160" loading="lazy">{%- else -%}{% render 'blend-art', name: b.settings.art %}{%- endif -%}</div>
+          <h3>{{ b.settings.title }}</h3><p>{{ b.settings.text }}</p>
+        </li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign blend = 'lemon|Bright Lemon|Fresh, zesty and never sour.|lemon~green-tea|Green Tea|A smooth, gentle base note.|tea~cup|Warm or Iced|Hot water, cold water or tea.|cup~drop|One Dropper|About 2 mL. That’s the whole recipe.|drop' | split: '~' -%}
+        {%- for x in blend -%}{%- assign bp = x | split: '|' -%}
+        <li class="blend__i" style="--d:{{ forloop.index0 | times: 120 }}ms">
+          <div class="blend__art blend__art--photo"><img src="{{ 'blend-' | append: bp[3] | append: '.jpg' | asset_url }}" alt="{{ bp[1] }}" width="160" height="160" loading="lazy"></div>
+          <h3>{{ bp[1] }}</h3><p>{{ bp[2] }}</p>
+        </li>
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap note">
+    <div class="note__m"><img src="{{ 'lmty-life-mug.jpg' | asset_url }}" alt="Adding LMTY drops to a warm mug on a cozy evening" width="1080" height="1080" loading="lazy"></div>
+    <div>
+      <p class="eyebrow">Who you're buying from</p>
+      <h2 class="sec__h">We just wanted the café cup without the drive.</h2>
+      <p class="sec__lead">LMTY started with one habit: a warm lemon tea from the café whenever we felt run down, and a line every time. A dropper made it a ten-second thing at home, at work or on the go, so that's what we sell.</p>
+      <p class="sec__lead">We're a small team. We answer our own emails, and if your bottle arrives damaged we'll replace it.</p>
+      <p class="note__by">The LMTY team</p>
+    </div>
+  </div>
+</section>
+
+{%- unless section.settings.classic -%}
+<section class="sec sec--cream bens-sec">
+  <div class="wrap">
+    <div class="sec__head">
+      
+      <h2 class="sec__h">Your new feel-good ritual.</h2>
+    </div>
+    <div class="bens">
+      <div class="ben"><svg class="ben__ic" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3v3M11 3v3"/></svg><h3>Café-style comfort</h3><p>The warm lemon cup you order out, without the drive or the $6 price.</p></div>
+      <div class="ben"><svg class="ben__ic" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 20c-2-2-2-4 0-6s2-4 0-6"/><path d="M13 20c-2-2-2-4 0-6s2-4 0-6"/><path d="M18 20c-2-2-2-4 0-6s2-4 0-6"/></svg><h3>Zero added sugar</h3><p>All the bright lemon flavor, none of the sugar you get at the counter.</p></div>
+      <div class="ben"><svg class="ben__ic" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M4 12h16M10 7.5h4M10 16.5h4"/></svg><h3>Goes everywhere</h3><p>Desk drawer, gym bag, carry-on. Your cozy cup is wherever there's water.</p></div>
+      <div class="ben"><svg class="ben__ic" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10l-1.5 16h-7z"/><rect x="9.5" y="9" width="3" height="3" rx=".5"/><rect x="11.5" y="13.5" width="3" height="3" rx=".5"/></svg><h3>Hot or iced</h3><p>A warm mug on a cold night or an iced glass in summer. Same bottle.</p></div>
+    </div>
+  </div>
+</section>
+{%- endunless -%}
+
+{%- unless section.settings.classic -%}
+<section class="sec sec--green">
+  <div class="wrap">
+    <h2 class="sec__h">Everything in the bottle, printed on the front.</h2>
+    <div class="specs">
+      <div class="spec"><div class="spec__n">60 mL</div><h3>Glass dropper</h3><p>2 fl oz amber bottle with a measured dropper.</p></div>
+      <div class="spec"><div class="spec__n">30</div><h3>Servings</h3><p>One full dropper (2 mL) each.</p></div>
+      <div class="spec"><div class="spec__n">10 sec</div><h3>Dropper to mug</h3><p>Squeeze, stir, sip.</p></div>
+      <div class="spec"><div class="spec__n">0 g</div><h3>Added sugar</h3><p>Sweet-tart lemon without the sugar.</p></div>
+    </div>
+  </div>
+</section>
+{%- endunless -%}
+
+<section class="sec" id="how">
+  <div class="wrap">
+    <div class="sec__head sec__head--c">
+      <p class="eyebrow">How to use</p>
+      <h2 class="sec__h">Three steps. Ten seconds.</h2>
+      <p class="sec__lead">No steeping, no tea bags, no measuring. Just one dropper.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step__m"><img src="{{ 'lmty-drops-main.jpg' | asset_url }}" alt="LMTY Wellness Drops bottle" width="1080" height="1080" loading="lazy"></div><h3>Shake</h3><p>Give the bottle a quick shake.</p></div>
+      <div class="step"><div class="step__m"><img src="{{ 'lmty-life-drop.jpg' | asset_url }}" alt="One dropper going into a glass of water" width="1080" height="1350" loading="lazy"></div><h3>Add a dropper</h3><p>About 2 mL into hot or cold water.</p></div>
+      <div class="step"><div class="step__m"><img src="{{ 'lmty-life-mug.jpg' | asset_url }}" alt="A warm mug of lemon drops on a cozy blanket" width="1080" height="1080" loading="lazy"></div><h3>Stir &amp; sip</h3><p>Cozy up. That's it.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--cream" id="why">
+  <div class="wrap">
+    <div class="sec__head sec__head--c"><h2 class="sec__h">It's not the tea. It's the hassle.</h2><p class="sec__lead">Same cozy cup, two very different evenings.</p></div>
+    <div class="chk">
+      <div class="chk__col chk__col--no">
+        <h3>Tea bags + honey</h3>
+        <ul><li>Boil water, steep 5 minutes, fish out the bag</li><li>Squeeze a lemon, measure honey and sugar</li><li>Tastes different every time</li><li>Stays at home in the pantry</li></ul>
+      </div>
+      <div class="chk__col chk__col--yes">
+        <h3>LMTY Wellness Drops</h3>
+        <ul><li>One dropper, stir, done. About 10 seconds</li><li>Bright lemon flavor with zero added sugar</li><li>Same café-style cup, every time</li><li>Fits in your bag, desk or carry-on</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="guarantee" style="padding-top:0">
+  <div class="wrap">
+    <div class="guar">
+      <div><h2 class="sec__h">Try a bottle. If it arrives damaged, it's on us.</h2><p>Unopened bottles can be returned within 30 days. Damaged in transit? Email us a photo and we'll send a replacement.</p></div>
+      <div class="guar__cta"><a href="#buy" class="btn btn--lg">Add to cart</a><small>Free shipping on orders $40+</small></div>
+    </div>
+  </div>
+</section>
+
+
+
+{%- unless section.settings.classic -%}
+<section class="sec" id="inside">
+  <div class="wrap inside">
+    <div class="inside__m"><img src="{{ 'lmty-drops-benefits.jpg' | asset_url }}" alt="Café-style comfort, zero added sugar, 30 servings per bottle" width="1080" height="1080" loading="lazy"></div>
+    <div>
+      <h2 class="sec__h">Bright lemon. Zero sugar. One dropper.</h2>
+      <p class="sec__lead">A concentrated lemon drop with a gentle green tea note, made to turn plain water into the cozy cup.</p>
+      <dl class="ing">
+        <div><dt>Natural lemon flavor</dt><dd>Fresh and zesty, the star of every cup.</dd></div>
+        <div><dt>Green tea extract</dt><dd>A smooth, gentle base note in the background.</dd></div>
+        <div><dt>Zero added sugar</dt><dd>Sweet-tart without the sugar you get at the counter.</dd></div>
+        <div><dt>Measured dropper</dt><dd>About 2 mL per serving, 30 servings per bottle.</dd></div>
+      </dl>
+      <p class="nf__ing">The full ingredient list and Supplement Facts are printed on every bottle.</p>
+    </div>
+  </div>
+</section>
+{%- endunless -%}
+
+{%- unless section.settings.classic -%}
+<section class="sec sec--cream">
+  <div class="wrap">
+    <div class="sec__head sec__head--c"><h2 class="sec__h">Drops vs. the drive-thru</h2></div>
+    <table class="cmp">
+      <thead><tr><th scope="col"></th><th scope="col" class="cmp__us">LMTY Drops</th><th scope="col">Café cup</th><th scope="col">Tea bag + honey</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Cost per cup</th><td class="cmp__us">Under $1</td><td>$5+</td><td>About $1</td></tr>
+        <tr><th scope="row">Ready in</th><td class="cmp__us">10 sec</td><td>Drive + line</td><td>5+ min steep</td></tr>
+        <tr><th scope="row">Zero added sugar</th><td class="cmp__us"><span class="y">Yes</span></td><td><span class="n">No</span></td><td><span class="n">No</span></td></tr>
+        <tr><th scope="row">Take it anywhere</th><td class="cmp__us"><span class="y">Yes</span></td><td><span class="n">No</span></td><td><span class="n">No</span></td></tr>
+        <tr><th scope="row">Hot or iced</th><td class="cmp__us"><span class="y">Both</span></td><td><span class="y">Both</span></td><td><span class="n">Hot only</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+{%- endunless -%}
+
+{%- assign rv_n = 0 -%}{%- for b in section.blocks -%}{%- if b.type == 'review' -%}{%- assign rv_n = rv_n | plus: 1 -%}{%- endif -%}{%- endfor -%}
+{%- if rv_n > 0 -%}
+<section class="sec" id="reviews">
+  <div class="wrap">
+    <div class="rev__top"><h2 class="sec__h">What people are saying</h2></div>
+    <div class="revs" data-revs>
+      {%- for b in section.blocks -%}{%- if b.type != 'review' -%}{%- continue -%}{%- endif -%}
+      <article class="rev" {{ b.shopify_attributes }}><span class="rev__real">Verified buyer</span><div class="stars" aria-label="{{ b.settings.stars }} out of 5 stars">{%- for i in (1..5) -%}{% if i <= b.settings.stars %}★{% else %}☆{% endif %}{%- endfor -%}</div><h3>{{ b.settings.title }}</h3><p>{{ b.settings.text }}</p><p class="rev__by"><strong>{{ b.settings.name }}</strong></p></article>
+      {%- endfor -%}
+    </div>
+    <div class="rev__nav"><button type="button" aria-label="Previous reviews" data-rev-prev>&lsaquo;</button><button type="button" aria-label="Next reviews" data-rev-next>&rsaquo;</button></div>
+  </div>
+</section>
+{%- endif -%}
+
+{%- assign cm_n = 0 -%}{%- for b in section.blocks -%}{%- if b.type == 'comment' -%}{%- assign cm_n = cm_n | plus: 1 -%}{%- endif -%}{%- endfor -%}
+{%- if cm_n > 0 -%}
+<section class="sec sec--cream fbc" id="comments">
+  <div class="wrap">
+    <div class="sec__head sec__head--c">
+      <p class="fbc__src"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#1877f2"/><path d="M13.4 19v-6h2l.3-2.4h-2.3V9.1c0-.7.2-1.2 1.2-1.2h1.2V5.8a17 17 0 0 0-1.8-.1c-1.8 0-3 1.1-3 3.1v1.8H9V13h2v6z" fill="#fff"/></svg>{{ section.settings.comments_eyebrow }}</p>
+      <h2 class="fbc__h">{{ section.settings.comments_title }}</h2>
+      <p class="sec__lead">{{ section.settings.comments_lead }}</p>
+    </div>
+    <div class="fbc__list">
+      {%- assign open = false -%}
+      {%- for b in section.blocks -%}{%- if b.type != 'comment' -%}{%- continue -%}{%- endif -%}
+      {%- assign lvl = b.settings.level | plus: 0 -%}
+      {%- if lvl == 0 -%}{%- if open -%}</div>{%- endif -%}<div class="fbc__card">{%- assign open = true -%}{%- endif -%}
+      {%- assign initial = b.settings.name | slice: 0 | upcase -%}
+      <div class="fbc__c fbc__c--{{ lvl }}" {{ b.shopify_attributes }}>
+        <span class="fbc__av" style="--h:{{ b.settings.name | size | times: 47 | modulo: 360 }}" aria-hidden="true">{{ initial }}</span>
+        <div class="fbc__main">
+          <div class="fbc__bub"><p class="fbc__n">{{ b.settings.name }}{% if lvl != 1 %} · <span class="fbc__f">Follow</span>{% endif %}</p><p>{%- if b.settings.reply_to != blank -%}<strong>{{ b.settings.reply_to }}</strong> {% endif -%}{{ b.settings.text }}</p></div>
+          <div class="fbc__meta"><span>{{ b.settings.age }}</span><button type="button" class="fbc__like" aria-pressed="false" data-like>Like</button><span>Reply</span>{%- if b.settings.likes > 0 -%}<span class="fbc__r"><i class="fbc__ic fbc__ic--l"></i>{% if b.settings.likes > 10 %}<i class="fbc__ic fbc__ic--h"></i>{% endif %}<span data-likes>{{ b.settings.likes }}</span></span>{%- endif -%}</div>
+        </div>
+      </div>
+      {%- endfor -%}
+      {%- if open -%}</div>{%- endif -%}
+    </div>
+    <p class="fbc__note">Real comments from our ads, lightly edited for length. Individual results vary.</p>
+  </div>
+</section>
+{%- endif -%}
+
+<section class="sec sec--cream" id="faq">
+  <div class="wrap">
+    <div class="sec__head sec__head--c"><h2 class="sec__h">Frequently Asked Questions</h2></div>
+    <div class="faq">
+      <details class="acc"><summary>How do I use the drops?</summary><div class="acc__b"><p>Shake the bottle, then add one full dropper (about 2 mL) to a mug of hot water, a glass of cold water or your favorite tea. Stir and sip.</p></div></details>
+      <details class="acc"><summary>How many servings are in a bottle?</summary><div class="acc__b"><p>About 30 servings of 2 mL each in a 60 mL bottle.</p></div></details>
+      <details class="acc"><summary>What does it taste like?</summary><div class="acc__b"><p>Bright, sweet-tart lemon with a soft green tea note in the background. Add more or less to taste.</p></div></details>
+      <details class="acc"><summary>Is there sugar in it?</summary><div class="acc__b"><p>No added sugar. Check the Supplement Facts on the bottle for the full details.</p></div></details>
+      <details class="acc"><summary>Does it have caffeine?</summary><div class="acc__b"><p>A small amount from the green tea extract, well below a cup of coffee.</p></div></details>
+      <details class="acc"><summary>How do I store it?</summary><div class="acc__b"><p>Keep it in a cool, dry place out of direct sunlight, with the cap tightly closed.</p></div></details>
+      <details class="acc"><summary>How long does shipping take?</summary><div class="acc__b"><p>Orders ship from a US warehouse within 1 to 2 business days and usually arrive in 3 to 5. Shipping is free on orders $40 and up.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<div class="sticky" data-sticky aria-hidden="true">
+  <div class="wrap sticky__in">
+    {%- if own and p.featured_image -%}<img src="{{ p.featured_image | image_url: width: 120 }}" alt="" width="48" height="48">{%- endif -%}
+    <div><div class="sticky__t">{% if own %}{{ p.title }}{% else %}LMTY Wellness Drops{% endif %}</div><div class="sticky__p"><span data-price-label>{{ v.price | money }}</span> · Free shipping $40+</div></div>
+    <button type="button" class="btn" data-sticky-add tabindex="-1"{% unless v.available %} disabled{% endunless %}>Add to cart</button>
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "Steep landing",
+  "settings": [
+    {"type": "checkbox", "id": "show_hero", "label": "Show hero + proof strip", "default": true},
+    {"type": "checkbox", "id": "classic", "label": "Classic (shorter) layout", "default": false},
+    {"type": "image_picker", "id": "hero_image", "label": "Hero image", "info": "Square product shot. Falls back to the product's first image."},
+    {"type": "product", "id": "product", "label": "Product (home page only)"},
+    {"type": "text", "id": "comments_eyebrow", "label": "Comments: eyebrow", "default": "From our Facebook ad comments"},
+    {"type": "text", "id": "comments_title", "label": "Comments: heading", "default": "Don't take our word for it. Ask the comments."},
+    {"type": "text", "id": "comments_lead", "label": "Comments: intro", "default": "Every time someone asks a question under our ads, the answers come from people who already tried it."},
+    {"type": "header", "content": "Bundle perks (only promise what you ship)"},
+    {"type": "text", "id": "perk_1", "label": "Perk on every bundle above 1 bottle", "default": "Free Express Shipping"},
+    {"type": "text", "id": "perk_2", "label": "Extra perk on the biggest bundle", "default": "Free Mystery Gift"},
+    {"type": "text", "id": "perk_3", "label": "Second extra perk on the biggest bundle", "default": "Free Shipping Protection"},
+    {"type": "text", "id": "sale_label", "label": "Label before SAVE % (e.g. Fall Sale)", "default": "Fall Sale"},
+    {"type": "text", "id": "unit_3", "label": "Buy 2 Get 1 FREE price per bottle", "default": "13.99", "info": "Used when the product has no 3-bottle option."},
+    {"type": "text", "id": "unit_6", "label": "Buy 3 Get 3 FREE price per bottle", "default": "10.99", "info": "Used when the product has no 6-bottle option."},
+    {"type": "text", "id": "code_3", "label": "Discount code applied for Buy 2 Get 1 FREE", "default": "BUY2GET1", "info": "Create in Shopify Discounts so checkout matches: fixed amount = 3 x your 1-bottle price minus $41.97."},
+    {"type": "text", "id": "code_6", "label": "Discount code applied for Buy 3 Get 3 FREE", "default": "BUY3GET3", "info": "Fixed amount = 6 x your 1-bottle price minus $65.94."},
+    {"type": "number", "id": "delivery_days", "label": "Business days to delivery (for the delivery date)", "default": 5},
+    {"type": "header", "content": "Rating badge (real numbers only)"},
+    {"type": "text", "id": "rating_value", "label": "Average rating (e.g. 4.8)", "info": "Copy from your review app. Leave blank to hide."},
+    {"type": "number", "id": "rating_count", "label": "Number of reviews"},
+    {"type": "text", "id": "rating_source", "label": "Where the reviews are from (e.g. Judge.me)"},
+    {"type": "html", "id": "trustbox", "label": "Trustpilot TrustBox code", "info": "Paste the TrustBox snippet from your Trustpilot business account."},
+    {"type": "number", "id": "review_count", "label": "Order count shown next to rating", "default": 1000}
+  ],
+  "blocks": [
+    {"type": "ingredient", "name": "Blend ingredient", "settings": [
+      {"type": "text", "id": "title", "label": "Name", "default": "Green Tea"},
+      {"type": "text", "id": "text", "label": "One-line description"},
+      {"type": "image_picker", "id": "image", "label": "Cut-out photo (transparent PNG)"},
+      {"type": "select", "id": "art", "label": "Illustration if no photo", "default": "green-tea", "options": [
+        {"value": "green-tea", "label": "Green tea"}, {"value": "lemon-verbena", "label": "Lemon verbena"},
+        {"value": "spearmint", "label": "Spearmint"}, {"value": "honey", "label": "Honey"}]}
+    ]}
+  ,
+    {"type": "review", "name": "Customer review", "settings": [
+      {"type": "paragraph", "content": "Add real reviews from verified buyers only."},
+      {"type": "text", "id": "name", "label": "Name (first name + initial)", "default": "Name"},
+      {"type": "range", "id": "stars", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5},
+      {"type": "text", "id": "title", "label": "Headline"},
+      {"type": "textarea", "id": "text", "label": "Review"}
+    ]},
+    {"type": "comment", "name": "Ad comment", "settings": [
+      {"type": "paragraph", "content": "Paste a real comment from your ads, word for word. Level 0 starts a new thread; 1 and 2 are replies under it."},
+      {"type": "text", "id": "name", "label": "Commenter name (first name + initial)", "default": "Name"},
+      {"type": "select", "id": "level", "label": "Level", "default": "0", "options": [{"value": "0", "label": "Top comment"}, {"value": "1", "label": "Reply"}, {"value": "2", "label": "Reply to reply"}]},
+      {"type": "text", "id": "reply_to", "label": "Replying to (name, optional)"},
+      {"type": "textarea", "id": "text", "label": "Comment text"},
+      {"type": "text", "id": "age", "label": "Age label", "default": "1w"},
+      {"type": "number", "id": "likes", "label": "Reactions", "default": 0}
+    ]}
+  ],
+  "presets": [{"name": "Steep landing"}]
+}
+{% endschema %}

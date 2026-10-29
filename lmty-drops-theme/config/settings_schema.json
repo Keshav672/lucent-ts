@@ -1,0 +1,10 @@
+[
+  {"name":"theme_info","theme_name":"LMTY Drops","theme_version":"1.0.0","theme_author":"Store","theme_documentation_url":"https://help.shopify.com","theme_support_url":"https://help.shopify.com"},
+  {"name":"Store","settings":[
+    {"type":"text","id":"brand_name","label":"Brand name shown in the logo","default":"LMTY"},
+    {"type":"product","id":"featured_product","label":"Featured product","info":"Defaults to handle lmty-wellness-drops."},
+    {"type":"image_picker","id":"favicon","label":"Favicon"},
+    {"type":"text","id":"announcement","label":"Announcement bar","default":"Free shipping on orders $40+ · Ships from a US warehouse · Hot or iced in 10 seconds · 30 servings per bottle"},
+    {"type":"number","id":"free_ship_threshold","label":"Free shipping threshold (dollars, 0 hides the bar)","default":40}
+  ]}
+]

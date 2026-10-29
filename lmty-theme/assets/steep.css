@@ -539,7 +539,8 @@ button{font:inherit;color:inherit}
 .gal__thumbs{max-width:100%;scrollbar-width:none}
 .gal__thumbs::-webkit-scrollbar{display:none}
 html,body{overflow-x:clip}
-.cmp{display:block;overflow-x:auto}
+.cmp{display:table}
+@media (max-width:600px){.cmp{display:block;overflow-x:auto}}
 @media (max-width:600px){.gal__thumbs button{flex-basis:60px;height:60px}.buy__t{font-size:1.75rem}.opt{padding:14px}.pricerow__now{font-size:1.4rem}}
 
 /* pinemoor-style bundle tiers */

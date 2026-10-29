@@ -1,0 +1,86 @@
+{%- assign p = section.settings.product -%}
+{%- if p == blank -%}{%- assign p = settings.featured_product -%}{%- endif -%}
+{%- if p == blank -%}{%- assign p = all_products['lmty-wellness-drops'] -%}{%- endif -%}
+{%- if p != blank -%}{%- assign p_url = p.url -%}{%- else -%}{%- assign p_url = routes.all_products_collection_url -%}{%- endif -%}
+<section class="home">
+  <div class="home__media">
+    {%- if section.settings.image != blank -%}
+      <img src="{{ section.settings.image | image_url: width: 2000 }}" alt="{{ section.settings.image.alt | default: 'LMTY Wellness Drops' | escape }}" width="2000" height="1200" fetchpriority="high">
+    {%- else -%}
+      <img src="{{ 'lmty-drops-main.jpg' | asset_url }}" alt="LMTY Wellness Drops lemon dropper bottle with a warm mug and fresh lemon" width="1080" height="1080" fetchpriority="high">
+    {%- endif -%}
+  </div>
+  <div class="wrap">
+    <div class="home__card">
+      <h1 class="home__h">{{ section.settings.heading | default: 'Café-style comfort. Now in a dropper.' }}</h1>
+      <p class="home__sub">{{ section.settings.sub | default: 'Bright lemon wellness drops. One dropper, the cozy cup. Free shipping on orders $40+.' }}</p>
+      <a href="{{ p_url }}" class="btn btn--lg">{{ section.settings.cta | default: 'Shop now' }}</a>
+    </div>
+  </div>
+</section>
+
+<div class="proof">
+  <div class="wrap proof__in">
+    <div class="proof__i"><div class="proof__n">30</div><div class="proof__l">servings per bottle</div></div>
+    <div class="proof__i"><div class="proof__n">0 g</div><div class="proof__l">added sugar</div></div>
+    <div class="proof__i"><div class="proof__n">10 sec</div><div class="proof__l">dropper to mug</div></div>
+    <div class="proof__i"><div class="proof__n">$40+</div><div class="proof__l">ships free</div></div>
+  </div>
+</div>
+
+<section class="sec">
+  <div class="wrap hp">
+    <div class="hp__m"><img src="{{ 'lmty-drops-benefits.jpg' | asset_url }}" alt="Café-style comfort, zero added sugar, 30 servings per bottle" width="1080" height="1080" loading="lazy"></div>
+    <div>
+      <p class="eyebrow">Best seller</p>
+      <h2 class="sec__h">LMTY Wellness Drops</h2>
+      <p class="sec__lead">Bright lemon drops with a touch of green tea. One dropper in hot or cold water makes the cozy, café-style cup, with zero added sugar.</p>
+      <p class="hp__price">{%- if p != blank -%}{{ p.price | money }}{%- if p.compare_at_price > p.price -%} <s>{{ p.compare_at_price | money }}</s>{%- endif -%}{%- endif -%}</p>
+      <a href="{{ p_url }}" class="btn btn--lg">Shop now</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--cream">
+  <div class="wrap">
+    <div class="sec__head sec__head--c"><h2 class="sec__h">Shake. Drop. Sip.</h2><p class="sec__lead">The cozy cup in about 10 seconds.</p></div>
+    <div class="steps">
+      <div class="step"><div class="step__m"><img src="{{ 'lmty-drops-main.jpg' | asset_url }}" alt="LMTY Wellness Drops bottle" width="1080" height="1080" loading="lazy"></div><h3>Shake</h3><p>Give the bottle a quick shake.</p></div>
+      <div class="step"><div class="step__m"><img src="{{ 'lmty-life-drop.jpg' | asset_url }}" alt="One dropper going into a glass of water" width="1080" height="1350" loading="lazy"></div><h3>Add a dropper</h3><p>About 2 mL into hot or cold water.</p></div>
+      <div class="step"><div class="step__m"><img src="{{ 'lmty-life-mug.jpg' | asset_url }}" alt="A warm mug of lemon drops on a cozy blanket" width="1080" height="1080" loading="lazy"></div><h3>Stir &amp; sip</h3><p>Warm and cozy, or over ice.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap hp">
+    <div>
+      <p class="eyebrow">The cozy cup, without the café</p>
+      <h2 class="sec__h">Skip the drive-thru.</h2>
+      <p class="sec__lead">Ready in seconds, zero added sugar, under $1 a cup, and it fits in your bag. The warm lemon cup you'd line up for, wherever there's water.</p>
+      <a href="{{ p_url }}" class="btn btn--lg">Shop now</a>
+    </div>
+    <div class="hp__m"><img src="{{ 'lmty-drops-compare.jpg' | asset_url }}" alt="LMTY Drops compared with tea bags and a café cup" width="1080" height="1080" loading="lazy"></div>
+  </div>
+</section>
+
+<section class="sec sec--green final">
+  <div class="wrap">
+    <h2 class="sec__h">Skip the line. Keep the cozy.</h2>
+    <p>30 servings per bottle, free shipping on orders $40+.</p>
+    <a href="{{ p_url }}" class="btn btn--lg btn--light">Shop LMTY</a>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Home offer",
+  "settings": [
+    {"type": "image_picker", "id": "image", "label": "Hero image"},
+    {"type": "product", "id": "product", "label": "Shop Now goes to"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Café-style comfort. Now in a dropper."},
+    {"type": "text", "id": "sub", "label": "Subheading", "default": "Bright lemon wellness drops. One dropper, the cozy cup. Free shipping on orders $40+."},
+    {"type": "text", "id": "cta", "label": "Button", "default": "Shop now"}
+  ],
+  "presets": [{"name": "Home offer"}]
+}
+{% endschema %}

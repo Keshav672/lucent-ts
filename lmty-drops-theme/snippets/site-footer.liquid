@@ -1,0 +1,23 @@
+{%- assign fp = settings.featured_product -%}
+{%- if fp == blank -%}{%- assign fp = all_products['lmty-wellness-drops'] -%}{%- endif -%}
+{%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.all_products_collection_url -%}{%- endif -%}
+{%- if pages['contact'] != blank -%}{%- assign contact_url = pages['contact'].url -%}{%- else -%}{%- assign contact_url = 'mailto:' | append: shop.email -%}{%- endif -%}
+{%- if pages['shipping-returns'] != blank -%}{%- assign ship_url = pages['shipping-returns'].url -%}{%- else -%}{%- assign ship_url = contact_url -%}{%- endif -%}
+<footer class="foot">
+  <div class="wrap foot__grid">
+    <div class="foot__brand"><span class="wordmark">{{ settings.brand_name | default: 'LMTY' }}</span><p>The cozy, feel-good cup you line up for, in a dropper.</p></div>
+    <div class="foot__col"><h3>Shop</h3><a href="{{ fp_url }}">Wellness Drops</a><a href="{{ routes.all_products_collection_url }}">All products</a><a href="{{ routes.cart_url }}">Cart</a></div>
+    <div class="foot__col"><h3>Help</h3><a href="{{ contact_url }}">Contact</a>{%- if pages['shipping-returns'] != blank -%}<a href="{{ ship_url }}">Shipping &amp; returns</a>{%- endif -%}<a href="{{ routes.account_url }}">Track an order</a></div>
+  </div>
+  <div class="wrap foot__more">
+    <h3>More information</h3>
+    <nav aria-label="Policies">
+      {%- if shop.terms_of_service -%}<a href="{{ shop.terms_of_service.url }}">Terms of Service</a>{%- endif -%}
+      {%- if shop.privacy_policy -%}<a href="{{ shop.privacy_policy.url }}">Privacy Policy</a>{%- endif -%}
+      {%- if shop.refund_policy -%}<a href="{{ shop.refund_policy.url }}">Refund Policy</a>{%- endif -%}
+      {%- if shop.shipping_policy -%}<a href="{{ shop.shipping_policy.url }}">Shipping Policy</a>{%- endif -%}
+    </nav>
+    <ul class="pays" aria-label="Accepted payments">{%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag }}</li>{%- endfor -%}</ul>
+  </div>
+  <div class="wrap foot__legal"><p>&copy; {{ 'now' | date: '%Y' }} {{ settings.brand_name | default: 'LMTY' }}.</p><p>Green tea photo: "Maofeng green tea", Wikimedia Commons, CC BY 2.5.</p><p>Contains green tea (caffeine). Not intended to diagnose, treat, cure or prevent any disease.</p></div>
+</footer>

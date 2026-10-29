@@ -1,0 +1,41 @@
+{%- assign fp = settings.featured_product -%}
+{%- if fp == blank -%}{%- assign fp = all_products['lmty-wellness-drops'] -%}{%- endif -%}
+{%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.all_products_collection_url -%}{%- endif -%}
+{%- if pages['track-order'] != blank -%}{%- assign track_url = pages['track-order'].url -%}{%- else -%}{%- assign track_url = routes.account_url -%}{%- endif -%}
+{%- if pages['contact'] != blank -%}{%- assign contact_url = pages['contact'].url -%}{%- else -%}{%- assign contact_url = 'mailto:' | append: shop.email -%}{%- endif -%}
+<a href="#content" class="skip-link">Skip to content</a>
+{%- if settings.announcement != blank -%}
+{%- assign msgs = settings.announcement | split: '·' -%}
+<div class="announce" aria-label="{{ settings.announcement | escape }}"><div class="announce__track" aria-hidden="true">{%- for k in (1..4) -%}{%- for m in msgs -%}<span>{{ m | strip }}</span>{%- endfor -%}{%- endfor -%}</div></div>
+{%- endif -%}
+<header class="head" data-head>
+  <div class="wrap head__in">
+    <button class="head__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu" data-menu-open><span></span><span></span></button>
+    <a href="{{ routes.root_url }}" class="wordmark">{{ settings.brand_name | default: 'LMTY' }}</a>
+    <nav class="head__nav" aria-label="Primary">
+      <a href="{{ fp_url }}#how">How to make it</a>
+      <a href="{{ fp_url }}#inside">What's inside</a>
+      <a href="{{ fp_url }}#faq">FAQ</a>
+      {%- if pages['track-order'] != blank -%}<a href="{{ track_url }}">Track order</a>{%- endif -%}
+    </nav>
+    <div class="head__act">
+      <a href="{{ routes.account_url }}" class="head__icon" aria-label="Account"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a>
+      <button type="button" class="head__icon head__cart" aria-label="Open cart" data-cart-open><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="head__count" data-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span></button>
+      <a href="{{ fp_url }}#buy" class="btn btn--sm head__cta">Shop now</a>
+    </div>
+  </div>
+</header>
+<div class="scrim" data-menu-scrim hidden></div>
+<aside class="menu" id="menu" aria-label="Menu" aria-hidden="true" data-menu>
+  <div class="menu__top"><span class="wordmark">{{ settings.brand_name | default: 'LMTY' }}</span><button type="button" class="menu__x" aria-label="Close menu" data-menu-close>&times;</button></div>
+  <nav class="menu__nav">
+    <a href="{{ fp_url }}">Shop the drops</a>
+    <a href="{{ fp_url }}#how">How to make it</a>
+    <a href="{{ fp_url }}#inside">What's inside</a>
+    <a href="{{ fp_url }}#faq">FAQ</a>
+    <a href="{{ routes.collections_url }}/best-sellers">Best sellers</a>
+    {%- if pages['track-order'] != blank -%}<a href="{{ track_url }}">Track order</a>{%- endif -%}
+    <a href="{{ contact_url }}">Contact us</a>
+  </nav>
+  <a href="{{ fp_url }}#buy" class="btn btn--block">Shop now</a>
+</aside>
