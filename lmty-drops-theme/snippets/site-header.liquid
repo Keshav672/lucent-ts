@@ -1,5 +1,8 @@
 {%- assign fp = settings.featured_product -%}
 {%- if fp == blank -%}{%- assign fp = all_products['lmty-wellness-drops'] -%}{%- endif -%}
+{%- if fp == blank -%}{%- for c_p in collections['all'].products -%}{%- if fp == blank and c_p.title contains 'Drops' -%}{%- assign fp = c_p -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if fp == blank -%}{%- for c_p in collections['all'].products -%}{%- if fp == blank and c_p.title contains 'LMTY' -%}{%- assign fp = c_p -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if fp == blank and collections['all'].products.size > 0 -%}{%- assign fp = collections['all'].products.first -%}{%- endif -%}
 {%- if fp != blank -%}{%- assign fp_url = fp.url -%}{%- else -%}{%- assign fp_url = routes.all_products_collection_url -%}{%- endif -%}
 {%- if pages['track-order'] != blank -%}{%- assign track_url = pages['track-order'].url -%}{%- else -%}{%- assign track_url = routes.account_url -%}{%- endif -%}
 {%- if pages['contact'] != blank -%}{%- assign contact_url = pages['contact'].url -%}{%- else -%}{%- assign contact_url = 'mailto:' | append: shop.email -%}{%- endif -%}

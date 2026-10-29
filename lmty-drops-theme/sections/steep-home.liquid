@@ -1,6 +1,9 @@
 {%- assign p = section.settings.product -%}
 {%- if p == blank -%}{%- assign p = settings.featured_product -%}{%- endif -%}
 {%- if p == blank -%}{%- assign p = all_products['lmty-wellness-drops'] -%}{%- endif -%}
+{%- if p == blank -%}{%- for c_p in collections['all'].products -%}{%- if p == blank and c_p.title contains 'Drops' -%}{%- assign p = c_p -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if p == blank -%}{%- for c_p in collections['all'].products -%}{%- if p == blank and c_p.title contains 'LMTY' -%}{%- assign p = c_p -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- if p == blank and collections['all'].products.size > 0 -%}{%- assign p = collections['all'].products.first -%}{%- endif -%}
 {%- if p != blank -%}{%- assign p_url = p.url -%}{%- else -%}{%- assign p_url = routes.all_products_collection_url -%}{%- endif -%}
 <section class="home">
   <div class="home__media">
