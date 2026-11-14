@@ -57,3 +57,18 @@ Library: top 77, median 61, 95th percentile 76, bottom 32.
 | 36 | Top 10 Holistic Tips | 1638102237861355 | 9.5 | 92 | 6/6/7/4/4/3/1/2/3 | 36 |
 | 37 | Rosanova | 1067277242737072 | 7.1 | 116 | 9/8/4/4/4/2/1/3/1 | 36 |
 | 38 | Best Chinese Medicines | 1038326608525226 | 6.4 | 135 | 6/8/3/3/3/2/1/3/3 | 32 |
+
+## Length check: does longer copy win?
+
+Proxy for "winning": days the ad has been running as of 2026-11-14 (advertisers stop paying for losers). 43 ads with start dates.
+
+| Length | Ads | Median days running | Running 60+ days |
+|---|---|---|---|
+| Under 400 words | 22 | 98 | 13 of 22 |
+| 400–999 words | 3 | 163 | 3 of 3 |
+| 1,000+ words | 18 | 67 | 11 of 18 |
+
+The longest-running ad in the sample is 173 words (Ecarma Health Options, 1,174 days). Next: Dandy Superfoods at 65 words (425 days) and Origindrops at 132 words (220 days).
+Almost all 1,000+ word ads are fake-persona disease stories (fatty liver, cholesterol, Ozempic) whose length carries health claims LMTY can't make.
+The 400–999 band is only 3 ads (Riverside Veterinary, 2x Power Plate): too few to call a pattern. Hypothesis to test, not a rule.
+Confounds: budget, advertiser, category and audience all differ; days running is not ROAS.
