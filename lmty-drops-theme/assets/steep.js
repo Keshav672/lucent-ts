@@ -82,10 +82,14 @@
     var idInput = $('[data-variant-id]', form), addBtn = $('[data-add]', form), msg = $('[data-buy-msg]');
     var planToggle = $('[data-plan-toggle]', form), planInput = $('[data-plan-input]', form), planNote = $('[data-plan-note]', form);
     function setText(sel, txt) { $$(sel).forEach(function (n) { n.textContent = txt; }); }
+    var planWrap = $('[data-plan-wrap]', form);
+    /* each bundle carries its own subscription plan id (one plan per bundle keeps every price at .99) */
+    function planFor(o) { if (!planInput) return ''; return o.dataset.planId !== undefined ? o.dataset.planId : planInput.dataset.planId; }
     function syncTier() {
       var r = $('input[name="steep-tier"]:checked', form) || $('input[name="steep-variant"]:checked', form);
       if (!r) return;
-      var sub = planToggle && planToggle.checked;
+      var subWanted = planToggle && planToggle.checked, sub = subWanted && !!planFor(r);
+      if (planWrap) planWrap.hidden = !planFor(r);
       var n = Number(r.dataset.n) || 1, price = Number(sub ? r.dataset.planPrice : r.dataset.price), cmp = Number(r.dataset.compare);
       idInput.value = r.value;
       var qIn = $('[data-qty-input]', form); if (qIn) qIn.value = r.dataset.qty || 1;
@@ -96,18 +100,24 @@
       if (was) { was.hidden = !on; was.textContent = money(Math.round(cmp / n)); }
       if (pill) { pill.hidden = !on; pill.textContent = pill.textContent.split(' - ')[0] + ' - SAVE ' + Math.floor((cmp - price) * 100 / cmp) + '%'; }
       $$('input[name="steep-tier"], input[name="steep-variant"]', form).forEach(function (o) {
-        var on2 = sub ? Number(o.dataset.planPrice) : Number(o.dataset.price), k = Number(o.dataset.n) || 1, card = o.closest('.tier');
+        var on2 = (subWanted && planFor(o)) ? Number(o.dataset.planPrice) : Number(o.dataset.price), k = Number(o.dataset.n) || 1, card = o.closest('.tier');
         var u = $('[data-unit]', card); if (u) u.textContent = money(Math.round(on2 / k));
         var sv = $('[data-saved]', card); if (sv) sv.textContent = money(Number(o.dataset.compare) - on2).replace(/\.00$/, '');
       });
-      if (planInput) planInput.value = sub ? planInput.dataset.planId : '';
+      if (planInput) planInput.value = sub ? planFor(r) : '';
       if (planNote) planNote.hidden = !sub;
     }
-    var tierInputs = $$('input[name="steep-tier"]:not(:disabled)', form);
-    if (tierInputs.length && !$('input[name="steep-tier"]:checked', form)) tierInputs[tierInputs.length - 1].checked = true;
+    /* every visit opens on the biggest bundle (3 of 3) with Subscribe & Save ticked */
+    function setDefaults() {
+      var tierInputs = $$('input[name="steep-tier"]:not(:disabled)', form);
+      if (tierInputs.length) tierInputs[tierInputs.length - 1].checked = true;
+      if (planToggle) planToggle.checked = true;
+      syncTier();
+    }
     $$('input[name="steep-tier"], input[name="steep-variant"]', form).forEach(function (r) { r.addEventListener('change', syncTier); });
     if (planToggle) planToggle.addEventListener('change', syncTier);
-    syncTier();
+    setDefaults();
+    window.addEventListener('pageshow', function (e) { if (e.persisted) setDefaults(); });
 
     /* delivery estimate: today + N business days */
     var eta = $('[data-eta]');

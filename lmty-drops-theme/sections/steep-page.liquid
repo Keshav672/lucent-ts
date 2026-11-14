@@ -5,7 +5,7 @@
 {%- assign v = p.selected_or_first_available_variant -%}
 {%- if p.selected_variant == blank and p.variants.size > 1 -%}
   {%- assign v = p.variants.last -%}
-  {%- for var in p.variants -%}{%- assign tn = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if tn == 3 and var.available -%}{%- assign v = var -%}{%- endif -%}{%- endfor -%}
+  {%- for var in p.variants -%}{%- assign tn = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if tn == 6 and var.available -%}{%- assign v = var -%}{%- endif -%}{%- endfor -%}
 {%- endif -%}
 {%- assign best = v.price -%}{%- for var in p.variants -%}{%- assign nc = var.title | remove_first: 'Pack' | remove_first: 'pack' | strip | plus: 0 -%}{%- if nc < 1 -%}{%- assign nc = 1 -%}{%- endif -%}{%- assign pc = var.price | divided_by: nc -%}{%- if pc < best -%}{%- assign best = pc -%}{%- endif -%}{%- endfor -%}
 {%- assign per_serv = best | divided_by: 5 -%}
@@ -58,8 +58,6 @@
           <img src="{{ 'lmty-drops-compare.jpg' | asset_url }}" alt="LMTY Drops compared with tea bags and a café cup" width="1080" height="1080" data-slide hidden loading="lazy">
           <img src="{{ 'lmty-life-drop.jpg' | asset_url }}" alt="One drop from the LMTY dropper" width="1080" height="1080" data-slide hidden loading="lazy">
           <img src="{{ 'lmty-drops-guarantee.jpg' | asset_url }}" alt="Damage-free delivery guarantee" width="1080" height="1080" data-slide hidden loading="lazy">
-          <img src="{{ 'lmty-drops-3pack.jpg' | asset_url }}" alt="Three bottles of LMTY Wellness Drops" width="1080" height="1080" data-slide hidden loading="lazy">
-          <img src="{{ 'lmty-drops-6pack.jpg' | asset_url }}" alt="Six bottles of LMTY Wellness Drops" width="1080" height="1080" data-slide hidden loading="lazy">
         <button type="button" class="gal__nav gal__nav--p" aria-label="Previous image" data-prev>&lsaquo;</button>
         <button type="button" class="gal__nav gal__nav--n" aria-label="Next image" data-next>&rsaquo;</button>
       </div>
@@ -72,8 +70,6 @@
           <button type="button" aria-label="Show image 5"><img src="{{ 'lmty-drops-compare.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
           <button type="button" aria-label="Show image 6"><img src="{{ 'lmty-life-drop.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
           <button type="button" aria-label="Show image 7"><img src="{{ 'lmty-drops-guarantee.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
-          <button type="button" aria-label="Show image 8"><img src="{{ 'lmty-drops-3pack.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
-          <button type="button" aria-label="Show image 9"><img src="{{ 'lmty-drops-6pack.jpg' | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
       </div>
     </div>
 
@@ -144,12 +140,12 @@
             {%- endif -%}
             {%- if found -%}
               {%- assign t_id = tvar.id -%}{%- assign t_price = tvar.price -%}{%- assign t_cmp = tvar.compare_at_price | default: tvar.price -%}{%- assign t_ok = tvar.available -%}
-              {%- assign t_plan = tvar.price -%}{%- if has_plans and tvar.selling_plan_allocations.size > 0 -%}{%- assign t_plan = tvar.selling_plan_allocations.first.price -%}{%- endif -%}
+              {%- assign t_plan = tvar.price -%}{%- assign t_plan_id = '' -%}{%- if has_plans and tvar.selling_plan_allocations.size > 0 -%}{%- assign t_plan = tvar.selling_plan_allocations.first.price -%}{%- assign t_plan_id = tvar.selling_plan_allocations.first.selling_plan.id -%}{%- endif -%}
             {%- else -%}
               {%- assign t_id = base.id -%}{%- assign t_cmp = base_cmp | times: cnt -%}{%- assign t_ok = base.available -%}
-              {%- if cnt == 3 -%}{%- assign t_price = section.settings.unit_3 | default: '13.99' | times: 100 | round | times: cnt -%}{%- assign t_code = section.settings.code_3 -%}
-              {%- else -%}{%- assign t_price = section.settings.unit_6 | default: '10.99' | times: 100 | round | times: cnt -%}{%- assign t_code = section.settings.code_6 -%}{%- endif -%}
-              {%- assign t_plan = t_price -%}
+              {%- if cnt == 3 -%}{%- assign t_price = section.settings.unit_3 | default: '15.99' | times: 100 | round | times: cnt -%}{%- assign t_code = section.settings.code_3 -%}
+              {%- else -%}{%- assign t_price = section.settings.unit_6 | default: '11.99' | times: 100 | round | times: cnt -%}{%- assign t_code = section.settings.code_6 -%}{%- endif -%}
+              {%- assign t_plan = t_price -%}{%- assign t_plan_id = '' -%}
             {%- endif -%}
             {%- if t_ok -%}{%- assign checked_n = n -%}{%- endif -%}
             {%- if found -%}{%- assign t_qty = 1 -%}{%- else -%}{%- assign t_qty = cnt -%}{%- endif -%}
@@ -158,7 +154,7 @@
           <label class="tier">
             {%- if n == 3 -%}<span class="tier__flag">Best value</span>{%- endif -%}
             <span class="tier__row">
-              <input type="radio" name="steep-tier" value="{{ t_id }}" data-qty="{{ t_qty }}" data-code="{{ t_code | escape }}" data-price="{{ t_price }}" data-plan-price="{{ t_plan }}" data-compare="{{ t_cmp }}" data-n="{{ cnt }}"{% unless t_ok %} disabled{% endunless %}>
+              <input type="radio" name="steep-tier" value="{{ t_id }}" data-qty="{{ t_qty }}" data-code="{{ t_code | escape }}" data-price="{{ t_price }}" data-plan-price="{{ t_plan }}" data-plan-id="{{ t_plan_id }}" autocomplete="off"{% if n == 3 %} checked{% endif %} data-compare="{{ t_cmp }}" data-n="{{ cnt }}"{% unless t_ok %} disabled{% endunless %}>
               <img class="tier__img" src="{{ pimg | asset_url }}" alt="" width="60" height="60" loading="lazy">
               <span class="tier__b"><span class="tier__t">{{ tname }}</span><span class="tier__s">{{ cnt }} Bottle{% if cnt > 1 %}s{% endif %}{% unless t_ok %} · Sold out{% endunless %}</span></span>
               <span class="tier__p"><strong><span data-unit>{{ unit | money }}</span><small>/bottle</small></strong>{% if cmp_unit > unit %}<s>{{ cmp_unit | money }}</s>{% endif %}</span>
@@ -180,16 +176,16 @@
           <p>Product options in Shopify:</p>
           <ul>{%- for var in p.variants -%}<li>"{{ var.title }}": {{ var.price | money }}{% unless var.available %} (unavailable){% endunless %}</li>{%- endfor -%}</ul>
           <p>Buy One uses: "{{ base.title }}" at {{ base.price | money }}</p>
-          {%- assign need3 = base.price | times: 3 | minus: 4197 -%}{%- assign need6 = base.price | times: 6 | minus: 6594 -%}
-          <p>If there is no 3-bottle option, code <b>{{ section.settings.code_3 }}</b> must be a fixed amount of <b>{{ need3 | money }}</b> off, minimum quantity 3 (3 x {{ base.price | money }} = {{ base.price | times: 3 | money }} &rarr; $41.97).</p>
-          <p>If there is no 6-bottle option, code <b>{{ section.settings.code_6 }}</b> must be a fixed amount of <b>{{ need6 | money }}</b> off, minimum quantity 6 (6 x {{ base.price | money }} = {{ base.price | times: 6 | money }} &rarr; $65.94).</p>
+          {%- assign need3 = base.price | times: 3 | minus: 4797 -%}{%- assign need6 = base.price | times: 6 | minus: 7194 -%}
+          <p>If there is no 3-bottle option, code <b>{{ section.settings.code_3 }}</b> must be a fixed amount of <b>{{ need3 | money }}</b> off, minimum quantity 3 (3 x {{ base.price | money }} = {{ base.price | times: 3 | money }} &rarr; $47.97).</p>
+          <p>If there is no 6-bottle option, code <b>{{ section.settings.code_6 }}</b> must be a fixed amount of <b>{{ need6 | money }}</b> off, minimum quantity 6 (6 x {{ base.price | money }} = {{ base.price | times: 6 | money }} &rarr; $71.94).</p>
         </div>
 
         {%- if has_plans -%}
         {%- assign plan = p.selling_plan_groups.first.selling_plans.first -%}
         <input type="hidden" name="selling_plan" value="" data-plan-input data-plan-id="{{ plan.id }}">
-        <label class="subtog">
-          <input type="checkbox" data-plan-toggle checked>
+        <label class="subtog" data-plan-wrap>
+          <input type="checkbox" data-plan-toggle checked autocomplete="off">
           <span><strong>Subscribe &amp; Save</strong><small>Delivered {{ plan.name | downcase | remove: 'subscribe & save' | strip | default: 'monthly' }} · Cancel anytime · Skip or pause whenever</small></span>
         </label>
         {%- endif -%}
@@ -456,10 +452,10 @@
     {"type": "text", "id": "perk_2", "label": "Extra perk on the biggest bundle", "default": "Free Mystery Gift"},
     {"type": "text", "id": "perk_3", "label": "Second extra perk on the biggest bundle", "default": "Free Shipping Protection"},
     {"type": "text", "id": "sale_label", "label": "Label before SAVE % (e.g. Fall Sale)", "default": "Fall Sale"},
-    {"type": "text", "id": "unit_3", "label": "Buy 2 Get 1 FREE price per bottle", "default": "13.99", "info": "Used when the product has no 3-bottle option."},
-    {"type": "text", "id": "unit_6", "label": "Buy 3 Get 3 FREE price per bottle", "default": "10.99", "info": "Used when the product has no 6-bottle option."},
-    {"type": "text", "id": "code_3", "label": "Discount code applied for Buy 2 Get 1 FREE", "default": "BUY2GET1", "info": "Create in Shopify Discounts so checkout matches: fixed amount = 3 x your 1-bottle price minus $41.97."},
-    {"type": "text", "id": "code_6", "label": "Discount code applied for Buy 3 Get 3 FREE", "default": "BUY3GET3", "info": "Fixed amount = 6 x your 1-bottle price minus $65.94."},
+    {"type": "text", "id": "unit_3", "label": "Buy 2 Get 1 FREE price per bottle", "default": "15.99", "info": "Used when the product has no 3-bottle option."},
+    {"type": "text", "id": "unit_6", "label": "Buy 3 Get 3 FREE price per bottle", "default": "11.99", "info": "Used when the product has no 6-bottle option."},
+    {"type": "text", "id": "code_3", "label": "Discount code applied for Buy 2 Get 1 FREE", "default": "BUY2GET1", "info": "Create in Shopify Discounts so checkout matches: fixed amount = 3 x your 1-bottle price minus $47.97."},
+    {"type": "text", "id": "code_6", "label": "Discount code applied for Buy 3 Get 3 FREE", "default": "BUY3GET3", "info": "Fixed amount = 6 x your 1-bottle price minus $71.94."},
     {"type": "number", "id": "delivery_days", "label": "Business days to delivery (for the delivery date)", "default": 5},
     {"type": "header", "content": "Rating badge (real numbers only)"},
     {"type": "text", "id": "rating_value", "label": "Average rating (e.g. 4.8)", "info": "Copy from your review app. Leave blank to hide."},
