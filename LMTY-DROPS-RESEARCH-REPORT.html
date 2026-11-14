@@ -1,0 +1,317 @@
+<title>LMTY Wellness Drops Report</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a single reading column (~70ch) with wide tables allowed to scroll; a "leaf-grade" ledger look — tea-estate green ink on cool paper, amber for money. */
+:root{
+  --paper:#f6f7f2; --card:#ffffff; --ink:#1c201a; --muted:#5b6356; --rule:#dfe3d8;
+  --leaf:#2f5d34; --leaf-soft:#e6eee3; --amber:#a5620f; --amber-soft:#f6ecdc; --bad:#a23a2a; --bad-soft:#f7e6e2;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#141712;--card:#1b1f19;--ink:#e7ebe2;--muted:#a3ad9c;--rule:#2d332a;--leaf:#8fc28f;--leaf-soft:#1f2c1f;--amber:#e3a656;--amber-soft:#2e2414;--bad:#e8897a;--bad-soft:#341c18;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#141712;--card:#1b1f19;--ink:#e7ebe2;--muted:#a3ad9c;--rule:#2d332a;--leaf:#8fc28f;--leaf-soft:#1f2c1f;--amber:#e3a656;--amber-soft:#2e2414;--bad:#e8897a;--bad-soft:#341c18;color-scheme:dark}
+body{background:var(--paper);color:var(--ink);font:400 16px/1.62 var(--body)}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:48px 80px}
+h1,h2,h3{font-family:var(--display);line-height:1.12;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.1rem,5vw,3.2rem);font-weight:700;letter-spacing:-.02em}
+h2{font-size:clamp(1.5rem,3.2vw,2rem);font-weight:700;margin-top:64px;padding-top:24px;border-top:2px solid var(--ink)}
+h3{font-size:1.15rem;font-weight:700;margin-top:28px}
+p,li{max-width:70ch}
+p{margin:12px 0}
+a{color:var(--leaf);text-underline-offset:3px}
+.kicker{font:500 .78rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--leaf)}
+.lede{font-size:1.15rem;color:var(--muted);margin-top:14px}
+.meta{font:500 .8rem var(--mono);color:var(--muted);margin-top:18px}
+nav.toc{margin-top:28px;display:flex;flex-wrap:wrap;gap:8px}
+nav.toc a{font:500 .8rem var(--mono);text-decoration:none;border:1px solid var(--rule);padding:5px 10px;border-radius:999px;color:var(--ink);background:var(--card)}
+nav.toc a:hover{border-color:var(--leaf)}
+.verdict{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--amber);padding:18px 20px;margin-top:28px}
+.verdict p{margin:6px 0}
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:.88rem}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--rule)}
+th{font:600 .74rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--paper)}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--amber)}
+td.rank{font-family:var(--mono);color:var(--muted);width:2.5em}
+td b{font-weight:600}
+.swot{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.swot>div{background:var(--card);border:1px solid var(--rule);padding:16px 18px;min-width:0}
+.swot h3{margin:0 0 6px;font-size:1rem}
+.swot ul{margin:0;padding-left:18px}
+.swot li{margin:6px 0;font-size:.93rem}
+.s h3{color:var(--leaf)} .w h3{color:var(--bad)} .o h3{color:var(--amber)} .t h3{color:var(--bad)}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.vs>div{padding:16px 18px;min-width:0}
+.pick{background:var(--leaf-soft)} .nopick{background:var(--bad-soft)}
+.vs h3{margin:0 0 6px;font-size:1rem}
+.vs ul{margin:0;padding-left:18px}.vs li{font-size:.93rem;margin:6px 0}
+.case{border-top:1px solid var(--rule);padding-top:14px;margin-top:22px}
+.case h3{margin-top:0}
+.tag{display:inline-block;font:500 .72rem var(--mono);padding:2px 8px;border-radius:999px;background:var(--leaf-soft);color:var(--leaf);margin-right:6px;vertical-align:2px}
+.tag.warn{background:var(--bad-soft);color:var(--bad)}
+.lesson{color:var(--muted);font-size:.93rem}
+.lesson b{color:var(--ink)}
+ol.plays{counter-reset:p;list-style:none;padding:0;margin-top:16px;display:grid;gap:12px}
+ol.plays li{counter-increment:p;background:var(--card);border:1px solid var(--rule);padding:16px 18px 16px 62px;position:relative;max-width:none}
+ol.plays li::before{content:counter(p);position:absolute;left:18px;top:14px;font:700 1.5rem var(--display);color:var(--amber)}
+ol.plays h3{margin:0 0 4px;font-size:1.02rem}
+ol.plays p{margin:4px 0;font-size:.93rem}
+.from{font:500 .76rem var(--mono);color:var(--leaf)}
+.sources{font-size:.84rem;columns:2;column-gap:28px}
+.sources li{break-inside:avoid;margin:4px 0}
+.note{font-size:.86rem;color:var(--muted)}
+@media (max-width:640px){.swot,.vs{grid-template-columns:1fr}.sources{columns:1}ol.plays li{padding-left:50px}ol.plays li::before{left:14px}}
+</style>
+<style>
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.kpi{background:var(--card);border:1px solid var(--rule);padding:14px}
+.kpi b{display:block;font:700 1.5rem var(--display);color:var(--amber);font-variant-numeric:tabular-nums}
+.kpi span{font-size:.82rem;color:var(--muted)}
+.uvp{font:700 clamp(1.3rem,3vw,1.7rem)/1.25 var(--display);border-left:4px solid var(--leaf);padding:6px 0 6px 16px;margin:18px 0;max-width:30ch}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.two>div{background:var(--card);border:1px solid var(--rule);padding:16px 18px;min-width:0}
+.two h3{margin:0 0 6px;font-size:1rem}
+.two ul{margin:0;padding-left:18px}.two li{font-size:.93rem;margin:5px 0}
+.persona{background:var(--card);border:1px solid var(--rule);padding:16px 18px;margin-top:12px}
+.persona h3{margin:0 0 4px}
+.persona p{margin:4px 0;font-size:.93rem}
+td.good{color:var(--leaf);font-weight:600}td.bad{color:var(--bad)}
+@media (max-width:640px){.kpis{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+<p class="kicker">Product research report · LMTY Wellness Drops · November 2026</p>
+<h1>LMTY Wellness Drops</h1>
+<p class="lede">Everything a founder, investor, agency or new hire needs to understand the product: what it is, who buys it, what makes it different, the market it sits in, the competitors, the economics, what to copy from proven brands, and the risks.</p>
+<p class="meta">Product: lemon-flavored dropper concentrate with a green tea note, 60 mL (2 fl oz) amber glass bottle, ~30 servings of 2 mL. Sold at shoplumenity.com: 1 bottle $20.99 · Buy 2 Get 1 FREE $41.97 · Buy 3 Get 3 FREE $65.94. Supplier: white-label drops (Xi'an ECO Biotech, listed at $1.25–$2.38 per bottle).</p>
+<nav class="toc"><a href="#summary">Summary</a><a href="#product">Product</a><a href="#uvp">Unique value</a><a href="#market">Market</a><a href="#customer">Customer</a><a href="#competitors">Competitors</a><a href="#copy">What to copy</a><a href="#pricing">Pricing &amp; economics</a><a href="#gtm">Go-to-market</a><a href="#messaging">Messaging</a><a href="#compliance">Compliance</a><a href="#risks">Risks</a><a href="#plan">90-day plan</a><a href="#sources">Sources</a></nav>
+
+<h2 id="summary">1. Executive summary</h2>
+<div class="kpis">
+<div class="kpi"><b>$0.37</b><span>per serving on the 6-bottle bundle</span></div>
+<div class="kpi"><b>$4.45+</b><span>a grande Starbucks Honey Citrus Mint (2024)</span></div>
+<div class="kpi"><b>$1.5B</b><span>US drink-mix category, +20% in 2024</span></div>
+<div class="kpi"><b>~$0.15</b><span>per serving for MiO / Stur water drops</span></div>
+</div>
+<div class="verdict">
+<p><b>The opportunity.</b> People already pay $4–5 for the café "medicine ball" (Honey Citrus Mint Tea), and the drink-mix category is growing fast because of #WaterTok and the Liquid I.V. effect. A lemon wellness dropper that makes that cozy cup in 10 seconds, anywhere, has a real place: <b>cheaper than the café, more convenient than a tea bag, more "wellness" than a water enhancer.</b></p>
+<p><b>The catch.</b> LMTY sits between three cheaper or better-known options: Lipton/Tazo (familiar, cheap), MiO/Stur (about a quarter of LMTY's price per serving) and Starbucks (the original). It wins only if the brand makes people feel the cozy, self-care moment, not just "lemon flavor in water". Price per serving must be framed against the café, never against water enhancers.</p>
+<p><b>What decides success:</b> (1) a memorable, consistent ritual brand, (2) creator-led proof and reviews, (3) bundles and subscriptions that make the first order profitable enough, (4) owning a formula or flavor competitors can't buy from the same factory.</p>
+</div>
+
+<h2 id="product">2. What the product is, and isn't</h2>
+<div class="two">
+<div><h3>It is</h3><ul>
+<li>A <b>flavor-and-ritual concentrate</b>: one dropper (≈2 mL) in hot or cold water makes a lemon "cozy cup".</li>
+<li><b>Portable</b>: fits in a bag, desk drawer or carry-on; no kettle, no steeping.</li>
+<li><b>Lightly functional in feel</b>: green tea note, zero sugar (to be confirmed), warm-lemon comfort.</li>
+<li><b>Replenishable</b>: one bottle lasts about a month at one cup a day, a natural subscription rhythm.</li>
+</ul></div>
+<div><h3>It isn't</h3><ul>
+<li>A medicine or cold remedy. It must never be sold as one (FDA/FTC).</li>
+<li>A tea bag or brewed tea. Tea purists won't see it as "real tea".</li>
+<li>A cheap water enhancer. If shoppers file it next to MiO, they'll think it's overpriced.</li>
+<li>A one-off novelty. The business works only if people reorder.</li>
+</ul></div>
+</div>
+<p class="note">Open decision: <b>food or dietary supplement?</b> FDA judges by the overall product (label, marketing, composition). Words like "drink" or "water" and comparisons to beverages point to a conventional food (Nutrition Facts panel, claims limited to taste and nutrition). A Supplement Facts panel allows structure/function claims but requires the FDA disclaimer and supplement manufacturing rules. Decide this with the supplier and a regulatory consultant before printing final labels; it changes what the site may say.</p>
+
+<h2 id="uvp">3. Unique value proposition</h2>
+<p class="uvp">The café cozy cup, in 10 seconds, anywhere. Under $1 a cup.</p>
+<div class="tbl"><table>
+<thead><tr><th>What the customer gets</th><th>Why it matters to them</th><th>Proof to show</th></tr></thead>
+<tbody>
+<tr><td><b>The café moment at home</b></td><td>They already love and pay for the honey-lemon café cup.</td><td>Side-by-side "café vs. LMTY" videos; price per cup.</td></tr>
+<tr><td><b>10 seconds, no kettle needed</b></td><td>Tea bags need 5 minutes and a kitchen; the café needs a drive.</td><td>A timed video: dropper → stir → sip.</td></tr>
+<tr><td><b>Goes anywhere</b></td><td>Office, gym, car, travel; works hot or iced.</td><td>Desk, gym-bag and airplane lifestyle shots.</td></tr>
+<tr><td><b>Zero sugar</b> (once confirmed)</td><td>The café version is sweetened; people want less sugar.</td><td>Facts panel on the page and the bottle.</td></tr>
+<tr><td><b>A self-care ritual</b></td><td>The feeling of "taking care of myself" when run down, without medical claims.</td><td>Creator videos, cozy imagery, the name and packaging.</td></tr>
+</tbody></table></div>
+<h3>Value ladder: where LMTY sits</h3>
+<div class="tbl"><table>
+<thead><tr><th>Option</th><th>Price per serving</th><th>Effort</th><th>Portable</th><th>Feels like a treat</th><th>LMTY's edge</th></tr></thead>
+<tbody>
+<tr><td><b>Starbucks Honey Citrus Mint (grande)</b></td><td class="n">≈$4.45</td><td>Drive + line</td><td class="bad">No</td><td class="good">High</td><td>12× cheaper, zero sugar, no trip</td></tr>
+<tr><td><b>Tazo concentrate (32 oz)</b></td><td class="n">≈$1.00–1.20</td><td>Pour + heat</td><td class="bad">No (fridge)</td><td>Medium</td><td>Portable, no fridge, cheaper per cup on bundles</td></tr>
+<tr><td><b>LMTY Wellness Drops</b></td><td class="n">$0.37–0.70</td><td>10 seconds</td><td class="good">Yes</td><td>Medium–high (brand-driven)</td><td>—</td></tr>
+<tr><td><b>Lipton / Bigelow tea bag + honey</b></td><td class="n">≈$0.10–0.25</td><td>5 min steep</td><td>Partly</td><td class="bad">Low</td><td>Faster, consistent, no honey/lemon prep</td></tr>
+<tr><td><b>MiO / Stur water drops</b></td><td class="n">≈$0.15–0.20</td><td>Squeeze</td><td class="good">Yes</td><td class="bad">Low (functional)</td><td>Warm cozy ritual, tea + lemon, not "sports water"</td></tr>
+</tbody></table></div>
+<p class="note">Per-serving prices are estimates from shelf prices: Tazo 32 oz concentrates around $5–6 at Target make ~5 servings; Stur 1.62 oz is $3.49 at Target for ~20 servings. Check current prices before using them in ads.</p>
+
+<h2 id="market">4. Market and category</h2>
+<div class="tbl"><table>
+<thead><tr><th>Signal</th><th>Data</th><th>What it means for LMTY</th></tr></thead>
+<tbody>
+<tr><td><b>Drink-mix category</b></td><td class="n">$1.5B US, +20% in 2024; double-digit growth 4 years running (Circana via CNN)</td><td>The format people are buying into. Powders lead; liquid drops are the next shelf over.</td></tr>
+<tr><td><b>Water enhancers</b></td><td class="n">US estimates $0.6–1.1B (2024–25)</td><td>Proof the "drops in water" habit exists. MiO hit $125M in year one (2011–12).</td></tr>
+<tr><td><b>#WaterTok</b></td><td class="n">600M–1B+ views; Stur sales +40%, Jel Sert +25%</td><td>TikTok drives this category. Creator content works.</td></tr>
+<tr><td><b>Tea in the US</b></td><td class="n">In 80%+ of households; ~86B servings a year; 75–80% iced</td><td>Tea is familiar; LMTY should show both hot and iced.</td></tr>
+<tr><td><b>The medicine-ball occasion</b></td><td class="n">Viral 2016; on Starbucks' menu since 2017; videos with 11.7M views</td><td>A proven, named craving to ride, especially October–March.</td></tr>
+<tr><td><b>Wellness and functional</b></td><td>Functional RTD tea is the fastest-growing tea segment; Liquid I.V. ~$200M → ~$1B</td><td>"Wellness" framing sells, but claims must stay legal.</td></tr>
+</tbody></table></div>
+<p class="note">Market-size reports disagree by up to 5× depending on definition. Use them to show direction, not as forecasts.</p>
+
+<h2 id="customer">5. Target customer</h2>
+<div class="persona"><h3>Primary: "The café-cup regular" — women 18–34, US</h3>
+<p><b>Today:</b> buys Starbucks or similar 2–4× a week; knows the medicine ball; spends without thinking.</p>
+<p><b>Job to be done:</b> "When I'm run down or want a cozy moment, I want that warm honey-lemon cup without leaving or spending $5."</p>
+<p><b>Where:</b> TikTok, Instagram Reels, Pinterest; Target and Amazon shopper.</p>
+<p><b>Triggers:</b> first cold snap, cold-and-flu season, long workdays, self-care Sundays.</p></div>
+<div class="persona"><h3>Secondary: "The on-the-go worker" — nurses, teachers, office workers, students, travelers</h3>
+<p><b>Job to be done:</b> "I want something warm and better than plain water at work or on the road, with no kitchen."</p>
+<p><b>Where:</b> workplace word of mouth, LinkedIn/IG creators in nursing and teaching, travel content.</p></div>
+<div class="persona"><h3>Gift buyer (seasonal)</h3>
+<p><b>Job to be done:</b> "A small, thoughtful 'feel better / stay cozy' gift." Holiday bundles and care packages.</p></div>
+<p class="note">Not the target: habitual tea-bag drinkers who shop on price, tea purists, and people looking for a cold remedy.</p>
+<h3>Seasonality</h3>
+<p>Demand peaks with cold weather (October–March). Plan inventory and most ad spend for that window, with an "iced lemon" summer angle to keep sales steady.</p>
+
+<h2 id="competitors">6. Competitive landscape</h2>
+<div class="tbl"><table>
+<thead><tr><th>Competitor</th><th>Owner / scale</th><th>Their strength</th><th>Their weakness LMTY can use</th></tr></thead>
+<tbody>
+<tr><td><b>Starbucks Honey Citrus Mint</b></td><td>Starbucks</td><td>The original; huge awareness</td><td>$4–5 a cup, sugar, needs a trip</td></tr>
+<tr><td><b>Tazo Honey Citrus Mint concentrate</b></td><td>Lipton Teas &amp; Infusions (CVC); Tazo sold for $384M in 2017</td><td>Mass retail, same flavor, cheap</td><td>Bulky carton, needs a fridge; parent company is cutting back (revenue −9.7% in 2024)</td></tr>
+<tr><td><b>Lipton, Bigelow, Celestial tea bags</b></td><td>Large/family companies</td><td>Trust, price, everywhere</td><td>Steeping, honey/lemon prep, no "ritual" brand for this moment</td></tr>
+<tr><td><b>MiO</b></td><td>Kraft Heinz; $125M first year</td><td>Category creator; cheap; in every store</td><td>Artificial-ingredient image, "sports water" feel, low brand focus at Kraft</td></tr>
+<tr><td><b>Stur</b></td><td>Dyla Brands; ~$25M retail, ~50% online</td><td>Natural stevia, WaterTok, cheap</td><td>Kids/fruit-punch flavors; no warm-cup ritual</td></tr>
+<tr><td><b>Liquid I.V.</b></td><td>Unilever; ~$1B</td><td>Wellness brand power, DTC → Costco playbook</td><td>Hydration, not comfort; salty stick packs</td></tr>
+<tr><td><b>Pique tea crystals, Cusa tea</b></td><td>VC-backed / crowdfunded startups</td><td>Instant real tea, subscriptions</td><td>Sachets, not a dropper; higher price; small brands</td></tr>
+</tbody></table></div>
+
+<h2 id="copy">7. What to copy from other brands</h2>
+<p>Each tactic below worked for a real brand and fits LMTY's size today.</p>
+<div class="tbl"><table>
+<thead><tr><th>Brand</th><th>What they did</th><th>How LMTY copies it</th></tr></thead>
+<tbody>
+<tr><td><b>Liquid I.V.</b></td><td>One simple benefit, DTC + Amazon first, then Costco; repeat purchase data won retail.</td><td>Win DTC repeat buyers, list on Amazon with the same bundles, then pitch one retailer with data.</td></tr>
+<tr><td><b>Stur</b></td><td>Drove ~a third of #WaterTok views with creators; ~50% of sales online.</td><td>Seed 20–30 micro-creators with "my cozy cup" recipes (hot, iced, with lemonade).</td></tr>
+<tr><td><b>MiO</b></td><td>A pocket-sized pack that changed the habit; huge launch support.</td><td>Make the bottle the hero: "it lives in your bag". Show it in purses, desks, cupholders.</td></tr>
+<tr><td><b>Yorkshire Tea</b></td><td>One tongue-in-cheek idea for 10 years; share 18% → 33% at a premium price.</td><td>Pick one line ("The café cup, without the café") and never change it in year one.</td></tr>
+<tr><td><b>AriZona</b></td><td>A price that became the brand (99¢ printed on the can).</td><td>Print "under $1 a cup" on the bottle and the hero.</td></tr>
+<tr><td><b>Celestial (Sleepytime) / Yogi</b></td><td>Own a moment or need state by name.</td><td>Name future flavors by moment: "Cozy Lemon", "Night In", "Desk Day".</td></tr>
+<tr><td><b>Pinemoor</b></td><td>Buy 2 Get 1 / Buy 3 Get 3 bundles, subscription toggle, delivery date, perks.</td><td>Already on the site. Next, add Subscribe &amp; Save (Loop/Recharge).</td></tr>
+<tr><td><b>Pique / Cusa</b></td><td>Subscription-first instant tea; coffee/tea subscriptions convert 52–55%.</td><td>Make the 30-day refill the default for repeat buyers at 10% off.</td></tr>
+<tr><td><b>Dilmah</b></td><td>The founder's face and story built trust abroad.</td><td>Put a real founder story and photo on the site and in ads.</td></tr>
+</tbody></table></div>
+<h3>What not to copy</h3>
+<p><b>MiO's ingredient image</b> (propylene glycol, artificial colors drew criticism), <b>Teavana's single channel</b> (malls), and <b>Snapple under Quaker</b> (changing the voice and distributors that built the brand).</p>
+
+<h2 id="pricing">8. Pricing and unit economics</h2>
+<div class="tbl"><table>
+<thead><tr><th>Line (per order)</th><th>1 bottle</th><th>3 bottles</th><th>6 bottles</th></tr></thead>
+<tbody>
+<tr><td>Price</td><td class="n">$20.99</td><td class="n">$41.97</td><td class="n">$65.94</td></tr>
+<tr><td>Product cost (supplier high end $2.38/bottle)</td><td class="n">−$2.38</td><td class="n">−$7.14</td><td class="n">−$14.28</td></tr>
+<tr><td>Label, box, inbound freight, duties (est. $1.50/bottle)</td><td class="n">−$1.50</td><td class="n">−$4.50</td><td class="n">−$9.00</td></tr>
+<tr><td>Pick, pack and shipping (est.; free over $40)</td><td class="n">−$2.00*</td><td class="n">−$7.00</td><td class="n">−$9.00</td></tr>
+<tr><td>Payment fees (3% + $0.30)</td><td class="n">−$0.93</td><td class="n">−$1.56</td><td class="n">−$2.28</td></tr>
+<tr><td><b>Contribution before ads</b></td><td class="n"><b>$14.18</b></td><td class="n"><b>$21.77</b></td><td class="n"><b>$31.38</b></td></tr>
+<tr><td>Typical DTC beverage CAC (benchmark)</td><td class="n" colspan="3">$45–53 per new customer</td></tr>
+</tbody></table></div>
+<p class="note">*Assumes the customer pays shipping under $40. All costs except the supplier price are estimates; replace them with real quotes. With a $45 CAC, even the 6-bottle order doesn't pay back on the first purchase. <b>The business works only with repeat orders</b> (1–2 more orders per customer) or a much lower CAC from creators and organic social.</p>
+<h3>Pricing levers</h3>
+<ul>
+<li>Keep the bundle as the default (6-bottle pre-selected) and push average order value above $40.</li>
+<li>Add Subscribe &amp; Save at 10% once people reorder; subscriptions churn 4–7% a month in replenishment categories.</li>
+<li>Never compete on price with MiO/Stur; compare only to the café cup.</li>
+<li>Test a $14.99 "trial" single on Amazon only, to lower the first-purchase barrier there.</li>
+</ul>
+
+<h2 id="gtm">9. Go-to-market and channels</h2>
+<div class="tbl"><table>
+<thead><tr><th>Stage</th><th>Channel</th><th>Goal</th><th>Benchmark to beat</th></tr></thead>
+<tbody>
+<tr><td><b>1. Prove (now–3 months)</b></td><td>Shopify DTC + micro-creators + organic TikTok</td><td>50 reviews, first repeat buyers</td><td>Site conversion ~6% (F&amp;B Shopify avg.); 90-day repeat 12–20%</td></tr>
+<tr><td><b>2. Scale paid (3–6 mo)</b></td><td>Meta + TikTok ads with creator videos, Oct–Mar weighted</td><td>CAC below first-order contribution + 1 repeat</td><td>CAC under ~$40</td></tr>
+<tr><td><b>3. Marketplaces (6–9 mo)</b></td><td>Amazon (bundles, Subscribe &amp; Save)</td><td>Second channel; search demand for "honey lemon tea"</td><td>Rating ≥4.3 with 100+ reviews</td></tr>
+<tr><td><b>4. Retail (9–18 mo)</b></td><td>One regional grocer, Costco roadshow or Target test</td><td>Distribution with sales data</td><td>Velocity per store per week</td></tr>
+</tbody></table></div>
+
+<h2 id="messaging">10. Brand and messaging</h2>
+<div class="two">
+<div><h3>Say</h3><ul>
+<li>"The café cozy cup, in 10 seconds."</li>
+<li>"Under $1 a cup. Skip the drive-thru."</li>
+<li>"Hot or iced. Desk, gym, car, carry-on."</li>
+<li>"Your feel-good ritual for long days and cold nights."</li>
+<li>"Zero sugar" (only once the formula confirms it).</li>
+</ul></div>
+<div><h3>Never say</h3><ul>
+<li>"Cures colds", "fights flu", "boosts immunity", "cancel out flu season".</li>
+<li>"Medicine ball" in ads (Starbucks' customer nickname; trademark and claim risk).</li>
+<li>"Same as Tazo/Starbucks" or use their names, logos or footage.</li>
+<li>Fake or "confirmed" ratings and reviews (FTC: ~$53K per violation).</li>
+</ul></div>
+</div>
+
+<h2 id="compliance">11. Compliance checklist</h2>
+<div class="tbl"><table>
+<thead><tr><th>Area</th><th>What to do</th></tr></thead>
+<tbody>
+<tr><td><b>Classification</b></td><td>Decide food vs. supplement with the supplier and a consultant; label accordingly (Nutrition Facts or Supplement Facts).</td></tr>
+<tr><td><b>Label</b></td><td>Statement of identity, net quantity (2 fl oz / 60 mL), ingredients, allergens, manufacturer/distributor, country of origin.</td></tr>
+<tr><td><b>Claims</b></td><td>Taste, convenience and ritual claims only, unless a supplement panel and disclaimer apply.</td></tr>
+<tr><td><b>Supplier</b></td><td>Certificate of analysis per batch, ingredient specs, shelf life (listing says 24 months), FDA facility registration.</td></tr>
+<tr><td><b>Reviews &amp; ads</b></td><td>Only real reviews; creators disclose #ad; Meta health-claim rules.</td></tr>
+<tr><td><b>Import</b></td><td>Tariffs and the end of de minimis raise landed cost on Chinese goods; budget for duties.</td></tr>
+</tbody></table></div>
+
+<h2 id="risks">12. Risks and how to handle them</h2>
+<div class="tbl"><table>
+<thead><tr><th>Risk</th><th>Likelihood</th><th>How to handle it</th></tr></thead>
+<tbody>
+<tr><td>Shoppers compare it to cheap water enhancers</td><td>High</td><td>Position as a warm ritual, not a water flavor; compare only to the café.</td></tr>
+<tr><td>Nobody knows the brand</td><td>High</td><td>Creators, reviews, one consistent message for a year.</td></tr>
+<tr><td>Ad costs higher than profit per order</td><td>High</td><td>Bundles, subscriptions, organic content first; set a hard CAC limit.</td></tr>
+<tr><td>Copycats (incl. Tazo) launch drops</td><td>Medium</td><td>Build the brand fast; get a custom or exclusive formula.</td></tr>
+<tr><td>Supplier quality or delays</td><td>Medium</td><td>Order samples, COA per batch, a second supplier quote.</td></tr>
+<tr><td>Taste doesn't match expectations</td><td>Medium</td><td>Blind-test with 20 target customers before scaling; adjust the formula.</td></tr>
+<tr><td>Regulatory action on claims</td><td>Low if careful</td><td>Follow the "never say" list; legal review of labels.</td></tr>
+<tr><td>Seasonality (weak summer)</td><td>Medium</td><td>Iced-lemon summer content; holiday gift bundles.</td></tr>
+</tbody></table></div>
+
+<h2 id="plan">13. KPIs and 90-day plan</h2>
+<div class="tbl"><table>
+<thead><tr><th>Weeks</th><th>Focus</th><th>Success looks like</th></tr></thead>
+<tbody>
+<tr><td><b>1–2</b></td><td>Order samples; taste test; confirm formula and label; real product photos</td><td>Label approved; 20 blind-test scores ≥7/10</td></tr>
+<tr><td><b>3–6</b></td><td>Send to 30 micro-creators; launch organic TikTok; install a review app</td><td>10+ creator videos; 25 reviews</td></tr>
+<tr><td><b>7–10</b></td><td>Small paid tests ($30–50/day) on the best 3 creator videos</td><td>CAC under $40; 6% site conversion</td></tr>
+<tr><td><b>11–13</b></td><td>Add Subscribe &amp; Save; email/SMS reorder flow at day 25</td><td>15%+ of buyers reorder within 60 days</td></tr>
+</tbody></table></div>
+<h3>KPIs to watch every week</h3>
+<p>Site conversion rate · average order value (target &gt;$45) · CAC by channel · contribution per order · 30/60/90-day repeat rate · review count and rating · refund rate · share of 6-bottle orders.</p>
+
+<h2 id="sources">Sources</h2>
+<ul class="sources">
+<li><a href="https://keyt.com/news/money-and-business/cnn-business-consumer/2025/05/24/how-americas-obsession-with-staying-hydrated-became-a-1-5-billion-business/">CNN: drink-mix category $1.5B, Liquid I.V.</a></li>
+<li><a href="https://www.mordorintelligence.com/industry-reports/united-states-water-enhancer-market">Mordor Intelligence: US water enhancer market</a></li>
+<li><a href="https://www.marketresearchfuture.com/reports/us-water-enhancer-market-21246">Market Research Future: US water enhancers</a></li>
+<li><a href="https://www.bevnet.com/magazine/issue/2014/everyones-looking-for-the-big-squeeze">BevNET: MiO launch and the water-enhancer race</a></li>
+<li><a href="https://www.bevnet.com/news/2016/not-dropping-upstart-water-enhancer-brands-stalk-mio">BevNET: upstarts stalk MiO</a></li>
+<li><a href="https://www.bevnet.com/news/2024/dyla-puts-weight-behind-stur-co-branded-mixes-amid-watertok-boom/">BevNET: Stur and #WaterTok</a></li>
+<li><a href="https://www.bevnet.com/news/2024/watertok-spiked-jel-serts-sales-now-its-building-around-the-trend/">BevNET: Jel Sert and #WaterTok</a></li>
+<li><a href="https://www.modernretail.co/marketing/flavored-water-brands-are-riding-the-popularity-of-watertok/">Modern Retail: #WaterTok brands</a></li>
+<li><a href="https://www.target.com/p/stur-paradise-vibe-1-62oz/-/A-93859467">Target: Stur price</a></li>
+<li><a href="https://www.target.com/s/tazo">Target: Tazo concentrates</a></li>
+<li><a href="https://rather-be-shopping.com/blog/medicine-ball-starbucks">Starbucks medicine ball price</a></li>
+<li><a href="https://www.forbes.com/sites/elainepofeldt/2017/02/28/how-a-tiny-tea-company-bagged-venture-capital-and-created-a-fast-growing-brand/">Forbes: Pique Tea</a></li>
+<li><a href="https://wefunder.com/cusa">Wefunder: Cusa Tea</a></li>
+<li><a href="https://www.bevnet.com/news/2020/liquid-i-v-acquired-by-unilever-for-undisclosed-fee">BevNET: Liquid I.V. acquired</a></li>
+<li><a href="https://teausa.org/teausa/images/Tea_Association_Fact_Sheet_2024.pdf">Tea Association fact sheet 2024</a></li>
+<li><a href="https://www.sportskeeda.com/pop-culture/what-s-medicine-ball-starbucks-barista-issues-psa-viral-drink">Medicine-ball origin</a></li>
+<li><a href="https://www.supplysidesj.com/claims/fda-issues-final-guidance-on-beverage-vs-liquid-supplement">SupplySide: FDA beverage vs. liquid supplement</a></li>
+<li><a href="https://www.morganlewis.com/pubs/foodlf_fdafinalizesliquiddietarysupplementguidance_27jan14">Morgan Lewis: FDA liquid supplement guidance</a></li>
+<li><a href="https://www.kelleydrye.com/viewpoints/blogs/ad-law-access/ftc-finalizes-rule-on-fake-reviews">Kelley Drye: FTC fake-review rule</a></li>
+<li><a href="https://eightx.co/blog/beverage-financial-benchmark">eightx: DTC beverage CAC benchmark</a></li>
+<li><a href="https://foundrycro.com/blog/dtc-food-beverage-marketing-benchmarks-2026/">Foundry CRO: F&amp;B conversion benchmarks</a></li>
+<li><a href="https://www.foodtalks.cn/en/news/58949">FoodTalks: Lipton 2024 revenue</a></li>
+<li><a href="https://cspdailynews.com/beverages/starbucks-sells-tazo-unilever">CSP: Tazo sale</a></li>
+</ul>
+<p class="note">Benchmarks are third-party estimates with different definitions; replace them with LMTY's own data as orders come in. Supplier details are from its Made-in-China listing and must be confirmed in writing.</p>
+</div>
