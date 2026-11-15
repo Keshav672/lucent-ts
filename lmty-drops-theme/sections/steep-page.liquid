@@ -430,8 +430,8 @@
 <div class="sticky" data-sticky aria-hidden="true">
   <div class="wrap sticky__in">
     {%- if own and p.featured_image -%}<img src="{{ p.featured_image | image_url: width: 120 }}" alt="" width="48" height="48">{%- endif -%}
-    <div><div class="sticky__t">{% if own %}{{ p.title }}{% else %}LMTY Wellness Drops{% endif %}</div><div class="sticky__p"><span data-price-label>{{ v.price | money }}</span> · Free shipping $40+</div></div>
-    <button type="button" class="btn" data-sticky-add tabindex="-1"{% unless v.available %} disabled{% endunless %}>Add to cart</button>
+    <div><div class="sticky__t">{% if own %}{{ p.title }}{% else %}LMTY Wellness Drops{% endif %}</div><div class="sticky__p">Free shipping $40+</div></div>
+    <button type="button" class="btn" data-sticky-add tabindex="-1"{% unless v.available %} disabled{% endunless %}>Buy Now</button>
   </div>
 </div>
 

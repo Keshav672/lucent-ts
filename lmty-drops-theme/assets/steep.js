@@ -128,20 +128,30 @@
       eta.textContent = d.toLocaleDateString('en-US', { month: 'long' }) + ' ' + day + sfx;
     }
 
+    var buyNow = false;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (addBtn.disabled) return;
+      if (addBtn.disabled) { buyNow = false; return; }
+      var goCheckout = buyNow; buyNow = false;
       var label = addBtn.innerHTML;
       addBtn.disabled = true; addBtn.textContent = 'Adding…'; msg.textContent = '';
       var tier = $('input[name="steep-tier"]:checked', form);
       var body = { items: [{ id: Number(idInput.value), quantity: Number(tier ? tier.dataset.qty : 1) || 1 }] };
       var code = tier ? tier.dataset.code : '';
       if (planInput && planInput.value) body.items[0].selling_plan = Number(planInput.value);
-      fetch(root + 'cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) })
-        .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw j; return j; }); })
+      /* Buy Now skips the add when this exact bundle (and plan) is already in the cart, so it never doubles up */
+      var already = goCheckout ? fetch(root + 'cart.js', { headers: { Accept: 'application/json' } }).then(function (r) { return r.json(); }).then(function (c) {
+        var it = body.items[0];
+        return (c.items || []).some(function (x) { return x.variant_id === it.id && ((x.selling_plan_allocation && x.selling_plan_allocation.selling_plan.id) || null) === (it.selling_plan || null); });
+      }).catch(function () { return false; }) : Promise.resolve(false);
+      already.then(function (skip) {
+        if (skip) return null;
+        return fetch(root + 'cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) })
+          .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw j; return j; }); });
+      })
         .then(function () { return code ? fetch(root + 'discount/' + encodeURIComponent(code) + '?redirect=' + encodeURIComponent(root + 'cart.js')).catch(function () {}) : null; })
-        .then(function () { return refreshCart(); })
-        .then(function () { setCart(true); })
+        .then(function () { if (goCheckout) { window.location.href = root + 'checkout'; return 'away'; } return refreshCart(); })
+        .then(function (r) { if (r !== 'away') setCart(true); })
         .catch(function (err) { msg.textContent = (err && (err.description || err.message)) || 'Could not add to cart. Please try again.'; })
         .then(function () { addBtn.disabled = false; addBtn.innerHTML = label; });
     });
@@ -158,7 +168,8 @@
       };
       window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(syncSticky); } }, { passive: true });
       syncSticky();
-      stickyAdd.addEventListener('click', function () { form.requestSubmit ? form.requestSubmit() : addBtn.click(); });
+      /* sticky bar = Buy Now: adds the selected bundle (and plan), then goes straight to checkout */
+      stickyAdd.addEventListener('click', function () { buyNow = true; form.requestSubmit ? form.requestSubmit() : addBtn.click(); });
     }
   }
 
